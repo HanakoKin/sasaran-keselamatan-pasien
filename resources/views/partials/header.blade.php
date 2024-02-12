@@ -19,6 +19,19 @@
     <!-- Header Navbar -->
     <nav class="navbar navbar-static-top">
         <!-- Sidebar toggle button-->
+
+        <div class="app-menu">
+            <ul class="header-megamenu nav">
+                <li class="btn-group nav-item d-md-none">
+                    <a href="#" class="waves-effect waves-light nav-link push-btn" data-toggle="push-menu"
+                        role="button">
+                        <span class="icon-Align-left"><span class="path1"></span><span class="path2"></span><span
+                                class="path3"></span></span>
+                    </a>
+                </li>
+            </ul>
+        </div>
+
         <div class="navbar-custom-menu r-side ms-auto">
             <ul class="nav navbar-nav ">
                 <!-- User Account-->
@@ -46,4 +59,5 @@
             </ul>
         </div>
     </nav>
+
 </header>

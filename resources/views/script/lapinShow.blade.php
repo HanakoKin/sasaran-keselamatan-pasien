@@ -12,10 +12,10 @@
         $('#lapinUmur').text(": " + lapin.umur);
         $('#lapinJenisKelamin').text(": " + lapin.jenis_kelamin);
         $('#lapinPenjamin').text(": " + lapin.penjamin);
-        $('#lapinTanggalMasuk').text(": " + lapin.tanggal_masuk);
-        $('#lapinJamMasuk').text(": " + lapin.jam_masuk);
-        $('#lapinTanggalKejadian').text(": " + lapin.tanggal_kejadian);
-        $('#lapinJamKejadian').text(": " + lapin.jam_kejadian);
+        $('#lapinTanggalMasuk').text(": " + formatDate(lapin.tanggal_masuk));
+        $('#lapinJamMasuk').text(": " + removeSeconds(lapin.jam_masuk));
+        $('#lapinTanggalKejadian').text(": " + formatDate(lapin.tanggal_kejadian));
+        $('#lapinJamKejadian').text(": " + removeSeconds(lapin.jam_kejadian));
         $('#lapinInsiden').text(": " + lapin.insiden);
         $('#lapinKronologis').text(": " + lapin.kronologis);
         $('#lapinJenisInsiden').text(": " + lapin.jenis_insiden);
@@ -31,6 +31,37 @@
         $('#lapinKejadianInsiden').text(": " + lapin.kejadian_insiden);
 
         $('#showLapin').modal('show')
+
+        function formatDate(dateString) {
+            // Parse the date string
+            var date = new Date(dateString);
+
+            // Get the day, month, and year
+            var day = date.getDate();
+            var month = date.getMonth() + 1; // Month is zero-based, so we add 1
+            var year = date.getFullYear();
+
+            // Add leading zeros if necessary
+            var formattedDay = day < 10 ? '0' + day : day;
+            var formattedMonth = month < 10 ? '0' + month : month;
+
+            // Construct the formatted date string
+            var formattedDate = formattedDay + '-' + formattedMonth + '-' + year;
+
+            return formattedDate;
+        }
+
+        function removeSeconds(timeString) {
+            // Split waktu menjadi jam, menit, dan detik
+            var splitTime = timeString.split(':');
+            var hour = splitTime[0];
+            var minute = splitTime[1];
+
+            // Format waktu ke dalam format 'HH:mm' tanpa detik
+            var formattedTime = hour + ':' + minute;
+
+            return formattedTime;
+        }
 
     }
 

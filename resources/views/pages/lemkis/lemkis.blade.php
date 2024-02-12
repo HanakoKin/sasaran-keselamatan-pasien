@@ -11,11 +11,12 @@
     <div class="row">
         <div class="col-xl-9 col-12">
 
-            {{-- Caption --}} <div class="box bg-transparent no-shadow mb-0">
+            {{-- Caption --}}
+            <div class="box bg-transparent no-shadow mb-0">
                 <div class="box-header no-border">
                     <h4 class="box-title">Tabel Lembar Kerja Investigasi Sederhana</h4>
                     <div class="box-controls pull-right d-md-flex d-none">
-                        <a href="/addLapin" class="btn btn-info btn-sm mb-2 text-decoration-none">
+                        <a href="/addLemkis" class="btn btn-info btn-sm mb-2 text-decoration-none">
                             <i class="fal fa-plus-circle"></i> Add
                         </a>
                     </div>
@@ -45,9 +46,8 @@
                                     <td>
 
                                         <a class="btn btn-warning btn-sm me-2 mb-2 text-decoration-none"
-                                            data-bs-toggle="modal"
-                                            onclick="showLemkisnModal({{ json_encode($lemkis) }})">
-                                            <i class="fal fa-eye"></i> Lihat
+                                            href="{{ url('/showLemkis', $lemkis->id) }}"><i class="fal fa-eye"></i>
+                                            Lihat
                                         </a>
 
                                         <a class="btn btn-success btn-sm me-2 mb-2 text-decoration-none"
@@ -60,17 +60,6 @@
                                                 class="fal fa-trash-alt"></i>
                                             Delete
                                         </a>
-
-                                        @if (Auth::user()->role === 'admin')
-
-                                        <a class="btn btn-secondary btn-sm me-2 mb-2 text-decoration-none"
-                                            href="{{ url('/verifikasiLemkis', $lemkis->id) }}"><i
-                                                class="fal fa-pen"></i>
-                                            Verifikasi
-                                        </a>
-
-                                        @endif
-
 
                                     </td>
                                 </tr>

@@ -1,4 +1,51 @@
 <script>
+    document.getElementById('noRMLap').addEventListener('input', function () {
+        let noRM = this.value;
+
+        // Kirim permintaan ke endpoint Laravel
+        fetch('/search-patient', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': document.querySelector('meta[name="csrf-token"]').getAttribute(
+                        'content')
+                },
+                body: JSON.stringify({
+                    noRM: noRM
+                })
+            })
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error('Network response was not ok');
+                }
+                return response.json();
+            })
+            .then(data => {
+                // Isi formulir dengan data yang diterima
+                document.getElementById('naLap').value = data.nama || '';
+                document.getElementById('ruLap').value = data.ruangan || '';
+                if (data.jenis_kelamin === 'Laki-laki') {
+                    document.getElementById('jekel1').checked = true;
+                } else if (data.jenis_kelamin === 'Perempuan') {
+                    document.getElementById('jekel2').checked = true;
+                }
+                // Lanjutkan mengisi formulir dengan data lainnya...
+                document.getElementById('tamas').value = data.tanggal_masuk || '';
+                document.getElementById('jamas').value = data.jam_masuk || '';
+            })
+            .catch(error => {
+                console.error('There was an error!', error);
+
+                document.getElementById('naLap').value = 'Data pasien tidak ditemukan';
+                document.getElementById('ruLap').value = 'Data pasien tidak ditemukan';
+                document.getElementById('jekel1').checked = false;
+                document.getElementById('jekel2').checked = false;
+                document.getElementById('tamas').value = '';
+                document.getElementById('jamas').value = '';
+
+            });
+    });
+
     function validasiForm() {
         var checkboxes = document.getElementsByName("kasus_insiden[]");
         var isChecked = false;

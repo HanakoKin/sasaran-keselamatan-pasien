@@ -8,6 +8,7 @@
     <meta name="description" content="">
     <meta name="author" content="">
     <link rel="icon" href="{{ asset('img/favicon.ico') }}">
+    <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ $title }}</title>
 

@@ -23,7 +23,7 @@
             <div class="row d-flex justify-content-center invoice-info">
                 <div class="col-12">
                     <div class="box box-widget widget-user">
-                        <div class="box-footer py-0">
+                        <div class="box-footer py-0 border-0">
 
                             <div class="text-center">
                                 <h4 class="box-title mt-20">LAPORAN INSIDEN</h4>
@@ -308,7 +308,7 @@
                                 </tr>
                                 <tr>
                                     <td>Tgl Lapor</td>
-                                    <td>{{ $data->created_at->format('Y-m-d') }}</td>
+                                    <td>{{ $data->created_at->format('d-m-Y') }}</td>
                                     <td>Tgl Terima</td>
                                     <td>{{ $data->tanggal_terima }}</td>
                                 </tr>

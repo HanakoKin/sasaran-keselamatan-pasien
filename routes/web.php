@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\DataController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LapinController;
 use App\Http\Controllers\ExportController;
@@ -47,6 +48,7 @@ Route::middleware(['auth'])->group(function(){
 
     Route::get('/verifikasiLapin/{id}', [LapinController::class, 'verifikasi']);
     Route::post('/gradingLapin/{id}', [LapinController::class, 'grading'])->name('gradingLapin');
+    Route::post('/search-patient', [DataController::class, 'search']);
 
 
     /* Route untuk bagian Laporan KPC */
@@ -66,12 +68,13 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/addLemkis', [LemkisController::class, 'store']);
     Route::get('/editLemkis/{id}', [LemkisController::class, 'edit']);
     Route::post('/updateLemkis/{id}', [LemkisController::class, 'update'])->name('updateLemkis');
+    Route::get('/showLemkis/{id}', [LemkisController::class, 'show']);
     Route::get('/deleteLemkis/{id}', [LemkisController::class, 'delete']);
 
 });
 
-
-
+Route::get('/show-data', [DataController::class, 'index']);
+Route::post('/save-json', [DataController::class, 'store']);
 
 
 Route::get('/welcome', function (){

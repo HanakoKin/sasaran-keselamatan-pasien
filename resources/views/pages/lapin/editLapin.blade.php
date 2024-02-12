@@ -20,7 +20,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label">Nama</label>
+                                <label class="editNaLap">Nama</label>
                                 <input type="text" class="form-control" id="editNaLap" name="nama"
                                     placeholder="Input patient name" required
                                     data-validation-required-message="This field is required"
@@ -33,7 +33,7 @@
                     <div class="row">
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="form-label">No RM</label>
+                                <label class="editNoRMLap">No RM</label>
                                 <input type="text" class="form-control" id="editNoRMLap" name="noRM"
                                     placeholder="Input Medical Record" required
                                     data-validation-required-message="This field is required" value="{{ $lapin->noRM }}"
@@ -42,7 +42,7 @@
                         </div>
                         <div class="col-md-6">
                             <div class="form-group">
-                                <label class="form-label">Ruangan</label>
+                                <label class="editRuLap">Ruangan</label>
                                 <input type="text" class="form-control" id="editRuLap" name="ruangan"
                                     placeholder="Which room you want?" required
                                     data-validation-required-message="This field is required"
@@ -228,7 +228,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label">Insiden</label>
+                                <label class="editInLap">Insiden</label>
                                 <input type="text" class="form-control" id="editInLap" name="insiden"
                                     placeholder="Type the incident" required
                                     data-validation-required-message="This field is required"
@@ -241,7 +241,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label">Kronologis Insiden</label>
+                                <label class="editKronoLap">Kronologis Insiden</label>
                                 <textarea rows="5" class="form-control" id="editKronoLap" name="kronologis"
                                     placeholder="How is it happen" required
                                     data-validation-required-message="This field is required">{{ $lapin->kronologis }}</textarea>
@@ -410,7 +410,7 @@
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label">Tempat Insiden</label>
+                                <label class="editTempLan">Tempat Insiden</label>
                                 <input type="text" id="editTempLan" class="form-control" name="tempat_insiden"
                                     placeholder="Input tempat insiden" value="{{ $lapin->tempat_insiden }}">
                             </div>

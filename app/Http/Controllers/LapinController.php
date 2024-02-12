@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Lapin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -171,6 +172,19 @@ class LapinController extends Controller
         $category = "Lapin";
 
         $data = Lapin::findOrFail($id);
+
+        $data->tanggal_masuk = Carbon::parse($data->tanggal_masuk)->format('d-m-Y');
+        $data->tanggal_kejadian = Carbon::parse($data->tanggal_kejadian)->format('d-m-Y');
+
+        if ($data->tanggal_terima !== null) {
+            $data->tanggal_terima = Carbon::parse($data->tanggal_terima)->format('d-m-Y');
+        } else {
+            $data->tanggal_terima = '';
+        }
+
+
+        $data->jam_masuk = substr($data->jam_masuk, 0, 5);
+        $data->jam_kejadian = substr($data->jam_kejadian, 0, 5);
 
         return view('pages.lapin.verifikasiLapin', compact('title', 'data', 'category'));
     }

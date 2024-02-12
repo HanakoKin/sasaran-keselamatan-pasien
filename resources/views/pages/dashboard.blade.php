@@ -7,10 +7,10 @@
             <div class="box bg-primary-light">
                 <div class="box-body d-flex px-0">
                     <div class="flex-grow-1 p-30 flex-grow-1 bg-img dask-bg bg-none-md"
-                        style="background-position: right bottom; background-size: auto 100%; background-image: url(../images/svg-icon/color-svg/custom-1.svg)">
+                        style="background-position: right bottom; background-size: auto 100%; background-image: url({{ asset('assets/images/svg-icon/color-svg/custom-1.svg') }})">
                         <div class="row">
                             <div class="col-12 col-xl-7">
-                                <h2>Welcome back, <strong>{{ Auth()->user()->username }} !</strong></h2>
+                                <h2>Welcome back, <strong>{{ ucfirst(trans(Auth()->user()->username)) }} !</strong></h2>
 
                                 <p class="text-dark my-10 fs-16">
                                     Your students complated <strong class="text-warning">80%</strong> of the tasks.

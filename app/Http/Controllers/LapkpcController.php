@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use Carbon\Carbon;
 use App\Models\Lapin;
 use App\Models\Lapkpc;
 use Illuminate\Http\Request;
@@ -106,6 +107,16 @@ class LapkpcController extends Controller
         $category = "Lapkpc";
 
         $data = lapkpc::findOrFail($id);
+
+        $data->tanggal_ditemukan = Carbon::parse($data->tanggal_ditemukan)->format('d-m-Y');
+
+        if ($data->tanggal_terima !== null) {
+            $data->tanggal_terima = Carbon::parse($data->tanggal_terima)->format('d-m-Y');
+        } else {
+            $data->tanggal_terima = '';
+        }
+
+        $data->jam_ditemukan = substr($data->jam_ditemukan, 0, 5);
 
         return view('pages.lapkpc.verifikasiLapkpc', compact('title', 'data', 'category'));
     }

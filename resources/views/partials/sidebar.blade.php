@@ -60,7 +60,7 @@
                     </li>
 
                     {{-- Lembar Investigasi Sederhana --}}
-                    <li class="treeview">
+                    <li class="treeview {{ Request::is('*lemkis*') ? 'active menu-open' : '' }}">
                         <a href="#">
                             <i class="fal fa-file-invoice"></i>
                             <span>Lembar Investigasi</span>
@@ -69,10 +69,11 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li><a href="ui_grid.html"><i class="icon-Commit"><span class="path1"></span><span
-                                            class="path2"></span></i>Tabel Data LIS</a></li>
+                            <li class="{{ Request::is('*lemkis*') || Request::is('*Lemkis*') ? 'active' : '' }}"><a
+                                    href="/lemkis"><i class="icon-Commit"><span class="path1"></span><span
+                                            class="path2"></span></i>Tabel Data LEMKIS</a></li>
                             <li><a href="/dashboard/product-data"><i class="icon-Commit"><span
-                                            class="path1"></span><span class="path2"></span></i>Kelola Data KPC</a>
+                                            class="path1"></span><span class="path2"></span></i>Kelola Data LEMKIS</a>
                             </li>
                             <li><a href="/dashboard/payment-data"><i class="icon-Commit"><span
                                             class="path1"></span><span class="path2"></span></i>Lorem, ipsum.</a>
