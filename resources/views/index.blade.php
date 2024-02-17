@@ -18,9 +18,9 @@
 
 <body class="hold-transition light-skin sidebar-mini theme-primary fixed">
 
-    {{-- @if ( $title === 'Dashboard' )
+    @if ( $title === 'Dashboard' )
     <div id="loader"></div>
-    @endif --}}
+    @endif
 
     <div class="wrapper">
 

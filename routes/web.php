@@ -40,36 +40,38 @@ Route::middleware(['auth'])->group(function(){
     /* Route untuk bagian Laporan Insiden */
     Route::get('/dashboard', [LapinController::class, 'dashboard']);
     Route::get('/lapin', [LapinController::class, 'lapin']);
-    Route::get('/addLapin', [LapinController::class, 'addLapinPage']);
-    Route::post('/addLapin', [LapinController::class, 'store']);
-    Route::get('/editLapin/{id}', [LapinController::class, 'edit']);
-    Route::post('/updateLapin/{id}', [LapinController::class, 'update'])->name('updateLapin');
-    Route::get('/deleteLapin/{id}', [LapinController::class, 'delete']);
+    Route::get('/lapinTable', [LapinController::class, 'lapinTable']);
+    Route::get('/lapin/add', [LapinController::class, 'addLapinPage']);
+    Route::post('/lapin/add', [LapinController::class, 'store']);
+    Route::get('/lapin/edit/{id}', [LapinController::class, 'edit']);
+    Route::post('/lapin/update/{id}', [LapinController::class, 'update'])->name('updateLapin');
+    Route::get('/lapin/delete/{id}', [LapinController::class, 'delete']);
+    Route::get('/lapin/verificate/{id}', [LapinController::class, 'verifikasi']);
+    Route::post('/lapin/grade/{id}', [LapinController::class, 'grading'])->name('gradingLapin');
 
-    Route::get('/verifikasiLapin/{id}', [LapinController::class, 'verifikasi']);
-    Route::post('/gradingLapin/{id}', [LapinController::class, 'grading'])->name('gradingLapin');
+    /* Route untuk mencari data dari API */
     Route::post('/search-patient', [DataController::class, 'search']);
-
 
     /* Route untuk bagian Laporan KPC */
     Route::get('/lapkpc', [LapkpcController::class, 'lapkpc']);
-    Route::get('/addLapkpc', [LapkpcController::class, 'addLapkpcPage']);
-    Route::post('/addLapkpc', [LapkpcController::class, 'store']);
-    Route::get('/editLapkpc/{id}', [LapkpcController::class, 'edit']);
-    Route::post('/updateLapkpc/{id}', [LapkpcController::class, 'update'])->name('updateLapkpc');
-    Route::get('/deleteLapkpc/{id}', [LapkpcController::class, 'delete']);
-
-    Route::get('/verifikasiLapkpc/{id}', [LapkpcController::class, 'verifikasi']);
-    Route::post('/gradingLapkpc/{id}', [LapkpcController::class, 'grading'])->name('gradingLapkpc');
+    Route::get('/lapkpcTable', [LapkpcController::class, 'lapkpcTable']);
+    Route::get('/lapkpc/add', [LapkpcController::class, 'addLapkpcPage']);
+    Route::post('/lapkpc/add', [LapkpcController::class, 'store']);
+    Route::get('/lapkpc/edit/{id}', [LapkpcController::class, 'edit']);
+    Route::post('/lapkpc/update/{id}', [LapkpcController::class, 'update'])->name('updateLapkpc');
+    Route::get('/lapkpc/delete/{id}', [LapkpcController::class, 'delete']);
+    Route::get('/lapkpc/verificate/{id}', [LapkpcController::class, 'verifikasi']);
+    Route::post('/lapkpc/grade/{id}', [LapkpcController::class, 'grading'])->name('gradingLapkpc');
 
     /* Route untuk bagian Lembar Kerja Investigasi Sederhana */
     Route::get('/lemkis', [LemkisController::class, 'lemkis']);
-    Route::get('/addLemkis', [LemkisController::class, 'addLemkisPage']);
-    Route::post('/addLemkis', [LemkisController::class, 'store']);
-    Route::get('/editLemkis/{id}', [LemkisController::class, 'edit']);
-    Route::post('/updateLemkis/{id}', [LemkisController::class, 'update'])->name('updateLemkis');
-    Route::get('/showLemkis/{id}', [LemkisController::class, 'show']);
-    Route::get('/deleteLemkis/{id}', [LemkisController::class, 'delete']);
+    Route::get('/lemkisTable', [LemkisController::class, 'lemkisTable']);
+    Route::get('/lemkis/add', [LemkisController::class, 'addLemkisPage']);
+    Route::post('/lemkis/add', [LemkisController::class, 'store']);
+    Route::get('/lemkis/edit/{id}', [LemkisController::class, 'edit']);
+    Route::post('/lemkis/update/{id}', [LemkisController::class, 'update'])->name('updateLemkis');
+    Route::get('/lemkis/show/{id}', [LemkisController::class, 'show']);
+    Route::get('/lemkis/delete/{id}', [LemkisController::class, 'delete']);
 
 });
 

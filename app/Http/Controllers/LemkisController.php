@@ -19,6 +19,16 @@ class LemkisController extends Controller
 
     }
 
+    public function lemkisTable(){
+
+        $title = 'Laporan Lembar Kerja Investigasi Sederhana';
+
+        $lemkis = Lemkis::orderBy('created_at', 'desc')->get();
+
+        return view('pages.lemkis.lemkisTable', compact('lemkis', 'title'));
+
+    }
+
     public function addLemkisPage(){
 
         $title = 'Lembar Kerja Investigasi Sederhana';
@@ -137,19 +147,35 @@ class LemkisController extends Controller
 
         $data = Lemkis::findOrFail($id);
 
-        $data->tanggal_rekom_pendek = Carbon::parse($data->tanggal_rekom_pendek)->format('d-m-Y');
-        $data->tanggal_rekom_menengah = Carbon::parse($data->tanggal_rekom_menengah)->format('d-m-Y');
-        $data->tanggal_rekom_panjang = Carbon::parse($data->tanggal_rekom_panjang)->format('d-m-Y');
+        if ($data->tanggal_rekom_pendek !== NULL){
+            $data->tanggal_rekom_pendek = Carbon::parse($data->tanggal_rekom_pendek)->format('d-m-Y');
+        } else if ($data->tanggal_rekom_menengah !== NULL){
+            $data->tanggal_rekom_menengah = Carbon::parse($data->tanggal_rekom_menengah)->format('d-m-Y');
+        } else if ($data->tanggal_rekom_panjang !== NULL){
+            $data->tanggal_rekom_panjang = Carbon::parse($data->tanggal_rekom_panjang)->format('d-m-Y');
+        }
 
-        $data->tanggal_realisasi_pendek = Carbon::parse($data->tanggal_realisasi_pendek)->format('d-m-Y');
-        $data->tanggal_realisasi_menengah = Carbon::parse($data->tanggal_realisasi_menengah)->format('d-m-Y');
-        $data->tanggal_realisasi_panjang = Carbon::parse($data->tanggal_realisasi_panjang)->format('d-m-Y');
+        if ($data->tanggal_realisasi_pendek !== NULL){
+            $data->tanggal_realisasi_pendek = Carbon::parse($data->tanggal_realisasi_pendek)->format('d-m-Y');
+        } else if ($data->tanggal_realisasi_menengah !== NULL){
+            $data->tanggal_realisasi_menengah = Carbon::parse($data->tanggal_realisasi_menengah)->format('d-m-Y');
+        } else if ($data->tanggal_realisasi_panjang !== NULL){
+            $data->tanggal_realisasi_panjang = Carbon::parse($data->tanggal_realisasi_panjang)->format('d-m-Y');
+        }
 
+        if ($data->tanggal_mulai_invest !== NULL){
+            $data->tanggal_mulai_invest = Carbon::parse($data->tanggal_mulai_invest)->format('d-m-Y');
+        }
+        if ($data->tanggal_dilengkapi !== NULL){
+            $data->tanggal_dilengkapi = Carbon::parse($data->tanggal_dilengkapi)->format('d-m-Y');
+        }
+        if ($data->tanggal_informasi !== NULL){
+            $data->tanggal_informasi = Carbon::parse($data->tanggal_informasi)->format('d-m-Y');
+        }
+        if ($data->tanggal_pengesahan !== NULL){
+            $data->tanggal_pengesahan = Carbon::parse($data->tanggal_pengesahan)->format('d-m-Y');
+        }
 
-        $data->tanggal_mulai_invest = Carbon::parse($data->tanggal_mulai_invest)->format('d-m-Y');
-        $data->tanggal_dilengkapi = Carbon::parse($data->tanggal_dilengkapi)->format('d-m-Y');
-        $data->tanggal_informasi = Carbon::parse($data->tanggal_informasi)->format('d-m-Y');
-        $data->tanggal_pengesahan = Carbon::parse($data->tanggal_pengesahan)->format('d-m-Y');
 
         return view('pages.lemkis.showLemkis', compact('title', 'data'));
     }

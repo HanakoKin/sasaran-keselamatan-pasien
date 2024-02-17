@@ -1,21 +1,31 @@
 @extends('index')
 
 @section('container')
-<section class="content">
+<section class="content pt-0">
 
     @if(session()->has('success'))
     @include('script.success')
     @endif
 
     <div class="row">
-        <div class="col-xl-9 col-12">
+        <div class="col-xl-12 col-12">
+
+            <div class="d-inline-block align-items-center pb-0">
+                <nav>
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
+                        </li>
+                        <li class="breadcrumb-item active" aria-current="page">Kelola Laporan KPC</li>
+                    </ol>
+                </nav>
+            </div>
 
             {{-- Caption --}}
             <div class="box bg-transparent no-shadow mb-0">
                 <div class="box-header no-border">
                     <h4 class="box-title">Data Laporan KPC</h4>
                     <div class="box-controls pull-right d-md-flex d-none">
-                        <a href="/addLapkpc" class="btn btn-info btn-sm mb-2 text-decoration-none">
+                        <a href="/lapkpc/add" class="btn btn-info btn-sm mb-2 text-decoration-none">
                             <i class="fal fa-plus-circle"></i> Add
                         </a>
                     </div>
@@ -53,11 +63,11 @@
                                         </a>
 
                                         <a class="btn btn-success btn-sm me-2 mb-2 text-decoration-none"
-                                            href="{{ url('/editLapkpc', $lapkpc->id) }}"><i class="fal fa-pen"></i>
+                                            href="{{ url('/lapkpc/edit', $lapkpc->id) }}"><i class="fal fa-pen"></i>
                                             Edit
                                         </a>
 
-                                        <a href="deleteLapkpc/{{ $lapkpc->id }}" data-target="lapkpc"
+                                        <a href="lapkpc/delete/{{ $lapkpc->id }}" data-target="lapkpc"
                                             class="btn btn-danger btn-sm me-2 mb-2 text-decoration-none deleteBtn"><i
                                                 class="fal fa-trash-alt"></i>
                                             Delete
@@ -66,7 +76,7 @@
                                         @if (Auth::user()->role === 'admin')
 
                                         <a class="btn btn-secondary btn-sm me-2 mb-2 text-decoration-none"
-                                            href="{{ url('/verifikasiLapkpc', $lapkpc->id) }}"><i
+                                            href="{{ url('/lapkpc/verificate', $lapkpc->id) }}"><i
                                                 class="fal fa-pen"></i>
                                             Verifikasi
                                         </a>
@@ -77,17 +87,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-xl-3 col-12">
-            <div class="box">
-                <div class="box-body">
-                    <div class="box no-shadow mb-0">
-                        <div class="box-body px-0 pt-0">
-                            <div id="calendar" class="dask evt-cal min-h-400"></div>
-                        </div>
                     </div>
                 </div>
             </div>

@@ -24,14 +24,12 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="{{ Request::is('*lapin*') || Request::is('*Lapin*') ? 'active' : '' }}"><a
-                                    href="/lapin"><i class="icon-Commit"><span class="path1"></span><span
+                            <li class="{{ Request::is('*lapinTable') ? 'active' : '' }}"><a href="/lapinTable"><i
+                                        class="icon-Commit"><span class="path1"></span><span
                                             class="path2"></span></i>Tabel Data Lapin</a></li>
-                            <li><a href="/dashboard/product-data"><i class="icon-Commit"><span
-                                            class="path1"></span><span class="path2"></span></i>Kelola Data lapin</a>
-                            </li>
-                            <li><a href="/dashboard/payment-data"><i class="icon-Commit"><span
-                                            class="path1"></span><span class="path2"></span></i>Lorem, ipsum.</a>
+                            <li class="{{ Request::is('*lapin') || Request::is('*lapin/*') ? 'active' : '' }}"><a
+                                    href="/lapin"><i class="icon-Commit"><span class="path1"></span><span
+                                            class="path2"></span></i>Kelola Data lapin</a>
                             </li>
                         </ul>
                     </li>
@@ -46,15 +44,14 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="{{ Request::is('*lapkpc*') || Request::is('*Lapkpc*') ? 'active' : '' }}"><a
-                                    href="/lapkpc"><i class="icon-Commit"><span class="path1"></span><span
+                            <li class="{{ Request::is('*lapkpcTable') ? 'active' : '' }}"><a href="/lapkpcTable"><i
+                                        class="icon-Commit"><span class="path1"></span><span
                                             class="path2"></span></i>Tabel Data Laporan
                                     KPC</a></li>
-                            <li><a href="/dashboard/product-data"><i class="icon-Commit"><span
-                                            class="path1"></span><span class="path2"></span></i>Kelola Data KPC</a>
-                            </li>
-                            <li><a href="/dashboard/payment-data"><i class="icon-Commit"><span
-                                            class="path1"></span><span class="path2"></span></i>Lorem, ipsum.</a>
+                            <li class="{{ Request::is('*lapkpc') || Request::is('*lapkpc/*') ? 'active' : '' }}"><a
+                                    href="/lapkpc"><i class="icon-Commit"><span class="path1"></span><span
+                                            class="path2"></span></i>Kelola
+                                    Data KPC</a>
                             </li>
                         </ul>
                     </li>
@@ -69,14 +66,12 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            <li class="{{ Request::is('*lemkis*') || Request::is('*Lemkis*') ? 'active' : '' }}"><a
-                                    href="/lemkis"><i class="icon-Commit"><span class="path1"></span><span
+                            <li class="{{ Request::is('*lemkisTable') ? 'active' : '' }}"><a href="/lemkisTable"><i
+                                        class="icon-Commit"><span class="path1"></span><span
                                             class="path2"></span></i>Tabel Data LEMKIS</a></li>
-                            <li><a href="/dashboard/product-data"><i class="icon-Commit"><span
-                                            class="path1"></span><span class="path2"></span></i>Kelola Data LEMKIS</a>
-                            </li>
-                            <li><a href="/dashboard/payment-data"><i class="icon-Commit"><span
-                                            class="path1"></span><span class="path2"></span></i>Lorem, ipsum.</a>
+                            <li class="{{ Request::is('*lemkis') || Request::is('*lemkis/*') ? 'active' : '' }}"><a
+                                    href="/lemkis"><i class="icon-Commit"><span class="path1"></span><span
+                                            class="path2"></span></i>Kelola Data LEMKIS</a>
                             </li>
                         </ul>
                     </li>

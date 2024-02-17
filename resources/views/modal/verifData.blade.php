@@ -18,7 +18,6 @@
                                     <h4 class="box-title text-info mb-0"><i class="fal fa-user-injured"></i> Data Pasien
                                     </h4>
                                     <hr class="my-15">
-                                    <input type="hidden" name="status" value="Terverifikasi">
                                     <div class="row">
                                         <div class="col-md-6">
                                             <div class="form-group">
@@ -38,26 +37,50 @@
                                         </div>
                                     </div>
 
-                                    @if ($category === 'Lapin')
 
                                     <div class="row">
+                                        @if ($category === 'Lapin')
                                         <div class="col-md-6">
                                             <div class="form-group">
                                                 <label class="form-label">Grade</label>
                                                 <select name="grading_risiko" class="form-select">
                                                     <option selected disabled>Select grade</option>
-                                                    <option value="biru">BIRU</option>
-                                                    <option value="hijau">HIJAU</option>
-                                                    <option value="kuning">KUNING</option>
-                                                    <option value="merah">MERAH</option>
+                                                    <option value="-" hidden></option>
+                                                    <option value="biru"
+                                                        {{ $data->status === "Terverifikasi" && $data->grading_risiko == 'biru' ? 'selected' : '' }}>
+                                                        BIRU</option>
+                                                    <option value="hijau"
+                                                        {{ $data->status === "Terverifikasi" && $data->grading_risiko == 'hijau' ? 'selected' : '' }}>
+                                                        HIJAU</option>
+                                                    <option value="kuning"
+                                                        {{ $data->status === "Terverifikasi" && $data->grading_risiko == 'kuning' ? 'selected' : '' }}>
+                                                        KUNING</option>
+                                                    <option value="merah"
+                                                        {{ $data->status === "Terverifikasi" && $data->grading_risiko == 'merah' ? 'selected' : '' }}>
+                                                        MERAH</option>
+                                                </select>
+                                            </div>
+                                        </div>
+                                        @endif
+                                        <div class="col-md-6">
+                                            <div class="form-group">
+                                                <label class="form-label">Status</label>
+                                                <select name="status" class="form-select">
+                                                    <option {{ $data->status === 'Terverifikasi' ? 'selected' : '' }}
+                                                        value="Terverifikasi">
+                                                        Verifikasi</option>
+                                                    <option {{ $data->status !== 'Terverifikasi' ? 'selected' : '' }}
+                                                        value="Belum terverifikasi">
+                                                        {{ $data->status === NULL ? 'Belum Verifikasi' : 'Batal Verifikasi' }}
+                                                    </option>
                                                 </select>
                                             </div>
                                         </div>
                                     </div>
-
-                                    @endif
-
                                 </div>
+
+                                {{-- <input type="hidden" name="status" value="Terverifikasi"> --}}
+
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-primary">
                                         <i class="ti-save-alt"></i> Save

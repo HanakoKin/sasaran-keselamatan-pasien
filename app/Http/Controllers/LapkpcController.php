@@ -21,6 +21,16 @@ class LapkpcController extends Controller
 
     }
 
+    public function lapkpcTable(){
+
+        $title = 'Tabel Kondisi Potensial Cedera';
+
+        $lapkpcs = Lapkpc::orderBy('created_at', 'desc')->get();
+
+        return view('pages.lapkpc.lapkpcTable', compact('lapkpcs', 'title'));
+
+    }
+
     public function addLapkpcPage(){
 
         $title = 'Laporan KPC Form';

@@ -1,42 +1,62 @@
 @extends('index')
 
 @section('container')
-<section class="content">
+<section class="content pt-0">
 
     <div class="row">
         <div class="col-12">
-            {{-- Form --}}
 
-            <form action="{{ url('/addLapin') }}" method="post" enctype="multipart/form-data"
+            <div class="d-inline-block align-items-center pb-0">
+                <nav>
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Tambah Laporan Insiden</li>
+                    </ol>
+                </nav>
+            </div>
+
+            {{-- Form --}}
+            <form action="{{ url('/lapin/add') }}" method="post" enctype="multipart/form-data"
                 onsubmit="return validasiForm()">
                 @csrf
+                <div class="box-body">
 
-                <h4 class="mb-3">Data Pasien</h4>
-                <div class="row g-3">
+                    <h4 class="box-title text-info mb-0"><i class="fal fa-user-injured"></i> Data Pasien</h4>
+                    <hr class="my-15">
 
                     <input type="hidden" name="pembuat_laporan" value="{{ auth()->user()->nama }}">
                     <input type="hidden" name="status" value="Belum terverifikasi">
                     <div class="col-sm-12">
                         <label for="naLap" class="form-label text-bold">Nama</label>
-                        <input type="text" class="form-control" id="naLap" name="nama" placeholder="" required>
+                        <input type="text" class="form-control" id="naLap" name="nama" placeholder="" required readonly>
                         <div class="invalid-feedback">
                             Valid Nama is required.
                         </div>
                     </div>
 
-                    <div class="col-sm-6">
-                        <label for="noRMLap" class="form-label text-bold">No RM</label>
-                        <input type="text" class="form-control" id="noRMLap" name="noRM" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Valid No RM is required.
+                    <div class="row my-3">
+                        <div class="col-sm-6">
+                            <label for="noRMLap" class="form-label text-bold">No RM</label>
+                            <input type="text" class="form-control" id="noRMLap" name="noRM" placeholder="" required>
+                            <div class="invalid-feedback">
+                                Valid No RM is required.
+                            </div>
                         </div>
-                    </div>
 
-                    <div class="col-sm-6">
-                        <label for="ruLap" class="form-label text-bold">Ruangan</label>
-                        <input type="text" class="form-control" id="ruLap" name="ruangan" placeholder="" required>
-                        <div class="invalid-feedback">
-                            Valid Ruangan is required.
+                        <div class="col-sm-6">
+                            <label for="ruLap" class="form-label text-bold">Ruangan</label>
+                            {{-- <input type="text" class="form-control" id="ruLap" name="ruangan" placeholder="" required> --}}
+                            <select class="form-control select2" id="ruLap" name="ruangan" style="width: 100%;">
+                                <option>Pilih salah satu</option>
+                                @foreach ($ruangan as $item)
+                                <option value="{{ $item->nama }}">{{ $item->nama }}</option>
+                                @endforeach
+                            </select>
+                            <div class="invalid-feedback">
+                                Valid Ruangan is required.
+                            </div>
                         </div>
                     </div>
 
@@ -46,165 +66,185 @@
                             <div class="form-group mb-0">
                                 <div class="form-check form-check-inline">
                                     <input id="jekel1" name="jenis_kelamin" type="radio" class="form-check-input"
-                                        value="Laki-laki" required>
+                                        value="Laki-laki" required onclick="return false" style="pointer-events: none">
                                     <label class="form-check-label" for="jekel1">Laki-laki</label>
                                 </div>
                                 <div class="form-check form-check-inline">
                                     <input id="jekel2" name="jenis_kelamin" type="radio" class="form-check-input"
-                                        value="Perempuan" required>
+                                        value="Perempuan" required onclick="return false" style="pointer-events: none">
                                     <label class="form-check-label" for="jekel2">Perempuan</label>
                                 </div>
                             </div>
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="umur" class="form-label text-bold">Umur</label>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="umur1" name="umur" type="radio" class="form-check-input"
-                                            value="0 - 1 bulan" required>
-                                        <label class="form-check-label" for="umur1">0 - 1 bulan</label>
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="umur" class="form-label text-bold">Umur</label>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="umur1" name="umur" type="radio" class="form-check-input"
+                                                value="0 - 1 bulan" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="umur1">0 - 1 bulan</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="umur2" name="umur" type="radio" class="form-check-input"
+                                                value="> 1 bulan - 1 tahun" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="umur2">> 1 bulan - 1 tahun</label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="umur2" name="umur" type="radio" class="form-check-input"
-                                            value="> 1 bulan - 1 tahun" required>
-                                        <label class="form-check-label" for="umur2">> 1 bulan - 1 tahun</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="umur3" name="umur" type="radio" class="form-check-input"
+                                                value="> 1 tahun - 5 tahun" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="umur3">> 1 tahun - 5 tahun</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="umur4" name="umur" type="radio" class="form-check-input"
+                                                value="> 5 tahun - 15 tahun" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="umur4">> 5 tahun - 15
+                                                tahun</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="umur5" name="umur" type="radio" class="form-check-input"
+                                                value="> 15 tahun - 30 tahun" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="umur5">> 15 tahun - 30 tahun</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="umur6" name="umur" type="radio" class="form-check-input"
+                                                value="> 30 tahun - 65 tahun" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="umur6">> 30 tahun - 65 tahun</label>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="row justify-content-end">
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="umur7" name="umur" type="radio" class="form-check-input"
+                                                value="> 65 tahun" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="umur7">> 65 tahun</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="umur3" name="umur" type="radio" class="form-check-input"
-                                            value="> 1 tahun - 5 tahun" required>
-                                        <label class="form-check-label" for="umur3">> 1 tahun - 5 tahun</label>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="umur4" name="umur" type="radio" class="form-check-input"
-                                            value="> 5 tahun - 15 tahun" required>
-                                        <label class="form-check-label" for="umur4">> 5 tahun - 15
-                                            tahun</label>
-                                    </div>
-                                </div>
+                            <div class="invalid-feedback">
+                                Please select a valid Umur.
                             </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="umur5" name="umur" type="radio" class="form-check-input"
-                                            value="> 15 tahun - 30 tahun" required>
-                                        <label class="form-check-label" for="umur5">> 15 tahun - 30 tahun</label>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="penjamin" class="form-label text-bold">Penanggung Biaya Pasien</label>
+                            <div class="form-group">
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="penjamin1" name="penjamin" type="radio" class="form-check-input"
+                                                value="Pribadi" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="penjamin1">Pribadi</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="penjamin2" name="penjamin" type="radio" class="form-check-input"
+                                                value="Pemerintah" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="penjamin2">Pemerintah</label>
+                                        </div>
                                     </div>
                                 </div>
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="umur6" name="umur" type="radio" class="form-check-input"
-                                            value="> 30 tahun - 65 tahun" required>
-                                        <label class="form-check-label" for="umur6">> 30 tahun - 65 tahun</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="penjamin3" name="penjamin" type="radio" class="form-check-input"
+                                                value="BPJS" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="penjamin3">BPJS</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="penjamin4" name="penjamin" type="radio" class="form-check-input"
+                                                value="Asuransi Swasta" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="penjamin4">Asuransi Swasta</label>
+                                        </div>
                                     </div>
                                 </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-12">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="umur7" name="umur" type="radio" class="form-check-input"
-                                            value="> 65 tahun" required>
-                                        <label class="form-check-label" for="umur7">> 65 tahun</label>
+                                <div class="row">
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="penjamin5" name="penjamin" type="radio" class="form-check-input"
+                                                value="Perusahaan" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="penjamin5">Perusahaan</label>
+                                        </div>
+                                    </div>
+                                    <div class="col-6">
+                                        <div class="form-check form-check-inline ms-3">
+                                            <input id="penjamin6" name="penjamin" type="radio" class="form-check-input"
+                                                value="Lain-lain" required onclick="return false"
+                                                style="pointer-events: none">
+                                            <label class="form-check-label" for="penjamin6">Lain-lain</label>
+                                        </div>
                                     </div>
                                 </div>
                             </div>
                         </div>
-                        <div class="invalid-feedback">
-                            Please select a valid Umur.
+                    </div>
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="tamas" class="form-label text-bold">Tanggal Masuk RS:</label>
+                            <input type="date" class="form-control" id="tamas" name="tanggal_masuk" readonly>
+                        </div>
+                        <div class="col-md-6">
+                            <label for="jamas" class="form-label text-bold">Jam:</label>
+                            <input type="time" class="form-control" id="jamas" name="jam_masuk" readonly>
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="penjamin" class="form-label text-bold">Penanggung Biaya Pasien</label>
-                        <div class="form-group">
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="penjamin1" name="penjamin" type="radio" class="form-check-input"
-                                            value="Pribadi" required>
-                                        <label class="form-check-label" for="penjamin1">Pribadi</label>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="penjamin2" name="penjamin" type="radio" class="form-check-input"
-                                            value="Pemerintah" required>
-                                        <label class="form-check-label" for="penjamin2">Pemerintah</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="penjamin3" name="penjamin" type="radio" class="form-check-input"
-                                            value="BPJS" required>
-                                        <label class="form-check-label" for="penjamin3">BPJS</label>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="penjamin4" name="penjamin" type="radio" class="form-check-input"
-                                            value="Asuransi Swasta" required>
-                                        <label class="form-check-label" for="penjamin4">Asuransi Swasta</label>
-                                    </div>
-                                </div>
-                            </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="penjamin5" name="penjamin" type="radio" class="form-check-input"
-                                            value="Perusahaan" required>
-                                        <label class="form-check-label" for="penjamin5">Perusahaan</label>
-                                    </div>
-                                </div>
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3">
-                                        <input id="penjamin6" name="penjamin" type="radio" class="form-check-input"
-                                            value="Lain-lain" required>
-                                        <label class="form-check-label" for="penjamin6">Lain-lain</label>
-                                    </div>
-                                </div>
-                            </div>
+
+                    <h4 class="box-title text-info mb-0 mt-30"><i class="fal fa-books-medical"></i> Rincian Kejadian
+                    </h4>
+                    <hr class="my-15">
+
+                    <p class="mt-3 mb-0 text-bold">1. Tanggal dan Waktu Insiden</p>
+
+                    <div class="row">
+                        <div class="col-md-6 mt-2">
+                            <label for="takej" class="form-label text-bold">Tanggal:</label>
+                            <input type="date" class="form-control" id="takej" name="tanggal_kejadian">
+                        </div>
+                        <div class="col-md-6 mt-2">
+                            <label for="jakej" class="form-label text-bold">Jam:</label>
+                            <input type="time" class="form-control" id="jakej" name="jam_kejadian">
                         </div>
                     </div>
 
-                    <div class="col-md-6">
-                        <label for="tamas" class="form-label text-bold">Tanggal Masuk RS:</label>
-                        <input type="date" class="form-control" id="tamas" name="tanggal_masuk">
-                    </div>
-                    <div class="col-md-6">
-                        <label for="jamas" class="form-label text-bold">Jam:</label>
-                        <input type="time" class="form-control" id="jamas" name="jam_masuk">
-                    </div>
-
-                    <hr class="my-4">
-
-                    <h4 class="my-0">Rincian Kejadian</h4>
-
-                    <p class="mt-3 mb-0">1. Tanggal dan Waktu Insiden</p>
-
-                    <div class="col-md-6 mt-2">
-                        <label for="takej" class="form-label">Tanggal:</label>
-                        <input type="date" class="form-control" id="takej" name="tanggal_kejadian">
-                    </div>
-                    <div class="col-md-6 mt-2">
-                        <label for="jakej" class="form-label">Jam:</label>
-                        <input type="time" class="form-control" id="jakej" name="jam_kejadian">
-                    </div>
-
-                    <div class="col-md-12">
-                        <label for="inLap" class="form-label">2. Insiden</label>
+                    <div class="col-md-12 my-3">
+                        <label for="inLap" class="form-label text-bold">2. Insiden</label>
                         <input type="text" class="form-control" id="inLap" name="insiden" placeholder="" value=""
                             required>
                         <div class="invalid-feedback">
@@ -213,19 +253,19 @@
                     </div>
 
                     <div class="col-md-12">
-                        <label for="kronLap" class="form-label">3. Kronologis Insiden</label>
-                        <textarea class="form-control" id="kronLap" name="kronologis" placeholder="" value=""
+                        <label for="kronLap" class="form-label text-bold">3. Kronologis Insiden</label>
+                        <textarea rows="3" class="form-control" id="kronLap" name="kronologis" placeholder="" value=""
                             required></textarea>
                         <div class="invalid-feedback">
                             Valid Kronologis Insiden is required.
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-12 my-3">
                         <label for="jenis_insiden" class="form-label text-bold">4. Jenis Insiden</label>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <div class="form-check form-check-inline  ms-3">
                                         <input id="jenLap1" name="jenis_insiden" type="radio" class="form-check-input"
                                             value="Kejadian Nyaris Cedera / KNC" required>
@@ -233,7 +273,7 @@
                                             KNC</label>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <div class="form-check form-check-inline  ms-3">
                                         <input id="jenLap2" name="jenis_insiden" type="radio" class="form-check-input"
                                             value="Kejadian Tidak Cedera / KTC" required>
@@ -243,7 +283,7 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <div class="form-check form-check-inline  ms-3">
                                         <input id="jenLap3" name="jenis_insiden" type="radio" class="form-check-input"
                                             value="Kejadian Tidak Diharapkan / KTD" required>
@@ -251,7 +291,7 @@
                                             KTD</label>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <div class="form-check form-check-inline  ms-3">
                                         <input id="jenLap4" name="jenis_insiden" type="radio" class="form-check-input"
                                             value="Kondisi Potensial Cedera / KPC" required>
@@ -263,12 +303,12 @@
                         </div>
                     </div>
 
-                    <div class="col-md-6">
+                    <div class="col-md-12">
                         <label for="pelapor_insiden" class="form-label me-3 text-bold">5. Orang Pertama yang Melaporkan
                             Insiden</label>
                         <div class="form-group">
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <div class="form-check form-check-inline ms-3">
                                         <input id="penLap1" name="pelapor_insiden" type="radio" class="form-check-input"
                                             value="Karyawan ( Dokter / Perawat / Petugas Lainnya )" required>
@@ -277,7 +317,7 @@
                                             Lainnya )</label>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <div class="form-check form-check-inline ms-3">
                                         <input id="penLap2" name="pelapor_insiden" type="radio" class="form-check-input"
                                             value="Pasien" required>
@@ -286,14 +326,14 @@
                                 </div>
                             </div>
                             <div class="row">
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <div class="form-check form-check-inline ms-3">
                                         <input id="penLap3" name="pelapor_insiden" type="radio" class="form-check-input"
                                             value="Pengunjung" required>
                                         <label class="form-check-label" for="penLap3">Pengunjung</label>
                                     </div>
                                 </div>
-                                <div class="col-6">
+                                <div class="col-md-6">
                                     <div class="form-check form-check-inline ms-3">
                                         <input id="penLap4" name="pelapor_insiden" type="radio" class="form-check-input"
                                             value="Keluarga / Pendamping" required>
@@ -302,9 +342,9 @@
                                     </div>
                                 </div>
                             </div>
-                            <div class="row">
-                                <div class="col-6">
-                                    <div class="form-check form-check-inline ms-3 mt-2 p-0">
+                            <div class="row justify-content-end">
+                                <div class="col-md-6">
+                                    <div class="form-check form-check-inline ms-25 mt-2 p-0">
                                         <div class="input-group">
                                             <div class="input-group-text">
                                                 <input id="penLap5" name="pelapor_insiden"
@@ -325,33 +365,40 @@
                     </div>
 
                     <div class="col-md-12">
-                        <label for="korban_insiden" class="form-label">6. Insiden terjadi pada</label>
+                        <label for="korban_insiden" class="form-label text-bold">6. Insiden terjadi pada</label>
                         <div class="form-group">
-                            <div class="form-check form-check-inline  ms-3">
-                                <input id="korLap1" name="korban_insiden" type="radio" class="form-check-input"
-                                    value="Pasien" required>
-                                <label class="form-check-label" for="korLap1">Pasien</label>
-                            </div>
-                            <div class="form-check form-check-inline  ms-3 p-0">
-                                <div class="input-group">
-                                    <div class="input-group-text">
-                                        <input id="korLap2" name="korban_insiden" class="form-check-input mt-0 ms-0"
-                                            type="radio" value="" aria-label="Radio button for following text input">
-                                        <label class=mb-2 for="korLap2"
-                                            style="padding-left: 20px;height: 17px;"></label>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check form-check-inline  ms-3">
+                                        <input id="korLap1" name="korban_insiden" type="radio" class="form-check-input"
+                                            value="Pasien" required>
+                                        <label class="form-check-label" for="korLap1">Pasien</label>
                                     </div>
-                                    <input id="korban_lain" type="text" class="form-control"
-                                        aria-label="Text input with radio button" placeholder="Lain-lain"
-                                        onclick="selectRadio('korLap2')"
-                                        oninput="syncInputRadio('korLap2', 'korban_lain')">
+                                </div>
+                                <div class="col-md-6">
+                                    <div class="form-check form-check-inline  ms-25 p-0">
+                                        <div class="input-group">
+                                            <div class="input-group-text">
+                                                <input id="korLap2" name="korban_insiden"
+                                                    class="form-check-input mt-0 ms-0" type="radio" value=""
+                                                    aria-label="Radio button for following text input">
+                                                <label class=mb-2 for="korLap2"
+                                                    style="padding-left: 20px;height: 17px;"></label>
+                                            </div>
+                                            <input id="korban_lain" type="text" class="form-control"
+                                                aria-label="Text input with radio button" placeholder="Lain-lain"
+                                                onclick="selectRadio('korLap2')"
+                                                oninput="syncInputRadio('korLap2', 'korban_lain')">
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
                         </div>
                     </div>
 
                     <div class="col-md-12">
-                        <label for="layanan_insiden" class="form-label">7. Insiden menyangkut pasien</label>
-                        <div class="form-group">
+                        <label for="layanan_insiden" class="form-label text-bold">7. Insiden menyangkut pasien</label>
+                        <div class="form-group d-flex justify-content-between align-items-center">
                             <div class="form-check form-check-inline  ms-3">
                                 <input id="inLap1" name="layanan_insiden" type="radio" class="form-check-input"
                                     value="Pasien Rawat Inap" required>
@@ -386,7 +433,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <label for="temLap" class="form-label">8. Tempat Insiden</label>
+                        <label for="temLap" class="form-label text-bold">8. Tempat Insiden</label>
                         <input type="text" class="form-control" id="temLap" name="tempat_insiden" placeholder=""
                             value="" required>
                         <div class="invalid-feedback">
@@ -394,8 +441,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <label for="kasus_insiden" class="form-label">9. Insiden terjadi pada pasien ( sesuai
+                    <div class="col-md-12 my-3">
+                        <label for="kasus_insiden" class="form-label text-bold">9. Insiden terjadi pada pasien ( sesuai
                             kasus penyakit / spesialisasi )</label>
                         <div class="form-group">
                             <div class="row">
@@ -475,7 +522,7 @@
                                             Subspesialiasinya</label>
                                     </div>
 
-                                    <div class="form-check ps-0">
+                                    <div class="form-check ps-0 ms-10">
                                         <div class="input-group">
                                             <div class="input-group-text">
                                                 <input id="kasus13" name="kasus_insiden[]"
@@ -496,7 +543,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <label for="unLap" class="form-label">10. Unit / Departemen terkait yang
+                        <label for="unLap" class="form-label text-bold">10. Unit / Departemen terkait yang
                             menyebabkan insiden</label>
                         <input type="text" class="form-control" id="unLap" name="unit_insiden" placeholder="" value=""
                             required>
@@ -505,8 +552,8 @@
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <label for="dampak_insiden" class="form-label">11. Akibat insiden terhadap
+                    <div class="col-md-12 my-3">
+                        <label for="dampak_insiden" class="form-label text-bold">11. Akibat insiden terhadap
                             pasien</label>
                         <div class="form-group">
                             <div class="form-check form-check-inline  ms-3">
@@ -540,17 +587,17 @@
                     </div>
 
                     <div class="col-md-12">
-                        <label for="tinCe" class="form-label">12. Tindakan yang dilakukan segera setelah
+                        <label for="tinCe" class="form-label text-bold">12. Tindakan yang dilakukan segera setelah
                             kejadian, dan hasilnya</label>
-                        <textarea class="form-control" id="tinCe" name="tindakan_cepat" placeholder="" value=""
+                        <textarea rows="3" class="form-control" id="tinCe" name="tindakan_cepat" placeholder="" value=""
                             required></textarea>
                         <div class="invalid-feedback">
                             Valid Tindakan Insiden is required.
                         </div>
                     </div>
 
-                    <div class="col-md-12">
-                        <label for="tindakan_insiden" class="form-label">13. Tindakan dilakukan oleh</label>
+                    <div class="col-md-12 my-3">
+                        <label for="tindakan_insiden" class="form-label text-bold">13. Tindakan dilakukan oleh</label>
                         <div class="form-group">
                             <div class="form-check ps-0">
                                 <div class="input-group">
@@ -594,7 +641,7 @@
                     </div>
 
                     <div class="col-md-12">
-                        <label for="kejadian_insiden" class="form-label">14. Apakah kejadian yang sama pernah
+                        <label for="kejadian_insiden" class="form-label text-bold">14. Apakah kejadian yang sama pernah
                             terjadi di Unit Kerja lain?</label>
                         <div class="form-group">
                             <div class="form-check ms-3">
@@ -624,6 +671,7 @@
                             <i class="ti-save-alt"></i> Save
                         </button>
                     </div>
+                </div>
             </form>
         </div>
     </div>

@@ -5,9 +5,20 @@
 
     <div class="row">
         <div class="col-12">
-            {{-- Form --}}
 
-            <form action="{{ url('/addLapkpc') }}" method="post" enctype="multipart/form-data">
+            <div class="d-inline-block align-items-center pb-0">
+                <nav>
+                    <ol class="breadcrumb mb-0">
+                        <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
+                        </li>
+                        <li class="breadcrumb-item"><a href="/lapkpc">Kelola Laporan KPC</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Tambah Laporan KPC</li>
+                    </ol>
+                </nav>
+            </div>
+
+            {{-- Form --}}
+            <form action="{{ url('/lapkpc/add') }}" method="post" enctype="multipart/form-data">
                 @csrf
 
                 <div class="box-body">

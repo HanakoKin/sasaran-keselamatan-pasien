@@ -96,7 +96,7 @@ $(function() {
                     ]
                 }]
         };
-    
+
         basicpieChart.setOption(option);
     // ------------------------------
     // Basic pie chart
@@ -212,7 +212,7 @@ $(function() {
                     }
                 ]
         };
-    
+
         basicdoughnutChart.setOption(option);
     // ------------------------------
     // customized chart
@@ -220,7 +220,7 @@ $(function() {
     // based on prepared DOM, initialize echarts instance
         var customizedChart = echarts.init(document.getElementById('customized-chart'));
         var option = {
-            
+
             backgroundColor: '#fff',
 
             title: {
@@ -291,9 +291,9 @@ $(function() {
                     }
                 }
             ]
-        };    
-       
-    
+        };
+
+
         customizedChart.setOption(option);
     // ------------------------------
     // Nested chart
@@ -301,7 +301,7 @@ $(function() {
     // based on prepared DOM, initialize echarts instance
         var nestedChart = echarts.init(document.getElementById('nested-pie'));
         var option = {
-            
+
            tooltip: {
                     trigger: 'item',
                     formatter: "{a} <br/>{b}: {c} ({d}%)"
@@ -426,9 +426,9 @@ $(function() {
                         ]
                     }
                 ]
-        };    
-       
-    
+        };
+
+
         nestedChart.setOption(option);
         // ------------------------------
         // pole chart
@@ -486,7 +486,7 @@ $(function() {
 
                 // Add custom colors
                 color: ['#689f38', '#38649f', '#ff8f00'],
- 
+
                 // Add series
                 series: [
                     {
@@ -516,7 +516,7 @@ $(function() {
                         itemStyle: dataStyle,
                         data: [
                             {
-                                value: 30, 
+                                value: 30,
                                 name: 'Tuesday'
                             },
                             {
@@ -535,7 +535,7 @@ $(function() {
                         itemStyle: dataStyle,
                         data: [
                             {
-                                value: 10, 
+                                value: 10,
                                 name: 'Wednesday'
                             },
                             {
@@ -649,12 +649,12 @@ $(function() {
                 ]
             };
         nightingaleChart.setOption(option);
-	
-	
+
+
         // ------------------------------
         // bar-polar-stack-radial
-        // ------------------------------	
-	
+        // ------------------------------
+
 		var dom = document.getElementById("bar-polar-stack-radial");
 		var myChart = echarts.init(dom);
 		var app = {};

@@ -12,6 +12,8 @@
 <script src="{{ asset('assets/vendor_components/apexcharts-bundle/dist/apexcharts.js') }}"></script>
 <script src="{{ asset('assets/vendor_components/moment/min/moment.min.js') }}"></script>
 <script src="{{ asset('assets/vendor_components/fullcalendar/fullcalendar.js') }}"></script>
+<script src="{{ asset('assets/vendor_components/select2/dist/js/select2.full.js') }}"></script>
+
 
 <!-- Sweet Alert -->
 <script src="{{ asset('assets/vendor_components/sweetalert/sweetalert.min.js') }}"></script>
@@ -28,4 +30,6 @@
 <script src="{{ asset('assets/vendor_plugins/iCheck/icheck.min.js') }}"></script>
 <script src="{{ asset('assets/vendor_plugins/JqueryPrintArea/demo/jquery.PrintArea.js') }}"></script>
 
+<script src="{{ asset('assets/vendor_components/echarts/dist/echarts-en.min.js') }}"></script>
+<script src="{{ asset('assets/js/pages/echart-pie-doghnut.js') }}"></script>
 <script src="{{ asset('assets/js/pages/advanced-form-element.js') }}"></script>

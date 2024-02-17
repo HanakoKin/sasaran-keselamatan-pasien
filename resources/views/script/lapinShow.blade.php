@@ -6,8 +6,10 @@
         console.log(lapin.nama)
 
         $('#showTitle').text(title);
-        $('.lapinNama').text(": " + lapin.nama);
-        $('.lapinNoRM').text(": " + lapin.noRM);
+        $('#namaTitle').text(lapin.nama);
+        $('#noRMTitle').text(lapin.noRM);
+        $('#lapinNama').text(": " + lapin.nama);
+        $('#lapinNoRM').text(": " + lapin.noRM);
         $('#lapinRuangan').text(": " + lapin.ruangan);
         $('#lapinUmur').text(": " + lapin.umur);
         $('#lapinJenisKelamin').text(": " + lapin.jenis_kelamin);

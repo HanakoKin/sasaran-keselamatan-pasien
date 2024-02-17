@@ -4,8 +4,10 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Lapin;
+use App\Models\Ruangan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
 
 class LapinController extends Controller
@@ -15,7 +17,83 @@ class LapinController extends Controller
 
         $title = 'Dashboard';
 
-        return view('pages.dashboard', compact('title'));
+        $totalKasus = Lapin::count();
+
+        $jumlahKNC = Lapin::where('jenis_insiden', 'Kejadian Nyaris Cedera / KNC')->count();
+        $jumlahKTC = Lapin::where('jenis_insiden', 'Kejadian Tidak Cedera / KTC')->count();
+        $jumlahKTD = Lapin::where('jenis_insiden', 'Kejadian Tidak Diharapkan / KTD')->count();
+        $jumlahKPC = Lapin::where('jenis_insiden', 'Kondisi Potensial Cedera / KPC')->count();
+
+        if ($jumlahKNC < 1){
+            $prosentaseKNC = 0;
+        } else {
+            $prosentaseKNC = number_format(($jumlahKNC / $totalKasus) *100, 0);
+        }
+
+        if ($jumlahKTC < 1){
+            $prosentaseKTC = 0;
+        } else {
+            $prosentaseKTC = number_format(($jumlahKTC / $totalKasus) *100, 0);
+        }
+
+        if ($jumlahKTD < 1){
+            $prosentaseKTD = 0;
+        } else {
+            $prosentaseKTD = number_format(($jumlahKTD / $totalKasus) *100, 0);
+        }
+
+        if ($jumlahKPC < 1){
+            $prosentaseKPC = 0;
+        } else {
+            $prosentaseKPC = number_format(($jumlahKPC / $totalKasus) *100, 0);
+        }
+
+        $verified = Lapin::where('status', 'Terverifikasi')->count();
+
+        $gradeBiru = Lapin::where('grading_risiko', 'biru')->count();
+        $gradeHijau = Lapin::where('grading_risiko', 'hijau')->count();
+        $gradeKuning = Lapin::where('grading_risiko', 'kuning')->count();
+        $gradeMerah = Lapin::where('grading_risiko', 'merah')->count();
+
+        if ($gradeBiru < 1){
+            $prosentaseBiru = 0;
+        } else {
+            $prosentaseBiru = number_format(($gradeBiru / $verified) *100, 0);
+        }
+
+        if ($gradeHijau < 1){
+            $prosentaseHijau = 0;
+        } else {
+            $prosentaseHijau = number_format(($gradeHijau / $verified) *100, 0);
+        }
+
+        if ($gradeKuning < 1){
+            $prosentaseKuning = 0;
+        } else {
+            $prosentaseKuning = number_format(($gradeKuning / $verified) *100, 0);
+        }
+
+        if ($gradeMerah < 1){
+            $prosentaseMerah = 0;
+        } else {
+            $prosentaseMerah = number_format(($gradeMerah / $verified) *100, 0);
+        }
+
+        $colorClass = '';
+
+        if ($prosentaseBiru >= 0 && $prosentaseBiru <= 25) {
+            $colorClass = 'info';
+        } elseif ($prosentaseBiru > 25 && $prosentaseBiru <= 50) {
+            $colorClass = 'success';
+        } elseif ($prosentaseBiru > 50 && $prosentaseBiru <= 75) {
+            $colorClass = 'warning';
+        } elseif ($prosentaseBiru > 75) {
+            $colorClass = 'danger';
+        }
+
+        // dd($colorClass);
+
+        return view('pages.dashboard', compact('title', 'jumlahKNC', 'jumlahKTC', 'jumlahKTD', 'jumlahKPC', 'prosentaseKNC', 'prosentaseKTC', 'prosentaseKTD', 'prosentaseKPC', 'gradeBiru', 'gradeHijau', 'gradeKuning', 'gradeMerah', 'prosentaseBiru', 'prosentaseHijau', 'prosentaseKuning', 'prosentaseMerah', 'colorClass'));
 
     }
 
@@ -29,11 +107,23 @@ class LapinController extends Controller
 
     }
 
+    public function lapinTable(){
+
+        $title = 'Tabel Laporan Insiden';
+
+        $lapins = Lapin::orderBy('created_at', 'desc')->get();
+
+        return view('pages.lapin.lapinTable', compact('lapins', 'title'));
+
+    }
+
     public function addLapinPage(){
 
         $title = 'Laporan Insiden Form';
 
-        return view('pages.lapin.addLapin', compact('title'));
+        $ruangan = Ruangan::all();
+
+        return view('pages.lapin.addLapin', compact('title', 'ruangan'));
 
     }
 
@@ -90,6 +180,15 @@ class LapinController extends Controller
 
         $lapin = Lapin::findOrFail($id);
 
+        $ruangan = Ruangan::all();
+
+        if ($lapin->status !== "Belum terverifikasi") {
+            // If it has been validated, only allow admins to update
+            if (!Auth::user()->isAdmin()) {
+                return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
+            }
+        }
+
         // Ambil data kasus_insiden
         $data_kasus_insiden = $lapin->kasus_insiden;
 
@@ -102,7 +201,7 @@ class LapinController extends Controller
 
         $fixed_kejadian_insiden = str_replace('Ya, terjadi pada ', '', $lapin->kejadian_insiden);
 
-        return view('pages.lapin.editLapin', compact('lapin', 'fixed_data_kasus_insiden', 'fixed_kejadian_insiden', 'title'));
+        return view('pages.lapin.editLapin', compact('lapin', 'fixed_data_kasus_insiden', 'fixed_kejadian_insiden', 'title', 'ruangan'));
 
     }
 
@@ -202,9 +301,14 @@ class LapinController extends Controller
             'grading_risiko' => 'required|string'
         ]);
 
+        $statusMessage = ($validatedData['status'] !== 'Terverifikasi') ? 'Lapin verification removed!' : 'Lapin verified!';
+
+
         Lapin::where('id', $id)->update($validatedData);
 
-        return back()->with('success', 'LAPIN deleted successfully!');
+        // return back()->with('success', 'LAPIN deleted successfully!');
+
+        return redirect('/lapin')->with('success', $statusMessage);
 
         // return view('pages.verifikasiLapin', compact('title', 'lapin'));
     }

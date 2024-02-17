@@ -21,8 +21,8 @@
                             <div class="box-footer pb-0">
 
                                 <div class="text-center">
-                                    <h3 class="lapinNama"></h3>
-                                    <h6 class="lapinNoRM"></h6>
+                                    <h3 id="namaTitle"></h3>
+                                    <h6 id="noRMTitle"></h6>
                                 </div>
 
                                 <h4 class="box-title mt-40">General Info</h4>
@@ -31,11 +31,11 @@
                                         <tbody>
                                             <tr>
                                                 <td width="200">Nama</td>
-                                                <td class="lapinNama"></td>
+                                                <td id="lapinNama"></td>
                                             </tr>
                                             <tr>
                                                 <td>No RM</td>
-                                                <td class="lapinNoRM"></td>
+                                                <td id="lapinNoRM"></td>
                                             </tr>
                                             <tr>
                                                 <td>Ruangan</td>

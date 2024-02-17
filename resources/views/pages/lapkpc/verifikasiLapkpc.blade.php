@@ -8,8 +8,20 @@
 
             <div class="row">
                 <div class="col-12">
-                    <div class="bb-1 clearFix no-print">
-                        <div class="text-end pb-15">
+                    <div class="d-flex justify-content-between align-items-center clearFix no-print">
+                        <div class="d-block align-items-center pb-0">
+                            <nav>
+                                <ol class="breadcrumb mb-0">
+                                    <li class="breadcrumb-item"><a href="/dashboard"><i
+                                                class="mdi mdi-home-outline"></i></a>
+                                    </li>
+                                    <li class="breadcrumb-item"><a href="/lapkpc">Kelola Laporan KPC</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Verifikasi Laporan KPC
+                                    </li>
+                                </ol>
+                            </nav>
+                        </div>
+                        <div class="d-block">
                             <button class="btn btn-success" data-bs-toggle="modal"
                                 onclick="showVerifModal({{ json_encode($data) }})">
                                 <i class="fal fa-eye"></i> Verifikasi
