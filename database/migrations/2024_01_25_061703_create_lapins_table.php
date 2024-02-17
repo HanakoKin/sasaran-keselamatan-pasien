@@ -42,13 +42,14 @@ return new class extends Migration
             $table->string('kejadian_insiden');
 
             /* KETERANGAN LAPORAN */
-
             $table->string('status');
             $table->string('pembuat_laporan')->nullable();
             $table->string('penerima_laporan')->nullable();
             $table->string('tanggal_terima')->nullable();
             $table->string('grading_risiko')->nullable();
 
+            /* STATUS PROSES EDIT */
+            $table->boolean('proses_edit')->default(false);
 
             $table->timestamps();
         });

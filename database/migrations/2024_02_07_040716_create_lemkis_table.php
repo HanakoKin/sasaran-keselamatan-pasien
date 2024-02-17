@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('lemkis', function (Blueprint $table) {
             $table->id();
+
+            /* DATA LEMKIS */
             $table->string('penyebab_langsung');
             $table->string('penyebab_awal');
             $table->string('rekom_invest_pendek')->nullable();

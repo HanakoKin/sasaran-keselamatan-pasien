@@ -179,8 +179,10 @@ class LapinController extends Controller
         $title = 'Edit Laporan Insiden';
 
         $lapin = Lapin::findOrFail($id);
-
         $ruangan = Ruangan::all();
+
+        // Tandai data sedang diedit
+        $lapin->update(['proses_edit' => true]);
 
         if ($lapin->status !== "Belum terverifikasi") {
             // If it has been validated, only allow admins to update
@@ -244,6 +246,8 @@ class LapinController extends Controller
         ]);
 
         Lapin::where('id', $id)->update($validatedData);
+        // Hapus penanda sedang diedit setelah proses edit selesai
+        Lapin::where('id', $id)->update(['proses_edit' => false]);
 
         return redirect('/lapin')->with('success', 'LAPIN updated successfully!');
 
@@ -271,6 +275,10 @@ class LapinController extends Controller
         $category = "Lapin";
 
         $data = Lapin::findOrFail($id);
+
+        if ($data->proses_edit) {
+            return redirect()->back()->with('error', 'Data sedang dalam proses edit. Verifikasi mungkin perlu ditunda.');
+        }
 
         $data->tanggal_masuk = Carbon::parse($data->tanggal_masuk)->format('d-m-Y');
         $data->tanggal_kejadian = Carbon::parse($data->tanggal_kejadian)->format('d-m-Y');

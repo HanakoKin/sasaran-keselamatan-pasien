@@ -67,6 +67,9 @@ class LapkpcController extends Controller
 
         $lapkpc = Lapkpc::findOrFail($id);
 
+        // Tandai data sedang diedit
+        $lapkpc->update(['proses_edit' => true]);
+
         $fixed_kejadian_insiden = str_replace('Ya, terjadi pada ', '', $lapkpc->kejadian_insiden);
 
         return view('pages.lapkpc.editLapkpc', compact('lapkpc', 'fixed_kejadian_insiden', 'title'));
@@ -98,6 +101,8 @@ class LapkpcController extends Controller
         ]);
 
         Lapkpc::where('id', $id)->update($validatedData);
+        // Hapus penanda sedang diedit setelah proses edit selesai
+        Lapkpc::where('id', $id)->update(['proses_edit' => false]);
 
         return redirect()->to('/lapkpc')->with('success', 'LapKPC updated successfully!');
 
@@ -117,6 +122,10 @@ class LapkpcController extends Controller
         $category = "Lapkpc";
 
         $data = lapkpc::findOrFail($id);
+
+        if ($data->proses_edit) {
+            return redirect()->back()->with('error', 'Data sedang dalam proses edit. Verifikasi mungkin perlu ditunda.');
+        }
 
         $data->tanggal_ditemukan = Carbon::parse($data->tanggal_ditemukan)->format('d-m-Y');
 

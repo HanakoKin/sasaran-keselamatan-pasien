@@ -13,6 +13,8 @@ return new class extends Migration
     {
         Schema::create('lapkpcs', function (Blueprint $table) {
             $table->id();
+
+            /* DATA LAPKPC */
             $table->string('kpc');
             $table->date('tanggal_ditemukan');
             $table->time('jam_ditemukan');
@@ -24,11 +26,13 @@ return new class extends Migration
             $table->string('kejadian_insiden');
 
             /* KETERANGAN LAPORAN */
-
             $table->string('status');
             $table->string('pembuat_laporan')->nullable();
             $table->string('penerima_laporan')->nullable();
             $table->string('tanggal_terima')->nullable();
+
+             /* STATUS PROSES EDIT */
+             $table->boolean('proses_edit')->default(false);
 
             $table->timestamps();
         });
