@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Carbon\Carbon;
 use App\Models\Lapin;
+use App\Models\Lemkis;
 use App\Models\Ruangan;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
@@ -141,11 +142,13 @@ class LapinController extends Controller
         // dd($request);
 
         $validatedData = $request->validate([
+            'unit_kerja' => 'required|string',
             'pembuat_laporan' => 'required|string',
             'status' => 'required|string',
             'nama' => 'required|string',
             'noRM' => 'required|string|unique:lapins',
             'ruangan' => 'required|string',
+            'tanggal_lahir' => 'required|date',
             'umur' => 'required|string',
             'jenis_kelamin' => 'required|string',
             'penjamin' => 'required|string',
@@ -221,6 +224,7 @@ class LapinController extends Controller
         // dd($request);
 
         $validatedData = $request->validate([
+            'unit_kerja' => 'required|strting',
             'nama' => 'required|string',
             'ruangan' => 'required|string',
             'umur' => 'required|string',
@@ -253,7 +257,19 @@ class LapinController extends Controller
 
     }
 
+    public function resetEditStatus($id){
+
+        $lapin = Lapin::findOrFail($id);
+
+        // Hapus penanda sedang diedit dari database
+        $lapin->update(['proses_edit' => false]);
+
+        return response()->json(['message' => 'Status edit berhasil diperbarui']);
+    }
+
     public function delete($id){
+
+        $lemkis = Lemkis::where('lapin_id', '=', $id)->delete();
         $lapin = Lapin::where('id', '=', $id)->delete();
 
         return back()->with('success', 'LAPIN deleted successfully!');
@@ -319,6 +335,16 @@ class LapinController extends Controller
         return redirect('/lapin')->with('success', $statusMessage);
 
         // return view('pages.verifikasiLapin', compact('title', 'lapin'));
+    }
+
+    public function addLemkisPage($id){
+
+        $title = 'Lembar Kerja Investigasi Sederhana';
+
+        $lapin = Lapin::findOrFail($id);
+
+        return view('pages.lemkis.addLemkis', compact('title', 'lapin'));
+
     }
 
 }

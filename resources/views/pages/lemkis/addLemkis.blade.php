@@ -24,7 +24,36 @@
                 <div class="box-body">
                     <h4 class="box-title text-info mb-0"><i class="fal fa-user-injured"></i> Data Pasien
                     </h4>
+
                     <hr class="my-15">
+
+                    <input type="hidden" name="lapin_id" value="{{ $lapin->id }}">
+
+                    <div class="row">
+                        <div class="col-md-6">
+                            <label for="naLap" class="form-label text-bold">Nama</label>
+                            <input type="text" class="form-control" id="naLap" name="nama" placeholder=""
+                                value="{{ $lapin->nama }}" disabled>
+                            <div class="invalid-feedback">
+                                Valid Nama is required.
+                            </div>
+                        </div>
+
+                        <div class="col-md-6">
+                            <label for="inLap" class="form-label text-bold">Insiden</label>
+                            <input type="text" class="form-control" id="inLap" name="insiden" placeholder=""
+                                value="{{ $lapin->insiden }}" disabled>
+                            <div class="invalid-feedback">
+                                Valid Insiden is required.
+                            </div>
+                        </div>
+                    </div>
+
+                    <h4 class="box-title text-info mb-0 mt-30"><i class="fal fa-books-medical"></i> Rincian Lembar Kerja
+                        Investigasi Sederhana
+                    </h4>
+                    <hr class="my-15">
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">

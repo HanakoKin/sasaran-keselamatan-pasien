@@ -42563,3 +42563,46 @@ img.online {
 }
 
 /*# sourceMappingURL=style.css.map */
+
+/* New Experiments */
+
+div.dataTables_wrapper div.dataTables_filter {
+    position: absolute !important;
+    top: 6em !important;
+    right: 0.625em !important;
+    margin-bottom: 10px !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter label {
+    font-weight: normal !important;
+    white-space: nowrap !important;
+    text-align: left !important;
+}
+
+div.dataTables_wrapper div.dataTables_filter input {
+    margin-left: 0.5em !important;
+    display: inline-block !important;
+    width: auto !important;
+}
+
+div.dataTables_wrapper div.dataTables_info {
+    padding-top: 2em !important;
+    padding-bottom: 2em !important;
+    white-space: nowrap !important;
+}
+
+div.dataTables_wrapper div.dataTables_paginate {
+    position: absolute !important;
+    right: 0.625em !important;
+    bottom: 3.75em !important;
+    margin: 0 !important;
+    white-space: nowrap !important;
+    text-align: right !important;
+    background-color: #fff !important;
+}
+
+div.dataTables_wrapper div.dataTables_paginate ul.pagination {
+    margin: 2px 0 !important;
+    white-space: nowrap !important;
+    justify-content: flex-end !important;
+}

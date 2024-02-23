@@ -14,16 +14,18 @@ return new class extends Migration
         Schema::create('lapkpcs', function (Blueprint $table) {
             $table->id();
 
+            $table->string('unit_kerja');
+
             /* DATA LAPKPC */
-            $table->string('kpc');
+            $table->text('kpc');
             $table->date('tanggal_ditemukan');
             $table->time('jam_ditemukan');
             $table->string('pelapor_insiden');
             $table->string('tempat_insiden');
             $table->string('unit_insiden');
-            $table->string('tindakan_cepat');
+            $table->text('tindakan_cepat');
             $table->string('tindakan_insiden');
-            $table->string('kejadian_insiden');
+            $table->text('kejadian_insiden');
 
             /* KETERANGAN LAPORAN */
             $table->string('status');

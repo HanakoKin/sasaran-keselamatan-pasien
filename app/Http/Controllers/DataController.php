@@ -27,68 +27,135 @@ class DataController extends Controller
 
         $noRM = $request->input('noRM');
 
-        $response = Http::get('https://0296fb61-00d6-4496-bd90-3b3c5f88503a.mock.pstmn.io/Pasien');
+        $headers = [
+            'Content-Type' => 'application/json',
+            'ConsId' => 'husadati@gmail.com',
+            'SecretKey' => 'husadaTI.123',
+            'Authorization' => $request->header('Authorization'), // Ambil token dari header permintaan
+        ];
 
-        if ($response->successful()) {
-            $data = $response->json();
+        $api1Response = Http::withHeaders($headers)->get("http://10.1.10.7:6070/BipubApi/api/Reg/$noRM")->json();
 
-            // 4. Cocokkan noReg dengan Data Registration
-            $registrationData = collect($data['registration']);
-            $selectedRegistration = $registrationData->where('noReg', $noRM)->first();
+        $informasiPasien = [];
 
-            if ($selectedRegistration) {
+        if (isset($api1Response['status']) && $api1Response['status'] === 'success') {
 
-                $informasiPasien = [
-                    'nama' => $selectedRegistration['name'],
-                    'jam_masuk' => $selectedRegistration['jam_masuk'],
-                    'tanggal_masuk' => $selectedRegistration['tanggal_masuk'],
-                    'penjamin' => $selectedRegistration['penjamin'],
-                ];
+            // Ambil informasi dari API Pertama
+            $informasiPasien['regDate'] = $api1Response['data']['regDate'];
+            $informasiPasien['regTime'] = $api1Response['data']['regTime'];
+            $informasiPasien['pasienName'] = $api1Response['data']['pasienName'];
+            $informasiPasien['penjamin'] = $api1Response['data']['tipeJaminanName'];
 
-                // 5. Cari Data rekamMedis dengan noRM yang Cocok
-                $rekamMedisData = collect($data['rekamMedis']);
-                $selectedRekamMedis = $rekamMedisData->where('noRM', $selectedRegistration['noRM'])->first();
+            // Gunakan cURL atau Guzzle untuk mengakses API Kedua
+            $api2Response = Http::withHeaders($headers)->get("http://10.1.10.7:6070/BipubApi/api/Pasien/{$api1Response['data']['pasienId']}")->json();
 
-                if ($selectedRekamMedis) {
-                    // 6. Ambil Informasi dari rekamMedis
-                    $informasiPasien['tanggal_lahir'] = $selectedRekamMedis['birthDate'];
+            // Periksa apakah nomor pasien ditemukan di API Kedua
+            if (isset($api2Response['status']) && $api2Response['status'] === 'success') {
 
-                    $tanggalLahir = Carbon::parse($selectedRekamMedis['birthDate']);
-                    $umur = $tanggalLahir->diffInMonths(Carbon::now());
+                // Ambil informasi dari API Kedua
+                $informasiPasien['gender'] = $api2Response['data']['gender'];
+                $informasiPasien['birthDate'] = $api2Response['data']['birthDate'];
 
-                    if ($umur <= 1) {
-                        $kategoriUmur = 'umur1';
-                    } elseif ($umur > 1 && $umur <= 12) {
-                        $kategoriUmur = 'umur2';
-                    } elseif ($umur > 12 && $umur <= 60) {
-                        $kategoriUmur = 'umur3';
-                    } elseif ($umur > 60 && $umur <= 180) {
-                        $kategoriUmur = 'umur4';
-                    } elseif ($umur > 180 && $umur <= 360) {
-                        $kategoriUmur = 'umur5';
-                    } elseif ($umur > 360 && $umur <= 780) {
-                        $kategoriUmur = 'umur6';
-                    } elseif ($umur > 780) {
-                        $kategoriUmur = 'umur7';
-                    }
-
-                    $informasiPasien['umur'] = $kategoriUmur;
-                    $informasiPasien['jenis_kelamin'] = $selectedRekamMedis['gender'];
-
-                    return response()->json($informasiPasien);
-
+                // Gender 0 untuk perempuan, 1 untuk laki-laki
+                if ($informasiPasien['gender'] == 0){
+                    $informasiPasien['gender'] = 'Perempuan';
                 } else {
-                    // Handle jika rekamMedis tidak ditemukan
-                    return response()->json(['error' => 'Rekam medis tidak ditemukan'], 404);
+                    $informasiPasien['gender'] = 'Laki-laki';
                 }
+
+                // Hitung umur dari tanggal lahir
+                $tanggalLahir = Carbon::parse($api2Response['data']['birthDate']);
+                $umur = $tanggalLahir->diffInMonths(Carbon::now());
+                if ($umur <= 1) {
+                    $kategoriUmur = 'umur1';
+                } elseif ($umur > 1 && $umur <= 12) {
+                    $kategoriUmur = 'umur2';
+                } elseif ($umur > 12 && $umur <= 60) {
+                    $kategoriUmur = 'umur3';
+                } elseif ($umur > 60 && $umur <= 180) {
+                    $kategoriUmur = 'umur4';
+                } elseif ($umur > 180 && $umur <= 360) {
+                    $kategoriUmur = 'umur5';
+                } elseif ($umur > 360 && $umur <= 780) {
+                    $kategoriUmur = 'umur6';
+                } elseif ($umur > 780) {
+                    $kategoriUmur = 'umur7';
+                }
+
+                $informasiPasien['umur'] = $kategoriUmur;
+
+                // Kirim data ke tampilan
+                return response()->json($informasiPasien);
             } else {
-                // Handle jika noReg tidak ditemukan dalam data registration
-                return response()->json(['error' => 'No Registrasi tidak ditemukan'], 404);
+                // Handle jika nomor pasien tidak ditemukan di API Kedua
+                return response()->json(['error' => 'Nomor pasien tidak ditemukan'], 404);
             }
         } else {
-            // Handle jika request tidak berhasil
-            return response()->json(['error' => 'Request tidak berhasil'], 404);
+            // Handle jika nomor registrasi tidak ditemukan di API Pertama
+            return response()->json(['error' => 'Nomor registrasi tidak ditemukan'], 404);
         }
+
+
+        // if ($response->successful()) {
+        //     $data = $response->json();
+
+        //     // 4. Cocokkan noReg dengan Data Registration
+        //     $registrationData = collect($data['registration']);
+        //     $selectedRegistration = $registrationData->where('noReg', $noRM)->first();
+
+        //     if ($selectedRegistration) {
+
+        //         $informasiPasien = [
+        //             'nama' => $selectedRegistration['name'],
+        //             'jam_masuk' => $selectedRegistration['jam_masuk'],
+        //             'tanggal_masuk' => $selectedRegistration['tanggal_masuk'],
+        //             'penjamin' => $selectedRegistration['penjamin'],
+        //         ];
+
+        //         // 5. Cari Data rekamMedis dengan noRM yang Cocok
+        //         $rekamMedisData = collect($data['rekamMedis']);
+        //         $selectedRekamMedis = $rekamMedisData->where('noRM', $selectedRegistration['noRM'])->first();
+
+        //         if ($selectedRekamMedis) {
+        //             // 6. Ambil Informasi dari rekamMedis
+        //             $informasiPasien['tanggal_lahir'] = $selectedRekamMedis['birthDate'];
+
+        //             $tanggalLahir = Carbon::parse($selectedRekamMedis['birthDate']);
+        //             $umur = $tanggalLahir->diffInMonths(Carbon::now());
+
+        //             if ($umur <= 1) {
+        //                 $kategoriUmur = 'umur1';
+        //             } elseif ($umur > 1 && $umur <= 12) {
+        //                 $kategoriUmur = 'umur2';
+        //             } elseif ($umur > 12 && $umur <= 60) {
+        //                 $kategoriUmur = 'umur3';
+        //             } elseif ($umur > 60 && $umur <= 180) {
+        //                 $kategoriUmur = 'umur4';
+        //             } elseif ($umur > 180 && $umur <= 360) {
+        //                 $kategoriUmur = 'umur5';
+        //             } elseif ($umur > 360 && $umur <= 780) {
+        //                 $kategoriUmur = 'umur6';
+        //             } elseif ($umur > 780) {
+        //                 $kategoriUmur = 'umur7';
+        //             }
+
+        //             $informasiPasien['umur'] = $kategoriUmur;
+        //             $informasiPasien['jenis_kelamin'] = $selectedRekamMedis['gender'];
+
+        //             return response()->json($informasiPasien);
+
+        //         } else {
+        //             // Handle jika rekamMedis tidak ditemukan
+        //             return response()->json(['error' => 'Rekam medis tidak ditemukan'], 404);
+        //         }
+        //     } else {
+        //         // Handle jika noReg tidak ditemukan dalam data registration
+        //         return response()->json(['error' => 'No Registrasi tidak ditemukan'], 404);
+        //     }
+        // } else {
+        //     // Handle jika request tidak berhasil
+        //     return response()->json(['error' => 'Request tidak berhasil'], 404);
+        // }
     }
 
     /**

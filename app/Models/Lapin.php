@@ -2,8 +2,10 @@
 
 namespace App\Models;
 
-use Illuminate\Database\Eloquent\Factories\HasFactory;
+use App\Models\User;
+use App\Models\Lemkis;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 
 class Lapin extends Model
 {
@@ -15,5 +17,8 @@ class Lapin extends Model
         return $this->belongsTo(User::class);
     }
 
+    public function lemkis(){
+        return $this->hasOne(Lemkis::class);
+    }
 
 }

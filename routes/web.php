@@ -46,8 +46,10 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/lapin/edit/{id}', [LapinController::class, 'edit']);
     Route::post('/lapin/update/{id}', [LapinController::class, 'update'])->name('updateLapin');
     Route::get('/lapin/delete/{id}', [LapinController::class, 'delete']);
+    Route::post('/lapin/reset-edit-status/{id}', [LapinController::class, 'resetEditStatus']);
     Route::get('/lapin/verificate/{id}', [LapinController::class, 'verifikasi']);
     Route::post('/lapin/grade/{id}', [LapinController::class, 'grading'])->name('gradingLapin');
+    Route::get('/lapin/addLemkis/{id}', [LapinController::class, 'addLemkisPage']);
 
     /* Route untuk mencari data dari API */
     Route::post('/search-patient', [DataController::class, 'search']);
@@ -72,6 +74,11 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/lemkis/update/{id}', [LemkisController::class, 'update'])->name('updateLemkis');
     Route::get('/lemkis/show/{id}', [LemkisController::class, 'show']);
     Route::get('/lemkis/delete/{id}', [LemkisController::class, 'delete']);
+
+    Route::get('/lemkis/noteTable/{id}', [LemkisController::class, 'noteTable']);
+    Route::get('/lemkis/addNote/{id}', [LemkisController::class, 'addNoteForm']);
+    Route::post('/lemkis/addNote/{id}', [LemkisController::class, 'saveNote'])->name('addNote');
+
 
 });
 

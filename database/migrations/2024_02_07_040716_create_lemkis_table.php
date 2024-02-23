@@ -15,24 +15,25 @@ return new class extends Migration
             $table->id();
 
             /* DATA LEMKIS */
-            $table->string('penyebab_langsung');
-            $table->string('penyebab_awal');
-            $table->string('rekom_invest_pendek')->nullable();
+            $table->foreignId('lapin_id')->constrained();
+            $table->text('penyebab_langsung');
+            $table->text('penyebab_awal');
+            $table->text('rekom_invest_pendek')->nullable();
             $table->string('penanggung_rekom_pendek')->nullable();
             $table->date('tanggal_rekom_pendek')->nullable();
-            $table->string('rekom_invest_menengah')->nullable();
+            $table->text('rekom_invest_menengah')->nullable();
             $table->string('penanggung_rekom_menengah')->nullable();
             $table->date('tanggal_rekom_menengah')->nullable();
-            $table->string('rekom_invest_panjang')->nullable();
+            $table->text('rekom_invest_panjang')->nullable();
             $table->string('penanggung_rekom_panjang')->nullable();
             $table->date('tanggal_rekom_panjang')->nullable();
-            $table->string('realisasi_invest_pendek')->nullable();
+            $table->text('realisasi_invest_pendek')->nullable();
             $table->string('penanggung_realisasi_pendek')->nullable();
             $table->date('tanggal_realisasi_pendek')->nullable();
-            $table->string('realisasi_invest_menengah')->nullable();
+            $table->text('realisasi_invest_menengah')->nullable();
             $table->string('penanggung_realisasi_menengah')->nullable();
             $table->date('tanggal_realisasi_menengah')->nullable();
-            $table->string('realisasi_invest_panjang')->nullable();
+            $table->text('realisasi_invest_panjang')->nullable();
             $table->string('penanggung_realisasi_panjang')->nullable();
             $table->date('tanggal_realisasi_panjang')->nullable();
             $table->string('nama_pelengkap');
@@ -49,6 +50,9 @@ return new class extends Migration
             $table->date('tanggal_pengesahan');
             $table->string('invest_lanjut');
             $table->string('grading_akhir');
+
+            $table->text('catatan')->nullable();
+            $table->text('tanggal_catatan')->nullable();
 
             $table->timestamps();
         });

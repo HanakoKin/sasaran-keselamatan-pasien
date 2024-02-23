@@ -24,7 +24,7 @@
         // Dapatkan elemen radio button
         let radio_pelapor_lain = document.getElementById("pelIn5");
         let radio_layanan_lain = document.getElementById("layIn4");
-        let radio_kasus_lain = document.getElementById("insiden13");
+        let radio_kasus_lain = document.getElementById("insiden14");
         let radio_korban_lain = document.getElementById("korIn2");
         let radio_tindakan_tim = document.getElementById("tinIn1");
         let radio_tindakan_lain = document.getElementById("tinIn4");
@@ -111,6 +111,23 @@
     /* Manjalankan fungsi ketika halaman diakses */
     document.addEventListener("DOMContentLoaded", function () {
         displayCustomInputRadio();
+    });
+
+    window.addEventListener('beforeunload', function (e) {
+        // Mendapatkan data status edit dari server dan mengubahnya menjadi false
+        fetch('/lapin/reset-edit-status/{{ $lapin->id }}', {
+                method: 'POST', // Atau 'PUT', 'PATCH', tergantung pada API Anda
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // Jangan lupa sesuaikan dengan framework Anda
+                },
+            })
+            .then(response => {
+                // Handle response jika diperlukan
+            })
+            .catch(error => {
+                console.error('Error:', error);
+            });
     });
 
 </script>

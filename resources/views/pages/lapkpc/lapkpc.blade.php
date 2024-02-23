@@ -56,13 +56,13 @@
                                     <td>{{ $lapkpc->status }}</td>
                                     <td>
 
-                                        <a class="btn btn-warning btn-sm me-2 mb-2 text-decoration-none"
+                                        <a class="btn btn-success btn-sm me-2 mb-2 text-decoration-none"
                                             data-bs-toggle="modal"
                                             onclick="showLapkpcModal({{ json_encode($lapkpc) }})">
                                             <i class="fal fa-eye"></i> Lihat
                                         </a>
 
-                                        <a class="btn btn-success btn-sm me-2 mb-2 text-decoration-none"
+                                        <a class="btn btn-warning btn-sm me-2 mb-2 text-decoration-none"
                                             href="{{ url('/lapkpc/edit', $lapkpc->id) }}"><i class="fal fa-pen"></i>
                                             Edit
                                         </a>
@@ -75,9 +75,9 @@
 
                                         @if (Auth::user()->role === 'admin')
 
-                                        <a class="btn btn-secondary btn-sm me-2 mb-2 text-decoration-none"
+                                        <a class="btn btn-primary btn-sm me-2 mb-2 text-decoration-none"
                                             href="{{ url('/lapkpc/verificate', $lapkpc->id) }}"><i
-                                                class="fal fa-pen"></i>
+                                                class="fas fa-badge-check"></i>
                                             Verifikasi
                                         </a>
 

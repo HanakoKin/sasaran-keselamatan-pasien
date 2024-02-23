@@ -25,11 +25,6 @@
             <div class="box bg-transparent no-shadow mb-0">
                 <div class="box-header no-border">
                     <h4 class="box-title">Tabel Lembar Kerja Investigasi Sederhana</h4>
-                    <div class="box-controls pull-right d-md-flex d-none">
-                        <a href="/lemkis/add" class="btn btn-info btn-sm mb-2 text-decoration-none">
-                            <i class="fal fa-plus-circle"></i> Add
-                        </a>
-                    </div>
                 </div>
             </div>
 
@@ -41,8 +36,9 @@
                             <thead>
                                 <tr class="text-center">
                                     <th scope="col">Foto</th>
-                                    <th scope="col">Penyebab Langsung</th>
-                                    <th scope="col">Penyebab Awal</th>
+                                    <th scope="col">Nama</th>
+                                    <th scope="col">No RM</th>
+                                    <th scope="col">Insiden</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -51,16 +47,28 @@
                                 <tr class="text-center">
                                     <td><img src="https://source.unsplash.com/50x50?people" alt="User Avatar"
                                             class="img-fluid rounded-circle mb-3" style="width: 50px;"></td>
-                                    <td>{{ $lemkis->penyebab_langsung }}</td>
-                                    <td>{{ $lemkis->penyebab_awal }}</td>
+                                    <td>{{ $lemkis->lapin->nama }}</td>
+                                    <td>{{ $lemkis->lapin->noRM }}</td>
+                                    <td>{{ $lemkis->lapin->insiden }}</td>
                                     <td>
 
-                                        <a class="btn btn-warning btn-sm me-2 mb-2 text-decoration-none"
+                                        @if (Auth::user()->role === 'admin')
+
+                                        <a class="btn btn-info btn-sm me-2 mb-2 text-decoration-none"
+                                            href="{{ url('/lemkis/noteTable' , $lemkis->id) }}"><i
+                                                class="fal fa-notes-medical"></i>
+                                            Catatan SKP
+                                        </a>
+
+                                        @endif
+
+
+                                        <a class="btn btn-success btn-sm me-2 mb-2 text-decoration-none"
                                             href="{{ url('/lemkis/show', $lemkis->id) }}"><i class="fal fa-eye"></i>
                                             Lihat
                                         </a>
 
-                                        <a class="btn btn-success btn-sm me-2 mb-2 text-decoration-none"
+                                        <a class="btn btn-warning btn-sm me-2 mb-2 text-decoration-none"
                                             href="{{ url('/lemkis/edit', $lemkis->id) }}"><i class="fal fa-pen"></i>
                                             Edit
                                         </a>

@@ -7,6 +7,8 @@ use App\Models\Lapin;
 use App\Models\Lapkpc;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
 
 class LapkpcController extends Controller
 {
@@ -42,6 +44,8 @@ class LapkpcController extends Controller
     public function store(Request $request){
 
         $validatedData = $request->validate([
+
+            'unit_kerja' => 'required|string',
             'pembuat_laporan' => 'required|string',
             'status' => 'required|string',
             'kpc' => 'required|string',
@@ -53,6 +57,7 @@ class LapkpcController extends Controller
             'tindakan_cepat' => 'required|string',
             'tindakan_insiden' => 'required|string',
             'kejadian_insiden' => 'required|string'
+
         ]);
 
         Lapkpc::create($validatedData);
@@ -89,6 +94,7 @@ class LapkpcController extends Controller
         // dd($request);
 
         $validatedData = $request->validate([
+            'unit_kerja' => 'required|strting',
             'kpc' => 'required|string',
             'tanggal_ditemukan' => 'required|date',
             'jam_ditemukan' => 'required|date_format:H:i',

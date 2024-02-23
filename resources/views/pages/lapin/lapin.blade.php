@@ -21,7 +21,7 @@
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Kelola Laporan Insiden</li>
+                        <li class="breadcrumb-item active" aria-current="page">Kelola Laporan Insiden Signifikan</li>
                     </ol>
                 </nav>
             </div>
@@ -29,7 +29,7 @@
             {{-- Caption --}}
             <div class="box bg-transparent no-shadow mb-0">
                 <div class="box-header no-border">
-                    <h4 class="box-title">Tabel Laporan Insiden</h4>
+                    <h4 class="box-title">Tabel Laporan Insiden Signifikan</h4>
                     <div class="box-controls pull-right d-md-flex d-none">
                         <a href="/lapin/add" class="btn btn-info btn-sm mb-2 text-decoration-none">
                             <i class="fal fa-plus-circle"></i> Add
@@ -50,6 +50,7 @@
                                     <th width="100" scope="col">No RM</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Grade</th>
+                                    <th scope="col">LEMKIS</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -60,9 +61,7 @@
                                             class="img-fluid rounded-circle mb-3" style="width: 50px;"></td>
                                     <td>{{ $lapin->nama }}</td>
                                     <td>{{ $lapin->noRM }}</td>
-                                    <td>
-                                        {{ $lapin->status }}
-                                    </td>
+                                    <td>{{ $lapin->status }}</td>
                                     <td>
                                         @if ($lapin->status != 'Terverifikasi')
                                         Menunggu verifikasi
@@ -70,9 +69,10 @@
                                         {{ ucfirst($lapin->grading_risiko) }}
                                         @endif
                                     </td>
+                                    <td>{{ isset($lapin->lemkis) ? 'Ada' : 'Belum ada' }}</td>
                                     <td>
 
-                                        <a class="btn btn-warning btn-sm me-2 mb-2 text-decoration-none"
+                                        <a class="btn btn-success btn-sm me-2 mb-2 text-decoration-none"
                                             data-bs-toggle="modal" onclick="showLapinModal({{ json_encode($lapin) }})">
                                             <i class="fal fa-eye"></i> Lihat
                                         </a>
@@ -80,35 +80,41 @@
                                         @if ((Auth::user()->role === 'admin') || ($lapin->status === "Belum
                                         terverifikasi"))
 
-                                        <a class="btn btn-success btn-sm me-2 mb-2 text-decoration-none"
+                                        <a class="btn btn-warning btn-sm me-2 mb-2 text-decoration-none"
                                             href="{{ url('/lapin/edit', $lapin->id) }}"><i class="fal fa-pen"></i>
                                             Edit
                                         </a>
 
                                         @elseif ((Auth::user()->role === 'user') && ($lapin->status ===
                                         "Belum terverifikasi"))
-                                        <a class="btn btn-success btn-sm me-2 mb-2 text-decoration-none"
-                                            href="{{ url('/lapin/edit', $lapin->id) }}"><i class="fal fa-pen"></i>
-                                            Edit
+                                        <a class="btn btn-warning btn-sm me-2 mb-2 text-decoration-none"
+                                            href="{{ url('/lapin/edit', $lapin->id) }}"><i class="fal fa-pen"></i> Edit
                                         </a>
 
                                         @endif
 
                                         <a href="lapin/delete/{{ $lapin->id }}" data-target="lapin"
                                             class="btn btn-danger btn-sm me-2 mb-2 text-decoration-none deleteBtn"><i
-                                                class="fal fa-trash-alt"></i>
-                                            Delete
+                                                class="fal fa-trash-alt"></i> Delete
                                         </a>
 
                                         @if (Auth::user()->role === 'admin')
 
-                                        <a class="btn btn-secondary btn-sm me-2 mb-2 text-decoration-none"
-                                            href="{{ url('/lapin/verificate', $lapin->id) }}"><i class="fal fa-pen"></i>
-                                            Verifikasi
+                                        <a class="btn btn-primary btn-sm me-2 mb-2 text-decoration-none"
+                                            href="{{ url('/lapin/verificate', $lapin->id) }}"><i
+                                                class="fas fa-badge-check"></i> Verifikasi
                                         </a>
 
                                         @endif
 
+                                        @if (isset($lapin->grading_risiko) && !isset($lapin->lemkis))
+
+                                        <a class="btn btn-info btn-sm me-2 mb-2 text-decoration-none"
+                                            href="{{ url('/lapin/addLemkis', $lapin->id) }}"><i
+                                                class="fal fa-notes-medical"></i> LEMKIS
+                                        </a>
+
+                                        @endif
 
                                     </td>
                                 </tr>

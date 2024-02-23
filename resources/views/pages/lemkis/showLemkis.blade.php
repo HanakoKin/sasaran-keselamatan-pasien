@@ -32,9 +32,17 @@
                     <div class="box box-widget widget-user">
                         <div class="box-footer py-0 border-0">
 
+                            <div class="d-flex justify-content-between align-items-center m-20">
+                                <img src="{{ asset('assets/images/Husada.png') }}" width="70" alt="">
+                                <div class="">
+                                    <h4>Nama&nbsp;&nbsp;&nbsp;: {{ $data->lapin->nama }}</h4>
+                                    <h4>No. RM&nbsp;: {{ $data->lapin->noRM }}</h4>
+                                </div>
+                            </div>
+                            <hr>
                             <div class="text-center">
-                                <h4 class="box-title mt-20">LEMBAR KERJA INVESTIGASI SEDERHANA</h4>
-                                <h4 class="box-title mt-5 mb-20">Untuk Grading Risiko BIRU/HIJAU</h4>
+                                <h4 class="box-title text-bold mt-20">LEMBAR KERJA INVESTIGASI SEDERHANA</h4>
+                                <h4 class="box-title text-bold mt-5 mb-20">Untuk Grading Risiko BIRU/HIJAU</h4>
                             </div>
 
                             <div class="row">
@@ -230,8 +238,8 @@
                                 </table>
                             </div>
 
-                            <div class="table-responsive">
-                                <table class="table table-bordered mb-0">
+                            <div class="table-responsive mb-10">
+                                <table class="table table-bordered">
                                     <tbody>
                                         <tr>
                                             <td class="text-center" scope="col" rowspan="3" width="250">
@@ -261,7 +269,29 @@
                                 </table>
                             </div>
 
-
+                            @if ((isset($data->catatan)) && (($data->catatan) !== ''))
+                            <div class="">
+                                <h4>Catatan dari tim SKP</h4>
+                                <div class="table-responsive">
+                                    <table class="table table-bordered">
+                                        <thead>
+                                            <tr>
+                                                <td class="text-center">Catatan</td>
+                                                <td class="text-center min-w-150">Tanggal</td>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @foreach ($fixed_data_catatan as $catatan)
+                                            <tr>
+                                                <td>{{ $catatan }}</td>
+                                                <td>{{ $fixed_data_tanggal[$loop->index] }}</td>
+                                            </tr>
+                                            @endforeach
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                            @endif
                         </div>
                     </div>
                 </div>

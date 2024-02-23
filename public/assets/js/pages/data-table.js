@@ -19,6 +19,7 @@ $(function () {
     $("#example").DataTable({
         dom: "Bfrtip",
         buttons: ["excel"],
+        // responsive: true,
         // buttons: ["copy", "csv", "excel", "pdf", "print"],
     });
 

@@ -15,8 +15,10 @@
                                     <li class="breadcrumb-item"><a href="/dashboard"><i
                                                 class="mdi mdi-home-outline"></i></a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden</a></li>
+                                    <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden Signifikan</a>
+                                    </li>
                                     <li class="breadcrumb-item active" aria-current="page">Verifikasi Laporan Insiden
+                                        Signifikan
                                     </li>
                                 </ol>
                             </nav>
@@ -32,14 +34,26 @@
                     </div>
                 </div>
             </div>
-            <div class="row d-flex justify-content-center invoice-info">
+            <div class="row d-flex justify-content-center invoice-info mt-15">
                 <div class="col-12">
                     <div class="box box-widget widget-user">
                         <div class="box-footer py-0 border-0">
+                            <div class="d-flex justify-content-between align-items-center m-20">
+                                <img src="{{ asset('assets/images/Husada.png') }}" width="70" alt="">
+                                <div class="">
+                                    <h4>Unit Kerja / Ruangan:</h4>
+                                    <span>{{ $data->unit_kerja }}</span>
+                                </div>
+                            </div>
 
+                            <div class="d-flex justify-content-center">
+                                <h4 class="b-4 text-center d-inline-block p-3 rounded10 border-dark">
+                                    RAHASIA, TIDAK BOLEH DIFOTOCOPY, DILAPORKAN MAXIMAL 2x24 JAM
+                                </h4>
+                            </div>
                             <div class="text-center">
-                                <h4 class="box-title mt-20">LAPORAN INSIDEN</h4>
-                                <h4 class="box-title mt-5 mb-20">(INTERNAL)</h4>
+                                <h4 class="box-title mt-15 text-bold">LAPORAN INSIDEN SIGNIFIKAN</h4>
+                                <h4 class="box-title mt-5 mb-20 text-bold">(INTERNAL)</h4>
                             </div>
 
                             <h4 class="box-title mt-20"><strong>I. DATA PASIEN </strong></h4>
@@ -300,55 +314,80 @@
                                     <p class="ms-4">{{ $data->kejadian_insiden }}</p>
                                 </div>
                             </div>
-                        </div>
-                    </div>
-
-                    <div class="table-responsive">
-                        <table class="table table-bordered">
-                            <tbody>
-                                <tr>
-                                    <td>Pembuat Laporan</td>
-                                    <td>{{ $data->pembuat_laporan }}</td>
-                                    <td>Penerima Laporan</td>
-                                    <td>{{ $data->penerima_laporan }}</td>
-                                </tr>
-                                <tr>
-                                    <td>Paraf</td>
-                                    <td>........</td>
-                                    <td>Paraf</td>
-                                    <td>........</td>
-                                </tr>
-                                <tr>
-                                    <td>Tgl Lapor</td>
-                                    <td>{{ $data->created_at->format('d-m-Y') }}</td>
-                                    <td>Tgl Terima</td>
-                                    <td>{{ $data->tanggal_terima }}</td>
-                                </tr>
-                            </tbody>
-                        </table>
-                    </div>
-
-                    @if ($data->grading_risiko === 'biru' || $data->grading_risiko === 'hijau' || $data->grading_risiko
-                    === 'kuning' || $data->grading_risiko === 'merah')
-                    <div class="row d-flex justify-content-center mt-5">
-                        <div class="col-3">
-                            <div
-                                class="box box-link-shadow text-center border {{ $data->grading_risiko === 'biru' ? 'border-primary' : ($data->grading_risiko === 'hijau' ? 'border-success' : ($data->grading_risiko === 'kuning' ? 'border-warning' : 'border-danger')) }}">
-                                <div class="box-body">
-                                    <div class="">Grading Risiko Kejadian</div>
-                                </div>
-                                <div
-                                    class="box-body bg-{{ $data->grading_risiko === 'biru' ? 'info' : ($data->grading_risiko === 'hijau' ? 'success' : ($data->grading_risiko === 'kuning' ? 'warning' : 'danger')) }} btsr-0 bter-0">
-                                    <p class=" ">
-                                        {{ $data->grading_risiko === 'biru' ? 'Rendah' : ($data->grading_risiko === 'hijau' ? 'Aman' : ($data->grading_risiko === 'kuning' ? 'Waspada' : 'Kritis ')) }}
-                                        <span class="mdi mdi-thumb-up-outline "></span>
-                                    </p>
+                            <div class="table-responsive">
+                                <table class="table table-bordered">
+                                    <tbody>
+                                        <tr>
+                                            <td>Pembuat Laporan</td>
+                                            <td>{{ $data->pembuat_laporan }}</td>
+                                            <td>Penerima Laporan</td>
+                                            <td>{{ $data->penerima_laporan }}</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Paraf</td>
+                                            <td>........</td>
+                                            <td>Paraf</td>
+                                            <td>........</td>
+                                        </tr>
+                                        <tr>
+                                            <td>Tgl Lapor</td>
+                                            <td>{{ $data->created_at->format('d-m-Y') }}</td>
+                                            <td>Tgl Terima</td>
+                                            <td>{{ $data->tanggal_terima }}</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div>
+                            @if ($data->grading_risiko === 'biru' || $data->grading_risiko === 'hijau' ||
+                            $data->grading_risiko
+                            === 'kuning' || $data->grading_risiko === 'merah')
+                            <div class="col-md-12 mb-5">
+                                <label for="grading_risiko" class="form-label me-3 text-bold fs-20">Grading Risiko
+                                    Kejadian</label>
+                                <div class="d-flex align-items-center">
+                                    <div class="form-group mb-10">
+                                        <div
+                                            class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'biru' ? 'b-2 border-info rounded10' : '' }}">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    class="d-inline-block w-20 h-20 m-2 b-2 rounded50 {{ $data->grading_risiko === 'biru' ? 'bg-info' : '' }}">
+                                                </div>
+                                                <label for="grading1">Biru</label>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'hijau' ? 'b-2 border-success rounded10' : '' }}">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    class="d-inline-block w-20 h-20 m-2 b-2 rounded50 {{ $data->grading_risiko === 'hijau' ? 'bg-success' : '' }}">
+                                                </div>
+                                                <label for="grading2">Hijau</label>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'kuning' ? 'b-2 border-warning rounded10' : '' }}">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    class="d-inline-block w-20 h-20 m-2 b-2 rounded50 {{ $data->grading_risiko === 'kuning' ? 'bg-warning' : '' }}">
+                                                </div>
+                                                <label for="grading3">Kuning</label>
+                                            </div>
+                                        </div>
+                                        <div
+                                            class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'merah' ? 'b-2 border-danger rounded10' : '' }}">
+                                            <div class="d-flex align-items-center">
+                                                <div
+                                                    class="d-inline-block w-20 h-20 m-2 b-2 rounded50 {{ $data->grading_risiko === 'merah' ? 'bg-danger' : '' }}">
+                                                </div>
+                                                <label for="grading4">Merah</label>
+                                            </div>
+                                        </div>
+                                    </div>
                                 </div>
                             </div>
+                            @endif
                         </div>
                     </div>
-                    @endif
-
                 </div>
             </div>
         </div>

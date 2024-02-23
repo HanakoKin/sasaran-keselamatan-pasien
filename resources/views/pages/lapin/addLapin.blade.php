@@ -11,8 +11,8 @@
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
                         </li>
-                        <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Tambah Laporan Insiden</li>
+                        <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden Signifikan</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Tambah Laporan Insiden Signifikan</li>
                     </ol>
                 </nav>
             </div>
@@ -23,7 +23,25 @@
                 @csrf
                 <div class="box-body">
 
-                    <h4 class="box-title text-info mb-0"><i class="fal fa-user-injured"></i> Data Pasien</h4>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="box-title text-info mb-0"><i class="fal fa-user-injured"></i> Data Pasien</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center">
+                                <label for="unLap" class="form-label text-bold">Unit Kerja / Ruangan :</label>
+                                <div class="form-group mb-0">
+                                    <div class="form-check form-check-inline">
+                                        <input type="text" class="form-control" id="unLap" name="unit_kerja" required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">
+                                Valid Unit Kerja is required.
+                            </div>
+                        </div>
+                    </div>
+
                     <hr class="my-15">
 
                     <input type="hidden" name="pembuat_laporan" value="{{ auth()->user()->nama }}">
@@ -73,6 +91,17 @@
                                     <input id="jekel2" name="jenis_kelamin" type="radio" class="form-check-input"
                                         value="Perempuan" required onclick="return false" style="pointer-events: none">
                                     <label class="form-check-label" for="jekel2">Perempuan</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div class="col-md-12 my-3">
+                        <div class="d-flex align-items-center">
+                            <label for="talah" class="form-label text-bold">Tanggal Lahir</label>
+                            <div class="form-group mb-0">
+                                <div class="form-check form-check-inline">
+                                    <input type="date" class="form-control" id="talah" name="tanggal_lahir" readonly>
                                 </div>
                             </div>
                         </div>
@@ -521,20 +550,26 @@
                                         <label class="form-check-label" for="kasus12">Jiwa dan
                                             Subspesialiasinya</label>
                                     </div>
+                                    <div class="form-check">
+                                        <input id="kasus13" name="kasus_insiden[]" type="checkbox"
+                                            class="form-check-input" value="Orthopedi dan Subspesialisasinya">
+                                        <label class="form-check-label" for="kasus13">Orthopedi dan
+                                            Subspesialiasinya</label>
+                                    </div>
 
                                     <div class="form-check ps-0 ms-10">
                                         <div class="input-group">
                                             <div class="input-group-text">
-                                                <input id="kasus13" name="kasus_insiden[]"
+                                                <input id="kasus14" name="kasus_insiden[]"
                                                     class="form-check-input mt-0 ms-0" type="checkbox" value=""
                                                     aria-label="Radio button for following text input">
-                                                <label class=mb-2 for="kasus13"
+                                                <label class=mb-2 for="kasus14"
                                                     style="padding-left: 20px;height: 17px;"></label>
                                             </div>
                                             <input id="kasus_lain" type="text" class="form-control"
                                                 aria-label="Text input with radio button" placeholder="Lain-lain"
-                                                onclick="selectRadio('kasus13')"
-                                                oninput="syncInputRadio('kasus13', 'kasus_lain')">
+                                                onclick="selectRadio('kasus14')"
+                                                oninput="syncInputRadio('kasus14', 'kasus_lain')">
                                         </div>
                                     </div>
                                 </div>
@@ -678,6 +713,7 @@
 </section>
 
 @include('script.lapinAdd')
+@include('script.lapinAll')
 
 
 @endsection

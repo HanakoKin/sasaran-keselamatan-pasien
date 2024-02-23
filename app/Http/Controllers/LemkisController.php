@@ -52,6 +52,11 @@ class LemkisController extends Controller
         // dd($request);
 
         $validatedData = $request->validate([
+
+            /* DATA TAMBAHAN */
+            'lapin_id' => 'required',
+
+            /* DATA LEMKIS */
             'penyebab_langsung' => 'required|string',
             'penyebab_awal' => 'required|string',
             'rekom_invest_pendek' => 'nullable|string',
@@ -141,6 +146,13 @@ class LemkisController extends Controller
 
     }
 
+    public function delete($id){
+
+        $lemkis = Lemkis::where('id', '=', $id)->delete();
+
+        return back()->with('success', 'LEMKIS deleted successfully!');
+    }
+
     public function show($id){
 
         $title = "Cek & Print LEMKIS";
@@ -176,15 +188,98 @@ class LemkisController extends Controller
             $data->tanggal_pengesahan = Carbon::parse($data->tanggal_pengesahan)->format('d-m-Y');
         }
 
+        $data_catatan = $data->catatan;
+        $data_tanggal = $data->tanggal_catatan;
 
-        return view('pages.lemkis.showLemkis', compact('title', 'data'));
+        // Pemisahan data Catatan
+        $fixed_data_catatan = explode('-- ', $data_catatan);
+
+        if(count($fixed_data_catatan) === 1) {
+            $fixed_data_catatan = [$data_catatan];
+        }
+
+        // Pemisahan data Tanggal Catatan
+        $fixed_data_tanggal = explode(', ', $data_tanggal);
+
+        if(count($fixed_data_tanggal) === 1) {
+            $fixed_data_tanggal = [$data_tanggal];
+        }
+
+
+        return view('pages.lemkis.showLemkis', compact('title', 'data', 'fixed_data_catatan', 'fixed_data_tanggal'));
     }
 
-    public function delete($id){
-        $lemkis = Lemkis::where('id', '=', $id)->delete();
+    public function addNoteForm($id){
 
-        return back()->with('success', 'LEMKIS deleted successfully!');
+        $title = 'Add Note LEMKIS';
+
+        $data = Lemkis::findOrFail($id);
+
+        $data_catatan = $data->catatan;
+        $data_tanggal = $data->tanggal_catatan;
+
+        // Pemisahan data Catatan
+        $fixed_data_catatan = explode('-- ', $data_catatan);
+
+        if(count($fixed_data_catatan) === 1) {
+            $fixed_data_catatan = [$data_catatan];
+        }
+
+        // Pemisahan data Tanggal Catatan
+        $fixed_data_tanggal = explode(', ', $data_tanggal);
+
+        if(count($fixed_data_tanggal) === 1) {
+            $fixed_data_tanggal = [$data_tanggal];
+        }
+
+        return view('pages.lemkis.addNote', compact('data', 'title', 'fixed_data_catatan', 'fixed_data_tanggal'));
+
     }
 
+    public function noteTable($id){
+
+        $title = "LEMKIS's Note Table";
+
+        $data = Lemkis::findOrFail($id);
+
+        $data_catatan = $data->catatan;
+        $data_tanggal = $data->tanggal_catatan;
+
+        // Pemisahan data Catatan
+        $fixed_data_catatan = explode('-- ', $data_catatan);
+
+        if(count($fixed_data_catatan) === 1) {
+            $fixed_data_catatan = [$data_catatan];
+        }
+
+        // Pemisahan data Tanggal Catatan
+        $fixed_data_tanggal = explode(', ', $data_tanggal);
+
+        if(count($fixed_data_tanggal) === 1) {
+            $fixed_data_tanggal = [$data_tanggal];
+        }
+
+        return view('pages.lemkis.noteTable', compact('data', 'title', 'fixed_data_catatan', 'fixed_data_tanggal'));
+
+    }
+
+    public function saveNote(Request $request, $id){
+
+        $catatanString = implode('-- ', $request->input('catatan', []));
+        $tanggalString = implode(', ', $request->input('tanggal_catatan', []));
+
+        $request->merge(['catatan' => $catatanString]);
+        $request->merge(['tanggal_catatan' => $tanggalString]);
+
+        $validatedData = $request->validate([
+            'catatan' => 'nullable|string',
+            'tanggal_catatan' => 'nullable|string'
+        ]);
+
+        $lemkis = Lemkis::where('id', $id)->update($validatedData);
+
+        return redirect('/lemkis')->with('success', 'LEMKIS note added successfully!');
+
+    }
 
 }

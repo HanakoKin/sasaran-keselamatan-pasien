@@ -24,7 +24,26 @@
 
                 <div class="box-body">
 
-                    <h4 class="box-title text-info mb-0"><i class="fal fa-user-injured"></i> Data Pasien</h4>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="box-title text-info mb-0"><i class="fal fa-user-injured"></i> Data Pasien</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center">
+                                <label for="editUnLap" class="form-label text-bold">Unit Kerja / Ruangan :</label>
+                                <div class="form-group mb-0">
+                                    <div class="form-check form-check-inline">
+                                        <input type="text" class="form-control" id="editUnLap" name="unit_kerja"
+                                            value="{{ $lapkpc->unit_kerja }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">
+                                Valid Unit Kerja is required.
+                            </div>
+                        </div>
+                    </div>
+
                     <hr class="my-15">
 
                     {{-- Tanggal & jam Ditemukan => clear --}}

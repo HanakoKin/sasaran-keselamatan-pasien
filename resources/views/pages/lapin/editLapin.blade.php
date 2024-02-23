@@ -11,8 +11,8 @@
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
                         </li>
-                        <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Edit Laporan Insiden</li>
+                        <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden Signifikan</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit Laporan Insiden Signifikan</li>
                     </ol>
                 </nav>
             </div>
@@ -24,7 +24,26 @@
 
                 <div class="box-body">
 
-                    <h4 class="box-title text-info mb-0"><i class="fal fa-user-injured"></i> Data Pasien</h4>
+                    <div class="row">
+                        <div class="col-md-8">
+                            <h4 class="box-title text-info mb-0"><i class="fal fa-user-injured"></i> Data Pasien</h4>
+                        </div>
+                        <div class="col-md-4">
+                            <div class="d-flex align-items-center">
+                                <label for="editUnLap" class="form-label text-bold">Unit Kerja / Ruangan :</label>
+                                <div class="form-group mb-0">
+                                    <div class="form-check form-check-inline">
+                                        <input type="text" class="form-control" id="editUnLap" name="unit_kerja"
+                                            value="{{ $lapin->unit_kerja }}">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">
+                                Valid Unit Kerja is required.
+                            </div>
+                        </div>
+                    </div>
+
                     <hr class="my-15">
 
                     {{-- Nama => clear --}}
@@ -77,6 +96,18 @@
                                         {{ $lapin->jenis_kelamin === 'Perempuan' ? 'checked' : '' }}
                                         onclick="return false" style="pointer-events: none">
                                     <label for="jekel2">Perempuan</label>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    {{-- New: Tanggal Lahir --}}
+                    <div class="col-md-12 my-3">
+                        <div class="d-flex align-items-center">
+                            <label for="talah" class="form-label text-bold">Tanggal Lahir</label>
+                            <div class="form-group mb-0">
+                                <div class="form-check form-check-inline">
+                                    <input type="date" class="form-control" id="talah" name="tanggal_lahir" readonly>
                                 </div>
                             </div>
                         </div>
@@ -573,10 +604,18 @@
                                             {{ in_array('Jiwa dan Subspesialisasinya', $fixed_data_kasus_insiden) ? 'checked' : '' }}>
                                         <label for="insiden12">Jiwa dan Subspesialisasinya</label>
                                     </div>
+
+                                    <div class="form-check">
+                                        <input type="checkbox" name="kasus_insiden[]"
+                                            value="Orthopedi dan Subspesialisasinya" id="insiden13"
+                                            {{ in_array('Orthopedi dan Subspesialisasinya', $fixed_data_kasus_insiden) ? 'checked' : '' }}>
+                                        <label for="insiden12">Orthopedi dan Subspesialisasinya</label>
+                                    </div>
+
                                     <div class="form-check">
                                         <div class="input-group mt-2">
                                             <span class="input-group-addon">
-                                                <input type="checkbox" id="insiden13" name="kasus_insiden[]" value="" {{ (
+                                                <input type="checkbox" id="insiden14" name="kasus_insiden[]" value="" {{ (
                                                             collect($fixed_data_kasus_insiden)->some(function ($item) {
                                                                 return !in_array($item, [
                                                                     'Penyakit Dalam dan Subspesialisasinya',
@@ -591,15 +630,16 @@
                                                                     'Jantung dan Subspesialisasinya',
                                                                     'Paru dan Subspesialisasinya',
                                                                     'Jiwa dan Subspesialisasinya',
+                                                                    'Orthopedi dan Subspesialisasinya',
                                                                 ]);
                                                             })
                                                         ) ? 'checked' : '' }}>
-                                                <label for="insiden13" style="padding-left: 20px;height: 17px;"></label>
+                                                <label for="insiden14" style="padding-left: 20px;height: 17px;"></label>
                                             </span>
                                             <input id="kasus_lain" type="text" class="form-control"
                                                 aria-label="Text input with radio button" placeholder="Lain-lain"
-                                                onclick="selectRadio('insiden13')"
-                                                oninput="syncInputRadio('insiden13', 'kasus_lain')">
+                                                onclick="selectRadio('insiden14')"
+                                                oninput="syncInputRadio('insiden14', 'kasus_lain')">
                                         </div>
                                     </div>
                                 </div>
@@ -758,7 +798,7 @@
 </section>
 
 @include('script.lapinEdit')
-@include('script.lapinAdd')
+@include('script.lapinAll')
 
 
 @endsection

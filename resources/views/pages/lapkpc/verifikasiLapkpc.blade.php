@@ -36,10 +36,21 @@
                 <div class="col-12">
                     <div class="box box-widget widget-user">
                         <div class="box-footer py-0 border-0">
-
+                            <div class="d-flex justify-content-between align-items-center m-20">
+                                <img src="{{ asset('assets/images/Husada.png') }}" width="70" alt="">
+                                <div class="">
+                                    <h4>Unit Kerja / Ruangan:</h4>
+                                    <span>{{ $data->unit_kerja }}</span>
+                                </div>
+                            </div>
+                            <div class="d-flex justify-content-center">
+                                <h4 class="b-4 text-center d-inline-block p-3 rounded10 border-dark">
+                                    RAHASIA, TIDAK BOLEH DIFOTOCOPY, DILAPORKAN MAXIMAL 2x24 JAM
+                                </h4>
+                            </div>
                             <div class="text-center">
-                                <h4 class="box-title mt-20">LAPORAN KONDISI POTENSIAL CEDERA (KPC)</h4>
-                                <h4 class="box-title mt-5 mb-20">(INTERNAL)</h4>
+                                <h4 class="box-title text-bold mt-20">LAPORAN KONDISI POTENSIAL CEDERA (KPC)</h4>
+                                <h4 class="box-title text-bold mt-5 mb-20">(INTERNAL)</h4>
                             </div>
 
                             {{-- Tanggal & Jam ditemukan insiden --}}
