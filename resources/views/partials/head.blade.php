@@ -16,5 +16,5 @@
 <!-- Include SweetAlert library -->
 <script src="https://cdn.jsdelivr.net/npm/sweetalert2@9"></script>
 
-<!-- Include the html2pdf library -->
-{{-- <script src="https://unpkg.com/html2pdf.js"></script> --}}
+<!-- Include Chart JS library -->
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>

@@ -92,10 +92,101 @@ class LapinController extends Controller
             $colorClass = 'danger';
         }
 
-        // dd($colorClass);
+        // $currentYear = Carbon::now()->year;
+
+        // $dataKNC = [];
+        // $dataKTC = [];
+        // $dataKTD = [];
+        // $dataKPC = [];
+        // $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        // foreach ($months as $index => $month) {
+        //     // Ekstrak bulan dari $index + 1 (1 untuk Januari, 2 untuk Februari, dll.)
+        //     $targetMonth = ($index % 12) + 1;
+
+        //     // Query untuk mendapatkan data dari database berdasarkan bulan
+        //     $monthlyKNC = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $currentYear, 'Kejadian Nyaris Cedera / KNC'])->pluck('tanggal_kejadian')->toArray();
+
+        //     $monthlyKTC = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $currentYear, 'Kejadian Tidak Cedera / KTC'])->pluck('tanggal_kejadian')->toArray();
+
+        //     $monthlyKTD = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $currentYear, 'Kejadian Tidak Diharapkan / KTD'])->pluck('tanggal_kejadian')->toArray();
+
+        //     $monthlyKPC = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $currentYear, 'Kondisi Potensial Cedera / KPC'])->pluck('tanggal_kejadian')->toArray();
+
+        //     $dataKNC[] = [
+        //         'label' => 'Data KNC Bulan ' . ($index + 1),
+        //         'data' => $monthlyKNC,
+        //     ];
+
+        //     $dataKTC[] = [
+        //         'label' => 'Data KTC Bulan ' . ($index + 1),
+        //         'data' => $monthlyKTC,
+        //     ];
+
+        //     $dataKTD[] = [
+        //         'label' => 'Data KTD Bulan ' . ($index + 1),
+        //         'data' => $monthlyKTD,
+        //     ];
+
+        //     $dataKPC[] = [
+        //         'label' => 'Data KPC Bulan ' . ($index + 1),
+        //         'data' => $monthlyKPC,
+        //     ];
+        // }
+        // // dd(response()->json($chartData));
 
         return view('pages.dashboard', compact('title', 'jumlahKNC', 'jumlahKTC', 'jumlahKTD', 'jumlahKPC', 'prosentaseKNC', 'prosentaseKTC', 'prosentaseKTD', 'prosentaseKPC', 'gradeBiru', 'gradeHijau', 'gradeKuning', 'gradeMerah', 'prosentaseBiru', 'prosentaseHijau', 'prosentaseKuning', 'prosentaseMerah', 'colorClass'));
 
+    }
+
+    public function barChartLapin($year){
+        // Logika untuk mengambil data dari database berdasarkan tahun
+        // Jika $year null, gunakan tahun sekarang
+        $targetYear = $year;
+
+        // return response()->json($year);
+
+        $dataKNC = [];
+        $dataKTC = [];
+        $dataKTD = [];
+        $dataKPC = [];
+        $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        foreach ($months as $index => $month) {
+            $targetMonth = ($index % 12) + 1;
+
+            $monthlyKNC = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $targetYear, 'Kejadian Nyaris Cedera / KNC'])->pluck('tanggal_kejadian')->toArray();
+            $monthlyKTC = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $targetYear, 'Kejadian Tidak Cedera / KTC'])->pluck('tanggal_kejadian')->toArray();
+            $monthlyKTD = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $targetYear, 'Kejadian Tidak Diharapkan / KTD'])->pluck('tanggal_kejadian')->toArray();
+            $monthlyKPC = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $targetYear, 'Kondisi Potensial Cedera / KPC'])->pluck('tanggal_kejadian')->toArray();
+
+            $dataKNC[] = [
+                'label' => 'Data KNC Bulan ' . ($index + 1),
+                'data' => $monthlyKNC,
+            ];
+
+            $dataKTC[] = [
+                'label' => 'Data KTC Bulan ' . ($index + 1),
+                'data' => $monthlyKTC,
+            ];
+
+            $dataKTD[] = [
+                'label' => 'Data KTD Bulan ' . ($index + 1),
+                'data' => $monthlyKTD,
+            ];
+
+            $dataKPC[] = [
+                'label' => 'Data KPC Bulan ' . ($index + 1),
+                'data' => $monthlyKPC,
+            ];
+        }
+
+        return response()->json([
+            'dataKNC' => $dataKNC,
+            'dataKTC' => $dataKTC,
+            'dataKTD' => $dataKTD,
+            'dataKPC' => $dataKPC,
+        ]);
     }
 
     public function lapin(){
@@ -224,10 +315,11 @@ class LapinController extends Controller
         // dd($request);
 
         $validatedData = $request->validate([
-            'unit_kerja' => 'required|strting',
+            'unit_kerja' => 'required|string',
             'nama' => 'required|string',
             'ruangan' => 'required|string',
             'umur' => 'required|string',
+            'tanggal_lahir' => 'required|date',
             'jenis_kelamin' => 'required|string',
             'penjamin' => 'required|string',
             'tanggal_masuk' => 'required|date',

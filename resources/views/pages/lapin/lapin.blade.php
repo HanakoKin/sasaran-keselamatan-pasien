@@ -110,7 +110,7 @@
                                         @if (isset($lapin->grading_risiko) && !isset($lapin->lemkis))
 
                                         <a class="btn btn-info btn-sm me-2 mb-2 text-decoration-none"
-                                            href="{{ url('/lapin/addLemkis', $lapin->id) }}"><i
+                                            href="{{ url('/lemkis/addLemkis', $lapin->id) }}"><i
                                                 class="fal fa-notes-medical"></i> LEMKIS
                                         </a>
 

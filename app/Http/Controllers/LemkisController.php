@@ -205,7 +205,6 @@ class LemkisController extends Controller
             $fixed_data_tanggal = [$data_tanggal];
         }
 
-
         return view('pages.lemkis.showLemkis', compact('title', 'data', 'fixed_data_catatan', 'fixed_data_tanggal'));
     }
 

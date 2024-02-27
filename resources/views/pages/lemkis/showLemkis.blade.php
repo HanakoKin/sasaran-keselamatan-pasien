@@ -204,7 +204,7 @@
                                     <thead>
                                         <tr class="text-center">
                                             <th scope="col">Ka.Ru, Ka.Sie, Ka.Bag Yang Melengkapi</th>
-                                            <th scope="col">Bagian yang perlu diinformasikan</th>
+                                            <th scope="col" class="min-w-300">Bagian yang perlu diinformasikan</th>
                                         </tr>
                                     </thead>
                                     <tbody>
@@ -213,7 +213,7 @@
                                                 <p>Nama :</p>
                                                 <p class="ms-3">{{ $data->nama_pelengkap }}</p>
                                                 <p>Tanda tangan :</p>
-                                                <p class="ms-3">{{ $data->ttd_pelengkap }}</p>
+                                                <img src="{{ $data->ttd_pelengkap }}" alt="" width="400">
                                                 <p>Bagian / Peran:</p>
                                                 <p class="ms-3">{{ $data->bagian_pelengkap }}</p>
                                                 <p>Tanggal mulai investigasi</p>
@@ -221,7 +221,7 @@
                                                 <p>Tanggal dilengkapi</p>
                                                 <p class="ms-3">{{ $data->tanggal_dilengkapi }}</p>
                                             </td>
-                                            <td>
+                                            <td class="align-top">
                                                 <p>Tanggal :</p>
                                                 <p class="ms-3">{{ $data->tanggal_informasi }}</p>
                                                 <p>Direksi RS Husada : </p>

@@ -107,7 +107,7 @@
                             <label for="talah" class="form-label text-bold">Tanggal Lahir</label>
                             <div class="form-group mb-0">
                                 <div class="form-check form-check-inline">
-                                    <input type="date" class="form-control" id="talah" name="tanggal_lahir" readonly>
+                                    <input type="date" class="form-control" id="talah" name="tanggal_lahir" value="{{ $lapin->tanggal_lahir }}" readonly>
                                 </div>
                             </div>
                         </div>
@@ -265,7 +265,7 @@
                             <div class="col-12">
                                 <input class="form-control" type="date" name="tanggal_masuk" required
                                     data-validation-required-message="This field is required"
-                                    value="{{ $lapin->tanggal_masuk }}">
+                                    value="{{ $lapin->tanggal_masuk }}" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -273,7 +273,7 @@
                             <div class="col-12">
                                 <input class="form-control" type="time" name="jam_masuk" required
                                     data-validation-required-message="This field is required"
-                                    value="{{ $lapin->jam_masuk }}">
+                                    value="{{ $lapin->jam_masuk }}" readonly>
                             </div>
                         </div>
                     </div>

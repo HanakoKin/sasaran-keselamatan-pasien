@@ -7,7 +7,7 @@
 
 $( document ).ready(function() {
     "use strict";
-	
+
 
 	if( $('#bubble-chart').length > 0 ){
 		var ctx5 = document.getElementById("bubble-chart").getContext("2d");
@@ -68,7 +68,7 @@ $( document ).ready(function() {
 					hoverBackgroundColor: "#244674",
 				}]
 		};
-		
+
 		var bubbleChart = new Chart(ctx5,{
 			type:"bubble",
 			data:data5,
@@ -145,7 +145,7 @@ $( document ).ready(function() {
 				]
 			}]
 		};
-		
+
 		var pieChart  = new Chart(ctx6,{
 			type: 'pie',
 			data: data6,
@@ -197,7 +197,7 @@ $( document ).ready(function() {
 				]
 			}]
 		};
-		
+
 		var doughnutChart = new Chart(ctx7, {
 			type: 'doughnut',
 			data: data7,
@@ -225,7 +225,7 @@ $( document ).ready(function() {
 			}
 		});
 	}
-	
+
 	// Bar chart
 	new Chart(document.getElementById("bar-chart1"), {
 		type: 'bar',
@@ -247,7 +247,7 @@ $( document ).ready(function() {
 		  }
 		}
 	});
-	
+
 	if( $('#bar-chart2').length > 0 ){
 		var ctx2 = document.getElementById("bar-chart2").getContext("2d");
 		var data2 = {
@@ -273,11 +273,11 @@ $( document ).ready(function() {
 				}
 			]
 		};
-		
+
 		var hBar = new Chart(ctx2, {
 			type:"bar",
 			data:data2,
-			
+
 			options: {
 				tooltips: {
 					mode:"label"
@@ -303,7 +303,7 @@ $( document ).ready(function() {
 							fontColor:"#878787"
 						}
 					}],
-					
+
 				},
 				elements:{
 					point: {
@@ -318,13 +318,13 @@ $( document ).ready(function() {
 				legend: {
 					display: false,
 				},
-				
+
 				tooltip: {
 					backgroundColor:'rgba(33,33,33,1)',
 					cornerRadius:0,
 					footerFontFamily:"'Nunito Sans'"
 				}
-				
+
 			}
 		});
 	};
@@ -351,7 +351,7 @@ $( document ).ready(function() {
 		  }
 		}
 	});
-	
+
 	if( $('#bar-chart-horizontal2').length > 0 ){
 		var ctx2 = document.getElementById("bar-chart-horizontal2").getContext("2d");
 		var data2 = {
@@ -371,11 +371,11 @@ $( document ).ready(function() {
 				}
 			]
 		};
-		
+
 		var hBar = new Chart(ctx2, {
 			type:"horizontalBar",
 			data:data2,
-			
+
 			options: {
 				tooltips: {
 					mode:"label"
@@ -401,7 +401,7 @@ $( document ).ready(function() {
 							fontColor:"#878787"
 						}
 					}],
-					
+
 				},
 				elements:{
 					point: {
@@ -420,7 +420,7 @@ $( document ).ready(function() {
 					cornerRadius:0,
 					footerFontFamily:"'Nunito Sans'"
 				}
-				
+
 			}
 		});
 	}
@@ -495,7 +495,7 @@ $( document ).ready(function() {
 					ticks: {
 						beginAtZero: true,
 						fontFamily: "Nunito Sans",
-						
+
 					},
 					gridLines: {
 						color: "rgba(135,135,135,0)",
@@ -589,7 +589,7 @@ $( document ).ready(function() {
 						ticks: {
 							beginAtZero: true,
 							fontFamily: "Nunito Sans",
-							
+
 						},
 						gridLines: {
 							color: "rgba(135,135,135,0)",
@@ -599,7 +599,7 @@ $( document ).ready(function() {
 							fontColor:"#878787"
 						},
 					},
-					
+
 					animation: {
 						duration:	3000
 					},
@@ -624,32 +624,32 @@ $( document ).ready(function() {
 		});
 	}
 	//Line Chart
-	
+
 	new Chart(document.getElementById("line-chart1"), {
 	  type: 'line',
 	  data: {
 		labels: [4500,3500,3200,3050,2700,2450,2200,1750,1499,2050],
-		datasets: [{ 
+		datasets: [{
 			data: [86,114,106,106,107,111,133,221,783,2478],
 			label: "January",
 			borderColor: "#689f38",
 			fill: false
-		  }, { 
+		  }, {
 			data: [282,350,411,502,635,809,947,1402,3700,5267],
 			label: "February",
 			borderColor: "#38649f",
 			fill: false
-		  }, { 
+		  }, {
 			data: [168,170,178,190,203,276,408,547,675,734],
 			label: "March",
 			borderColor: "#389f99",
 			fill: false
-		  }, { 
+		  }, {
 			data: [40,20,10,16,24,38,74,167,508,784],
 			label: "April",
 			borderColor: "#ee1044",
 			fill: false
-		  }, { 
+		  }, {
 			data: [6,3,2,2,7,26,82,172,312,433],
 			label: "May",
 			borderColor: "#ff8f00",
@@ -664,7 +664,7 @@ $( document ).ready(function() {
 		}
 	  }
 	});
-	
+
 	if( $('#line-chart2').length > 0 ){
 		var ctx1 = document.getElementById("line-chart2").getContext("2d");
 		var data1 = {
@@ -686,14 +686,14 @@ $( document ).ready(function() {
 				pointBackgroundColor: "#ee1044",
 				data: [48, 88, 50, 58, 34, 67, 65],
 			}
-			
+
 		]
 		};
-		
+
 		var areaChart = new Chart(ctx1, {
 			type:"line",
 			data:data1,
-			
+
 			options: {
 				tooltips: {
 					mode:"label"
@@ -703,7 +703,7 @@ $( document ).ready(function() {
 						hitRadius:90
 					}
 				},
-				
+
 				scales: {
 					yAxes: [{
 						stacked: true,
@@ -738,10 +738,10 @@ $( document ).ready(function() {
 					cornerRadius:0,
 					footerFontFamily:"'Nunito Sans'"
 				}
-				
+
 			}
 		});
 	}
 
-	
+
 }); // End of use strict

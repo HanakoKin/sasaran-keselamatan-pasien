@@ -262,10 +262,37 @@
                 </div>
             </div>
 
+            <div class="col-md-12 d-flex justify-content-between">
+                <button id="prevYearBtn" class="btn btn-sm border-primary b-2 rounded50"><i
+                        class="fas fa-caret-circle-left"></i> Previous Year</button>
+                <div class="d-flex">
+                    <h4>Bar Chart Data Laporan Insiden</h4>
+                    {{-- <div class="form-check form-switch">
+                        <input class="form-check-input" type="checkbox" role="switch" id="toggleSwitch" checked />
+                    </div> --}}
+                    <button type="button" id="barSwitch" class="btn btn-toggle btn-bar btn-info active"
+                        data-bs-toggle="button" aria-pressed="true" autocomplete="off">
+                        <div class="handle"></div>
+                    </button>
+                </div>
+                <button id="nextYearBtn" class="btn btn-sm border-primary b-2 rounded50">Next Year <i
+                        class="fas fa-caret-circle-right"></i></button>
+            </div>
+
+            <div>
+                <canvas id="myChart"></canvas>
+            </div>
+
         </div>
     </div>
 </section>
 
-@include('script.chart')
+@include('script.pie-chart')
+
+@include('script.bar-chartJs')
+
+{{-- @include('script.bar-toggle') --}}
+
+{{-- @include('script.bar-chart') --}}
 
 @endsection

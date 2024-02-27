@@ -49,10 +49,12 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/lapin/reset-edit-status/{id}', [LapinController::class, 'resetEditStatus']);
     Route::get('/lapin/verificate/{id}', [LapinController::class, 'verifikasi']);
     Route::post('/lapin/grade/{id}', [LapinController::class, 'grading'])->name('gradingLapin');
-    Route::get('/lapin/addLemkis/{id}', [LapinController::class, 'addLemkisPage']);
 
     /* Route untuk mencari data dari API */
     Route::post('/search-patient', [DataController::class, 'search']);
+
+    /* Route untuk bar Chart */
+    Route::get('/chart-data/{year}', [LapinController::class, 'barChartLapin']);
 
     /* Route untuk bagian Laporan KPC */
     Route::get('/lapkpc', [LapkpcController::class, 'lapkpc']);
@@ -67,8 +69,8 @@ Route::middleware(['auth'])->group(function(){
 
     /* Route untuk bagian Lembar Kerja Investigasi Sederhana */
     Route::get('/lemkis', [LemkisController::class, 'lemkis']);
+    Route::get('/lemkis/addLemkis/{id}', [LapinController::class, 'addLemkisPage']);
     Route::get('/lemkisTable', [LemkisController::class, 'lemkisTable']);
-    Route::get('/lemkis/add', [LemkisController::class, 'addLemkisPage']);
     Route::post('/lemkis/add', [LemkisController::class, 'store']);
     Route::get('/lemkis/edit/{id}', [LemkisController::class, 'edit']);
     Route::post('/lemkis/update/{id}', [LemkisController::class, 'update'])->name('updateLemkis');

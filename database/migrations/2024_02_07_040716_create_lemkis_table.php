@@ -37,7 +37,7 @@ return new class extends Migration
             $table->string('penanggung_realisasi_panjang')->nullable();
             $table->date('tanggal_realisasi_panjang')->nullable();
             $table->string('nama_pelengkap');
-            $table->string('ttd_pelengkap');
+            $table->text('ttd_pelengkap');
             $table->string('bagian_pelengkap');
             $table->date('tanggal_mulai_invest');
             $table->date('tanggal_dilengkapi');

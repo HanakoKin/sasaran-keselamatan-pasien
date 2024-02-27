@@ -42,6 +42,7 @@
                     </div>
                     @endif
 
+                    @if (isset($data->catatan))
                     @foreach ($fixed_data_catatan as $catatan)
                     <div class="form-group" id="catatanRow{{ $loop->index }}">
                         <label for="input{{ $loop->index + 1 }}">Catatan {{ $loop->index + 1 }}:</label>
@@ -59,6 +60,7 @@
                         <!-- Input tambahan akan ditambahkan di sini secara dinamis -->
                     </div>
 
+                    @endif
                     <!-- /.box-body -->
                     <div class="box-footer float-right">
                         <button type="button" class="btn btn-success" id="addInput"><i class="fal fa-layer-plus"></i>

@@ -15,7 +15,8 @@
         $("#addInput").click(function () {
 
             // Hitung jumlah input yang sudah ada
-            var inputCount = (existingFormsCount / 2) + $("textarea[name='catatan[]']").length;
+            var inputCount = (existingFormsCount / existingFormsCount) + $("textarea[name='catatan[]']")
+                .length;
 
             // Tambahkan input textarea baru
             $("#dynamicInputs").append('<div class="form-group"><label for="textarea' + inputCount +
