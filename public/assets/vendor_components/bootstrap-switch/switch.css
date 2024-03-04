@@ -217,10 +217,10 @@
     opacity: 0.5;
 }
 .btn-bar::before {
-    content: "Hoz" !important;
+    content: "Month" !important;
 }
 .btn-bar::after {
-    content: "Ver" !important;
+    content: "Year" !important;
 }
 .btn-toggle.btn-sm > .handle {
     position: absolute;

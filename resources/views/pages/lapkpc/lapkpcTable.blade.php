@@ -8,12 +8,12 @@
                 <ol class="breadcrumb mb-3">
                     <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Tabel Laporan KPC</li>
+                    <li class="breadcrumb-item active" aria-current="page">Tabel Laporan KPCS</li>
                 </ol>
             </nav>
             <div class="box">
                 <div class="box-header py-4">
-                    <h4 class="box-title">Tabel Laporan KPC</h4>
+                    <h4 class="box-title">Tabel Laporan KPCS</h4>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">

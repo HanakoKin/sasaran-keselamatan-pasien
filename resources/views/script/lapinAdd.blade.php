@@ -71,22 +71,23 @@
                         document.getElementById(umurMap[informasiPasien.umur]).checked = true;
                     }
 
-                    const penjaminMap = {
-                        'Pribadi': 'penjamin1',
-                        'Pemerintah': 'penjamin2',
-                        'BPJS': 'penjamin3',
-                        'Asuransi Swasta': 'penjamin4',
-                        'Perusahaan': 'penjamin5',
-                        'Lain-lain': 'penjamin6'
-                    }
+                    // const penjaminMap = {
+                    //     'Pribadi': 'penjamin1',
+                    //     'Pemerintah': 'penjamin2',
+                    //     'BPJS': 'penjamin3',
+                    //     'Asuransi Swasta': 'penjamin4',
+                    //     'Perusahaan': 'penjamin5',
+                    //     'Lain-lain': 'penjamin6'
+                    // }
 
-                    if (informasiPasien.penjamin && penjaminMap[informasiPasien.penjamin]) {
-                        document.getElementById(penjaminMap[informasiPasien.penjamin]).checked =
-                            true;
-                    }
+                    // if (informasiPasien.penjamin && penjaminMap[informasiPasien.penjamin]) {
+                    //     document.getElementById(penjaminMap[informasiPasien.penjamin]).checked =
+                    //         true;
+                    // }
+
+                    document.getElementById('penjamin').value = informasiPasien.penjamin || '';
 
                     // Lanjutkan mengisi formulir tanggal & jam
-
                     document.getElementById('tamas').value = informasiPasien.regDate || '';
                     document.getElementById('jamas').value = informasiPasien.regTime || '';
                 })
@@ -112,7 +113,6 @@
                     document.getElementById('jamas').value = '';
 
                 });
-
 
         })
     });

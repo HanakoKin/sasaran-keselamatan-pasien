@@ -6,14 +6,21 @@ use Carbon\Carbon;
 use App\Models\Lemkis;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\Auth;
 
 class LemkisController extends Controller
 {
     public function lemkis(){
 
-        $title = 'Laporan Insiden';
+        $title = 'Lembar Investigasi Sederhana';
 
-        $lemkises = Lemkis::orderBy('created_at', 'desc')->get();
+        $lemkises = Lemkis::orderBy('created_at', 'desc');
+
+        if (!Auth::user()->isAdmin()) {
+            $lemkises->where('unit_kerja', Auth::user()->unit);
+        }
+
+        $lemkises = $lemkises->get();
 
         return view('pages.lemkis.lemkis', compact('lemkises', 'title'));
 
@@ -24,6 +31,10 @@ class LemkisController extends Controller
         $title = 'Laporan Lembar Kerja Investigasi Sederhana';
 
         $lemkis = Lemkis::orderBy('created_at', 'desc')->get();
+
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/lemkis')->with('error', 'UNAUTHORIZED ACTION');
+        }
 
         return view('pages.lemkis.lemkisTable', compact('lemkis', 'title'));
 
@@ -43,6 +54,10 @@ class LemkisController extends Controller
 
         $lemkis = Lemkis::findOrFail($id);
 
+        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $lemkis->unit_kerja)) {
+            return redirect('/lemkis')->with('error', 'UNAUTHORIZED ACTION');
+        }
+
         return view('pages.lemkis.editLemkis', compact('lemkis', 'title'));
 
     }
@@ -55,6 +70,7 @@ class LemkisController extends Controller
 
             /* DATA TAMBAHAN */
             'lapin_id' => 'required',
+            'unit_kerja' => 'required',
 
             /* DATA LEMKIS */
             'penyebab_langsung' => 'required|string',
@@ -148,9 +164,17 @@ class LemkisController extends Controller
 
     public function delete($id){
 
-        $lemkis = Lemkis::where('id', '=', $id)->delete();
+        $lemkis = Lemkis::findOrFail($id);
 
-        return back()->with('success', 'LEMKIS deleted successfully!');
+        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $lemkis->unit_kerja)) {
+            return redirect('/lemkis')->with('error', 'UNAUTHORIZED ACTION');
+        }
+
+         // Hapus data LEMKIS
+         $lemkis->delete();
+
+         return back()->with('success', 'LEMKIS deleted successfully!');
+
     }
 
     public function show($id){
@@ -190,22 +214,34 @@ class LemkisController extends Controller
 
         $data_catatan = $data->catatan;
         $data_tanggal = $data->tanggal_catatan;
+        $data_narasumber = $data->narasumber;
 
         // Pemisahan data Catatan
         $fixed_data_catatan = explode('-- ', $data_catatan);
 
+        // Apabila data Catatan 1
         if(count($fixed_data_catatan) === 1) {
             $fixed_data_catatan = [$data_catatan];
         }
 
+
         // Pemisahan data Tanggal Catatan
         $fixed_data_tanggal = explode(', ', $data_tanggal);
 
+        // Apabila data Tanggal Catatan 1
         if(count($fixed_data_tanggal) === 1) {
             $fixed_data_tanggal = [$data_tanggal];
         }
 
-        return view('pages.lemkis.showLemkis', compact('title', 'data', 'fixed_data_catatan', 'fixed_data_tanggal'));
+        // Pemisahan data Narasumber
+        $fixed_data_narasumber = explode('-- ', $data_narasumber);
+
+        // Apabila data Narasumber 1
+        if(count($fixed_data_narasumber) === 1) {
+            $fixed_data_narasumber = [$data_narasumber];
+        }
+
+        return view('pages.lemkis.showLemkis', compact('title', 'data', 'fixed_data_catatan', 'fixed_data_tanggal', 'fixed_data_narasumber'));
     }
 
     public function addNoteForm($id){
@@ -216,10 +252,12 @@ class LemkisController extends Controller
 
         $data_catatan = $data->catatan;
         $data_tanggal = $data->tanggal_catatan;
+        $data_narasumber = $data->narasumber;
 
         // Pemisahan data Catatan
         $fixed_data_catatan = explode('-- ', $data_catatan);
 
+        // Apabila data Catatan = 1
         if(count($fixed_data_catatan) === 1) {
             $fixed_data_catatan = [$data_catatan];
         }
@@ -227,11 +265,20 @@ class LemkisController extends Controller
         // Pemisahan data Tanggal Catatan
         $fixed_data_tanggal = explode(', ', $data_tanggal);
 
+        // Apabila data Tanggal Catatan 1
         if(count($fixed_data_tanggal) === 1) {
             $fixed_data_tanggal = [$data_tanggal];
         }
 
-        return view('pages.lemkis.addNote', compact('data', 'title', 'fixed_data_catatan', 'fixed_data_tanggal'));
+        // Pemisahan data Tanggal Catatan
+        $fixed_data_narasumber = explode('-- ', $data_catatan);
+
+        // Apabila data Tanggal Catatan 1
+        if(count($fixed_data_narasumber) === 1) {
+            $fixed_data_narasumber = [$data_narasumber];
+        }
+
+        return view('pages.lemkis.addNote', compact('data', 'title', 'fixed_data_catatan', 'fixed_data_tanggal', 'fixed_data_narasumber'));
 
     }
 
@@ -243,10 +290,12 @@ class LemkisController extends Controller
 
         $data_catatan = $data->catatan;
         $data_tanggal = $data->tanggal_catatan;
+        $data_narasumber = $data->narasumber;
 
         // Pemisahan data Catatan
         $fixed_data_catatan = explode('-- ', $data_catatan);
 
+        // Apabila data Catatan 1
         if(count($fixed_data_catatan) === 1) {
             $fixed_data_catatan = [$data_catatan];
         }
@@ -254,11 +303,20 @@ class LemkisController extends Controller
         // Pemisahan data Tanggal Catatan
         $fixed_data_tanggal = explode(', ', $data_tanggal);
 
+        // Apabila data Tanggal Catatan 1
         if(count($fixed_data_tanggal) === 1) {
             $fixed_data_tanggal = [$data_tanggal];
         }
 
-        return view('pages.lemkis.noteTable', compact('data', 'title', 'fixed_data_catatan', 'fixed_data_tanggal'));
+        // Pemisahan data Narasumber
+        $fixed_data_narasumber = explode('-- ', $data_narasumber);
+
+        // Apabila data Narasumber 1
+        if(count($fixed_data_narasumber) === 1) {
+            $fixed_data_narasumber = [$data_narasumber];
+        }
+
+        return view('pages.lemkis.noteTable', compact('data', 'title', 'fixed_data_catatan', 'fixed_data_tanggal', 'fixed_data_narasumber'));
 
     }
 
@@ -266,13 +324,16 @@ class LemkisController extends Controller
 
         $catatanString = implode('-- ', $request->input('catatan', []));
         $tanggalString = implode(', ', $request->input('tanggal_catatan', []));
+        $narasumberString = implode('-- ', $request->input('narasumber', []));
 
         $request->merge(['catatan' => $catatanString]);
         $request->merge(['tanggal_catatan' => $tanggalString]);
+        $request->merge(['narasumber' => $narasumberString]);
 
         $validatedData = $request->validate([
             'catatan' => 'nullable|string',
-            'tanggal_catatan' => 'nullable|string'
+            'tanggal_catatan' => 'nullable|string',
+            'narasumber' => 'nullable|string',
         ]);
 
         $lemkis = Lemkis::where('id', $id)->update($validatedData);

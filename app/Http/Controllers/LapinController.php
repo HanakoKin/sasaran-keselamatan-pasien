@@ -18,67 +18,41 @@ class LapinController extends Controller
 
         $title = 'Dashboard';
 
-        $totalKasus = Lapin::count();
-
-        $jumlahKNC = Lapin::where('jenis_insiden', 'Kejadian Nyaris Cedera / KNC')->count();
-        $jumlahKTC = Lapin::where('jenis_insiden', 'Kejadian Tidak Cedera / KTC')->count();
-        $jumlahKTD = Lapin::where('jenis_insiden', 'Kejadian Tidak Diharapkan / KTD')->count();
-        $jumlahKPC = Lapin::where('jenis_insiden', 'Kondisi Potensial Cedera / KPC')->count();
-
-        if ($jumlahKNC < 1){
-            $prosentaseKNC = 0;
+        if (Auth::user()->isAdmin()) {
+            $lapins = Lapin::orderBy('created_at', 'desc')->get();
         } else {
-            $prosentaseKNC = number_format(($jumlahKNC / $totalKasus) *100, 0);
+            $lapins = Lapin::Where('unit_kerja', Auth::user()->unit)->get();
         }
 
-        if ($jumlahKTC < 1){
-            $prosentaseKTC = 0;
-        } else {
-            $prosentaseKTC = number_format(($jumlahKTC / $totalKasus) *100, 0);
+        $totalKasus = $lapins->count();
+
+        $jumlahKPC = $lapins->where('jenis_insiden', 'Kondisi Potensial Cedera Signifikan / KPCS')->count();
+        $jumlahKNC = $lapins->where('jenis_insiden', 'Kejadian Nyaris Cedera / KNC')->count();
+        $jumlahKTC = $lapins->where('jenis_insiden', 'Kejadian Tidak Cedera / KTC')->count();
+        $jumlahKTD = $lapins->where('jenis_insiden', 'Kejadian Tidak Diharapkan / KTD')->count();
+        $jumlahSentinel = $lapins->where('jenis_insiden', 'Sentinel')->count();
+
+        $verified = $lapins->where('status', 'Terverifikasi')->count();
+
+        $gradeBiru = $lapins->where('grading_risiko', 'biru')->count();
+        $gradeHijau = $lapins->where('grading_risiko', 'hijau')->count();
+        $gradeKuning = $lapins->where('grading_risiko', 'kuning')->count();
+        $gradeMerah = $lapins->where('grading_risiko', 'merah')->count();
+
+        function calculatePercentage($jumlah, $total) {
+            return ($total > 0) ? number_format(($jumlah / $total) * 100, 0) : 0;
         }
 
-        if ($jumlahKTD < 1){
-            $prosentaseKTD = 0;
-        } else {
-            $prosentaseKTD = number_format(($jumlahKTD / $totalKasus) *100, 0);
-        }
+        $prosentaseKPC = calculatePercentage($jumlahKPC, $totalKasus);
+        $prosentaseKNC = calculatePercentage($jumlahKNC, $totalKasus);
+        $prosentaseKTC = calculatePercentage($jumlahKTC, $totalKasus);
+        $prosentaseKTD = calculatePercentage($jumlahKTD, $totalKasus);
+        $prosentaseSentinel = calculatePercentage($jumlahSentinel, $totalKasus);
 
-        if ($jumlahKPC < 1){
-            $prosentaseKPC = 0;
-        } else {
-            $prosentaseKPC = number_format(($jumlahKPC / $totalKasus) *100, 0);
-        }
-
-        $verified = Lapin::where('status', 'Terverifikasi')->count();
-
-        $gradeBiru = Lapin::where('grading_risiko', 'biru')->count();
-        $gradeHijau = Lapin::where('grading_risiko', 'hijau')->count();
-        $gradeKuning = Lapin::where('grading_risiko', 'kuning')->count();
-        $gradeMerah = Lapin::where('grading_risiko', 'merah')->count();
-
-        if ($gradeBiru < 1){
-            $prosentaseBiru = 0;
-        } else {
-            $prosentaseBiru = number_format(($gradeBiru / $verified) *100, 0);
-        }
-
-        if ($gradeHijau < 1){
-            $prosentaseHijau = 0;
-        } else {
-            $prosentaseHijau = number_format(($gradeHijau / $verified) *100, 0);
-        }
-
-        if ($gradeKuning < 1){
-            $prosentaseKuning = 0;
-        } else {
-            $prosentaseKuning = number_format(($gradeKuning / $verified) *100, 0);
-        }
-
-        if ($gradeMerah < 1){
-            $prosentaseMerah = 0;
-        } else {
-            $prosentaseMerah = number_format(($gradeMerah / $verified) *100, 0);
-        }
+        $prosentaseBiru = calculatePercentage($gradeBiru, $verified);
+        $prosentaseHijau = calculatePercentage($gradeHijau, $verified);
+        $prosentaseKuning = calculatePercentage($gradeKuning, $verified);
+        $prosentaseMerah = calculatePercentage($gradeMerah, $verified);
 
         $colorClass = '';
 
@@ -92,100 +66,95 @@ class LapinController extends Controller
             $colorClass = 'danger';
         }
 
-        // $currentYear = Carbon::now()->year;
-
-        // $dataKNC = [];
-        // $dataKTC = [];
-        // $dataKTD = [];
-        // $dataKPC = [];
-        // $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
-
-        // foreach ($months as $index => $month) {
-        //     // Ekstrak bulan dari $index + 1 (1 untuk Januari, 2 untuk Februari, dll.)
-        //     $targetMonth = ($index % 12) + 1;
-
-        //     // Query untuk mendapatkan data dari database berdasarkan bulan
-        //     $monthlyKNC = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $currentYear, 'Kejadian Nyaris Cedera / KNC'])->pluck('tanggal_kejadian')->toArray();
-
-        //     $monthlyKTC = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $currentYear, 'Kejadian Tidak Cedera / KTC'])->pluck('tanggal_kejadian')->toArray();
-
-        //     $monthlyKTD = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $currentYear, 'Kejadian Tidak Diharapkan / KTD'])->pluck('tanggal_kejadian')->toArray();
-
-        //     $monthlyKPC = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $currentYear, 'Kondisi Potensial Cedera / KPC'])->pluck('tanggal_kejadian')->toArray();
-
-        //     $dataKNC[] = [
-        //         'label' => 'Data KNC Bulan ' . ($index + 1),
-        //         'data' => $monthlyKNC,
-        //     ];
-
-        //     $dataKTC[] = [
-        //         'label' => 'Data KTC Bulan ' . ($index + 1),
-        //         'data' => $monthlyKTC,
-        //     ];
-
-        //     $dataKTD[] = [
-        //         'label' => 'Data KTD Bulan ' . ($index + 1),
-        //         'data' => $monthlyKTD,
-        //     ];
-
-        //     $dataKPC[] = [
-        //         'label' => 'Data KPC Bulan ' . ($index + 1),
-        //         'data' => $monthlyKPC,
-        //     ];
-        // }
-        // // dd(response()->json($chartData));
-
-        return view('pages.dashboard', compact('title', 'jumlahKNC', 'jumlahKTC', 'jumlahKTD', 'jumlahKPC', 'prosentaseKNC', 'prosentaseKTC', 'prosentaseKTD', 'prosentaseKPC', 'gradeBiru', 'gradeHijau', 'gradeKuning', 'gradeMerah', 'prosentaseBiru', 'prosentaseHijau', 'prosentaseKuning', 'prosentaseMerah', 'colorClass'));
+        return view('pages.dashboard', compact('title', 'jumlahKNC', 'jumlahKTC', 'jumlahKTD', 'jumlahKPC','jumlahSentinel', 'prosentaseKPC', 'prosentaseKNC', 'prosentaseKTC', 'prosentaseKTD', 'prosentaseSentinel', 'gradeBiru', 'gradeHijau', 'gradeKuning', 'gradeMerah', 'prosentaseBiru', 'prosentaseHijau', 'prosentaseKuning', 'prosentaseMerah', 'colorClass', 'totalKasus'));
 
     }
 
-    public function barChartLapin($year){
-        // Logika untuk mengambil data dari database berdasarkan tahun
-        // Jika $year null, gunakan tahun sekarang
+    public function barChartLapinYear($year){
         $targetYear = $year;
+        $unit = Auth::user()->unit;
 
-        // return response()->json($year);
-
-        $dataKNC = [];
-        $dataKTC = [];
-        $dataKTD = [];
-        $dataKPC = [];
         $months = ['January', 'February', 'March', 'April', 'May', 'June', 'July', 'August', 'September', 'October', 'November', 'December'];
+
+        $jenisInsiden = [
+            'Kondisi Potensial Cedera Signifikan / KPCS',
+            'Kejadian Nyaris Cedera / KNC',
+            'Kejadian Tidak Cedera / KTC',
+            'Kejadian Tidak Diharapkan / KTD',
+            'Sentinel',
+        ];
+
+        $shortInsiden = [
+            'KPC',
+            'KNC',
+            'KTC',
+            'KTD',
+            'Sentinel'
+        ];
 
         foreach ($months as $index => $month) {
             $targetMonth = ($index % 12) + 1;
 
-            $monthlyKNC = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $targetYear, 'Kejadian Nyaris Cedera / KNC'])->pluck('tanggal_kejadian')->toArray();
-            $monthlyKTC = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $targetYear, 'Kejadian Tidak Cedera / KTC'])->pluck('tanggal_kejadian')->toArray();
-            $monthlyKTD = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $targetYear, 'Kejadian Tidak Diharapkan / KTD'])->pluck('tanggal_kejadian')->toArray();
-            $monthlyKPC = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $targetYear, 'Kondisi Potensial Cedera / KPC'])->pluck('tanggal_kejadian')->toArray();
+            foreach ($jenisInsiden as $index => $type) {
+                $lapinQuery = Lapin::whereYear('tanggal_kejadian', $targetYear)
+                    ->whereMonth('tanggal_kejadian', $targetMonth)
+                    ->where('jenis_insiden', $type);
 
-            $dataKNC[] = [
-                'label' => 'Data KNC Bulan ' . ($index + 1),
-                'data' => $monthlyKNC,
-            ];
+                if (!Auth::user()->isAdmin()) {
+                    $lapinQuery->where('unit_kerja', $unit);
+                }
 
-            $dataKTC[] = [
-                'label' => 'Data KTC Bulan ' . ($index + 1),
-                'data' => $monthlyKTC,
-            ];
+                $monthlyData = $lapinQuery->pluck('tanggal_kejadian')->toArray();
 
-            $dataKTD[] = [
-                'label' => 'Data KTD Bulan ' . ($index + 1),
-                'data' => $monthlyKTD,
-            ];
+                $dataKey = 'data' . $shortInsiden[$index]; // Membuat nama kunci yang sesuai
+                $data[$dataKey][] = [
+                    'label' => "Data $shortInsiden[$index] Bulan " . ($index + 1),
+                    'data' => $monthlyData,
+                ];
+            }
+        }
 
-            $dataKPC[] = [
-                'label' => 'Data KPC Bulan ' . ($index + 1),
-                'data' => $monthlyKPC,
+        return response()->json($data);
+    }
+
+    public function barChartLapinMonth($year, $month){
+        $targetYear = $year;
+        $targetMonth = $month;
+        $unit = Auth::user()->unit;
+
+        $categories = [
+            'Kondisi Potensial Cedera Signifikan / KPCS',
+            'Kejadian Nyaris Cedera / KNC',
+            'Kejadian Tidak Cedera / KTC',
+            'Kejadian Tidak Diharapkan / KTD',
+            'Sentinel'
+        ];
+
+        $data = [];
+
+        foreach ($categories as $index => $category) {
+            $lapinQuery = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $targetYear, $category]);
+
+            if (!Auth::user()->isAdmin()) {
+                $lapinQuery->where('unit_kerja', $unit);
+            }
+
+            $monthlyData = $lapinQuery->pluck('jenis_insiden')->toArray();
+
+            $value = [0, 0, 0, 0, 0];
+
+            if ($monthlyData !== null) {
+                $value[$index] = count($monthlyData);
+            }
+
+            $data[] = [
+                'label' => 'Data ' . $category,
+                'data' => $value
             ];
         }
 
         return response()->json([
-            'dataKNC' => $dataKNC,
-            'dataKTC' => $dataKTC,
-            'dataKTD' => $dataKTD,
-            'dataKPC' => $dataKPC,
+            'data' => $data
         ]);
     }
 
@@ -193,7 +162,13 @@ class LapinController extends Controller
 
         $title = 'Laporan Insiden';
 
-        $lapins = Lapin::orderBy('created_at', 'desc')->get();
+        $lapins = Lapin::orderBy('created_at', 'desc');
+
+        if (!Auth::user()->isAdmin()) {
+            $lapins->where('unit_kerja', Auth::user()->unit);
+        }
+
+        $lapins = $lapins->get();
 
         return view('pages.lapin.lapin', compact('lapins', 'title'));
 
@@ -204,6 +179,10 @@ class LapinController extends Controller
         $title = 'Tabel Laporan Insiden';
 
         $lapins = Lapin::orderBy('created_at', 'desc')->get();
+
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
+        }
 
         return view('pages.lapin.lapinTable', compact('lapins', 'title'));
 
@@ -232,7 +211,7 @@ class LapinController extends Controller
 
         // dd($request);
 
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'unit_kerja' => 'required|string',
             'pembuat_laporan' => 'required|string',
             'status' => 'required|string',
@@ -262,8 +241,15 @@ class LapinController extends Controller
             'kejadian_insiden' => 'required|string'
         ]);
 
-        Lapin::create($validatedData);
+        if ($validator->fails()) {
+            $errors = implode(', ', $validator->errors()->all());
+            return back()->with('error', $errors)->withInput();
 
+        }
+
+        $validatedData = $validator->validated();
+
+        Lapin::create($validatedData);
         return redirect('/lapin')->with('success', 'LAPIN added successfully!');
 
     }
@@ -272,13 +258,18 @@ class LapinController extends Controller
 
         $title = 'Edit Laporan Insiden';
 
-        $lapin = Lapin::findOrFail($id);
+        $data = Lapin::findOrFail($id);
         $ruangan = Ruangan::all();
+        $kategori = 'lapin';
+
+        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $data->unit_kerja)) {
+            return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
+        }
 
         // Tandai data sedang diedit
-        $lapin->update(['proses_edit' => true]);
+        $data->update(['proses_edit' => true]);
 
-        if ($lapin->status !== "Belum terverifikasi") {
+        if ($data->status !== "Belum terverifikasi") {
             // If it has been validated, only allow admins to update
             if (!Auth::user()->isAdmin()) {
                 return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
@@ -286,7 +277,7 @@ class LapinController extends Controller
         }
 
         // Ambil data kasus_insiden
-        $data_kasus_insiden = $lapin->kasus_insiden;
+        $data_kasus_insiden = $data->kasus_insiden;
 
         // Pemisahan data
         $fixed_data_kasus_insiden = explode(', ', $data_kasus_insiden);
@@ -295,9 +286,9 @@ class LapinController extends Controller
             $fixed_data_kasus_insiden = [$data_kasus_insiden];
         }
 
-        $fixed_kejadian_insiden = str_replace('Ya, terjadi pada ', '', $lapin->kejadian_insiden);
+        $fixed_kejadian_insiden = str_replace('Ya, terjadi pada ', '', $data->kejadian_insiden);
 
-        return view('pages.lapin.editLapin', compact('lapin', 'fixed_data_kasus_insiden', 'fixed_kejadian_insiden', 'title', 'ruangan'));
+        return view('pages.lapin.editLapin', compact('data', 'fixed_data_kasus_insiden', 'fixed_kejadian_insiden', 'title', 'ruangan', 'kategori'));
 
     }
 
@@ -314,7 +305,7 @@ class LapinController extends Controller
 
         // dd($request);
 
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'unit_kerja' => 'required|string',
             'nama' => 'required|string',
             'ruangan' => 'required|string',
@@ -341,12 +332,37 @@ class LapinController extends Controller
             'kejadian_insiden' => 'required|string'
         ]);
 
+        if ($validator->fails()) {
+            $errors = implode(', ', $validator->errors()->all());
+            return back()->with('error', $errors)->withInput();
+        }
+
+        $validatedData = $validator->validated();
+
         Lapin::where('id', $id)->update($validatedData);
         // Hapus penanda sedang diedit setelah proses edit selesai
         Lapin::where('id', $id)->update(['proses_edit' => false]);
 
         return redirect('/lapin')->with('success', 'LAPIN updated successfully!');
 
+    }
+
+    public function delete($id){
+
+        $lapin = Lapin::findOrFail($id);
+        $lemkis = Lemkis::findOrFail($id);
+
+        if ((!Auth::user()->isAdmin()) || (Auth::user()->unit !== $lapin->unit_kerja)) {
+            return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
+        }
+
+         // Hapus data terkait dari tabel Lemkis
+         Lemkis::where('lapin_id', $id)->delete();
+
+         // Hapus data Lapin
+         $lapin->delete();
+
+         return back()->with('success', 'LAPIN deleted successfully!');
     }
 
     public function resetEditStatus($id){
@@ -357,14 +373,6 @@ class LapinController extends Controller
         $lapin->update(['proses_edit' => false]);
 
         return response()->json(['message' => 'Status edit berhasil diperbarui']);
-    }
-
-    public function delete($id){
-
-        $lemkis = Lemkis::where('lapin_id', '=', $id)->delete();
-        $lapin = Lapin::where('id', '=', $id)->delete();
-
-        return back()->with('success', 'LAPIN deleted successfully!');
     }
 
     public function print($id){
@@ -434,6 +442,10 @@ class LapinController extends Controller
         $title = 'Lembar Kerja Investigasi Sederhana';
 
         $lapin = Lapin::findOrFail($id);
+
+        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $lapin->unit_kerja)) {
+            return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
+        }
 
         return view('pages.lemkis.addLemkis', compact('title', 'lapin'));
 

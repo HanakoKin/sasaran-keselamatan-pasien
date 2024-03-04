@@ -23,11 +23,11 @@
             legend: {
                 orient: 'vertical',
                 x: 'left',
-                data: ['KNC', 'KTC', 'KTD', 'KPC']
+                data: ['KPCS', 'KNC', 'KTC', 'KTD', 'Sentinel']
             },
 
             // Add custom colors
-            color: ['#689f38', '#389f99', '#ee1044', '#ff8f00'],
+            color: ['#389f99', '#689f38', '#ffff00', '#ff8f00', '#ee1044'],
 
             // Display toolbox
             toolbox: {
@@ -78,6 +78,10 @@
                 radius: '70%',
                 center: ['50%', '57.5%'],
                 data: [{
+                        value: @json($jumlahKPC),
+                        name: 'KPCS'
+                    },
+                    {
                         value: @json($jumlahKNC),
                         name: 'KNC'
                     },
@@ -90,9 +94,10 @@
                         name: 'KTD'
                     },
                     {
-                        value: @json($jumlahKPC),
-                        name: 'KPC'
-                    }
+                        value: @json($jumlahSentinel),
+                        name: 'Sentinel'
+                    },
+
                 ]
             }]
         };
@@ -137,7 +142,7 @@
             },
 
             // Add custom colors
-            color: ['#389f99', '#689f38', '#ff8f00', '#ee1044'],
+            color: ['#389f99', '#689f38', 'rgb(243, 207, 0)', '#ee1044'],
 
             // Display toolbox
             toolbox: {

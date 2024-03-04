@@ -7,6 +7,10 @@
     @include('script.success')
     @endif
 
+    @if(session()->has('error'))
+    @include('script.error')
+    @endif
+
     <div class="row">
         <div class="col-xl-12 col-12">
 
@@ -15,7 +19,7 @@
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Kelola Laporan KPC</li>
+                        <li class="breadcrumb-item active" aria-current="page">Kelola Laporan KPCS</li>
                     </ol>
                 </nav>
             </div>
@@ -23,7 +27,7 @@
             {{-- Caption --}}
             <div class="box bg-transparent no-shadow mb-0">
                 <div class="box-header no-border">
-                    <h4 class="box-title">Data Laporan KPC</h4>
+                    <h4 class="box-title">Data Laporan KPCS</h4>
                     <div class="box-controls pull-right d-md-flex d-none">
                         <a href="/lapkpc/add" class="btn btn-info btn-sm mb-2 text-decoration-none">
                             <i class="fal fa-plus-circle"></i> Add
@@ -39,11 +43,11 @@
                         <table class="table no-border mb-0">
                             <thead>
                                 <tr class="text-center">
-                                    <th scope="col">Foto</th>
-                                    <th scope="col">KPC</th>
-                                    <th scope="col">Pelapor KPC</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Aksi</th>
+                                    <th class="min-w-70">Foto</th>
+                                    <th class="min-w-150">KPCS</th>
+                                    <th class="min-w-150">Pelapor KPCS</th>
+                                    <th class="min-w-150">Status</th>
+                                    <th class="min-w-200">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>

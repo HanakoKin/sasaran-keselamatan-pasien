@@ -1,11 +1,13 @@
 <script>
     function showLapinModal(lapin) {
 
-        var title = "Data : " + lapin.nama
+        var title = "Data : " + lapin.nama;
+        var unit = "Unit : " + lapin.unit_kerja;
 
-        console.log(lapin.nama)
+        console.log(lapin.nama);
 
         $('#showTitle').text(title);
+        $('#showUnit').text(unit);
         $('#namaTitle').text(lapin.nama);
         $('#noRMTitle').text(lapin.noRM);
         $('#lapinNama').text(": " + lapin.nama);

@@ -24,9 +24,11 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
+                            @if (Auth::user()->role === 'admin')
                             <li class="{{ Request::is('*lapinTable') ? 'active' : '' }}"><a href="/lapinTable"><i
                                         class="icon-Commit"><span class="path1"></span><span
                                             class="path2"></span></i>Tabel Data Lapin</a></li>
+                            @endif
                             <li class="{{ Request::is('*lapin') || Request::is('*lapin/*') ? 'active' : '' }}"><a
                                     href="/lapin"><i class="icon-Commit"><span class="path1"></span><span
                                             class="path2"></span></i>Kelola Data lapin</a>
@@ -38,20 +40,21 @@
                     <li class="treeview {{ Request::is('*lapkpc*') ? 'active menu-open' : '' }}">
                         <a href="#">
                             <i class="fal fa-file-medical-alt"></i>
-                            <span>Laporan KPC</span>
+                            <span>Laporan KPCS</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-right pull-right"></i>
                             </span>
                         </a>
                         <ul class="treeview-menu">
+                            @if (Auth::user()->role === 'admin')
                             <li class="{{ Request::is('*lapkpcTable') ? 'active' : '' }}"><a href="/lapkpcTable"><i
                                         class="icon-Commit"><span class="path1"></span><span
-                                            class="path2"></span></i>Tabel Data Laporan
-                                    KPC</a></li>
+                                            class="path2"></span></i>Tabel Data KPCS</a></li>
+                            @endif
                             <li class="{{ Request::is('*lapkpc') || Request::is('*lapkpc/*') ? 'active' : '' }}"><a
                                     href="/lapkpc"><i class="icon-Commit"><span class="path1"></span><span
                                             class="path2"></span></i>Kelola
-                                    Data KPC</a>
+                                    Data KPCS</a>
                             </li>
                         </ul>
                     </li>
@@ -66,9 +69,11 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
+                            @if (Auth::user()->role === 'admin')
                             <li class="{{ Request::is('*lemkisTable') ? 'active' : '' }}"><a href="/lemkisTable"><i
                                         class="icon-Commit"><span class="path1"></span><span
                                             class="path2"></span></i>Tabel Data LEMKIS</a></li>
+                            @endif
                             <li class="{{ Request::is('*lemkis') || Request::is('*lemkis/*') ? 'active' : '' }}"><a
                                     href="/lemkis"><i class="icon-Commit"><span class="path1"></span><span
                                             class="path2"></span></i>Kelola Data LEMKIS</a>

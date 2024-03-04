@@ -4,7 +4,8 @@
         <div class="modal-content">
             <div class="modal-header">
                 <h4 class="modal-title" id="showTitle"></h4>
-                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <h4 class="modal-title ms-auto" id="showUnit"></h4>
+                <button type="button" class="btn-close ms-2" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body pb-0">
                 <div class="row d-flex justify-content-center">

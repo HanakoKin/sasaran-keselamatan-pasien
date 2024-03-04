@@ -11,8 +11,8 @@
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
                         </li>
-                        <li class="breadcrumb-item"><a href="/lapkpc">Kelola Laporan KPC</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Tambah Laporan KPC</li>
+                        <li class="breadcrumb-item"><a href="/lapkpc">Kelola Laporan KPCS</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Tambah Laporan KPCS</li>
                     </ol>
                 </nav>
             </div>
@@ -26,7 +26,7 @@
                     <div class="row">
                         <div class="col-md-8">
                             <h4 class="box-title text-info mb-0"><i class="fal fa-user-injured"></i> Laporan Kondisi
-                                Potensial Cedera
+                                Potensial Cedera Signifikan
                             </h4>
                         </div>
                         <div class="col-md-4">
@@ -34,7 +34,9 @@
                                 <label for="unLap" class="form-label text-bold">Unit Kerja / Ruangan :</label>
                                 <div class="form-group mb-0">
                                     <div class="form-check form-check-inline">
-                                        <input type="text" class="form-control" id="unLap" name="unit_kerja">
+                                        <input type="text" class="form-control" id="unLap" name="unit_kerja"
+                                            value="{{ is_null(Auth::user()->unit) ? 'TIM SKP' : Auth::user()->unit }}"
+                                            required readonly>
                                     </div>
                                 </div>
                             </div>
@@ -45,20 +47,21 @@
                     </div>
 
                     <hr class="my-15">
+                    <input type="hidden" name="pembuat_laporan" value="{{ auth()->user()->nama }}">
+                    <input type="hidden" name="status" value="Belum terverifikasi">
 
+                    {{-- WAKTU DITEMUKAN KPCS --}}
                     <div class="row">
-                        <input type="hidden" name="pembuat_laporan" value="{{ auth()->user()->nama }}">
-                        <input type="hidden" name="status" value="Belum terverifikasi">
                         <div class="col-md-6">
-                            <label class="form-label">Tanggal Ditemukan KPC</label>
+                            <label class="form-label text-bold">Tanggal Ditemukan KPCS</label>
                             <div class="col-12">
                                 <input class="form-control" type="date" name="tanggal_ditemukan" required
                                     data-validation-required-message="This field is required">
                             </div>
                         </div>
                         <div class="col-md-6">
+                            <label class="form-label text-bold">Jam Ditemukan KPCS</label>
                             <div class="form-group">
-                                <label class="form-label">Jam Ditemukan KPC</label>
                                 <div class="col-12">
                                     <input class="form-control" type="time" name="jam_ditemukan" required
                                         data-validation-required-message="This field is required">
@@ -66,18 +69,22 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- KPCS --}}
                     <div class="row">
                         <div class="col-md-12">
+                            <label class="form-label text-bold">KPCS</label>
                             <div class="form-group">
-                                <label class="form-label">KPC</label>
-                                <textarea rows="5" class="form-control" name="kpc" placeholder="How is it happen"
+                                <textarea rows="5" class="form-control" name="kpc" placeholder="Bagaimana KPC terjadi"
                                     required data-validation-required-message="This field is required"></textarea>
                             </div>
                         </div>
                     </div>
+
+                    {{-- PELAPOR KPCS --}}
                     <div class="col-md-6">
+                        <label class="form-label text-bold">Orang pertama yang melaporkan insiden</label>
                         <div class="form-group">
-                            <label class="form-label">Orang pertama yang melaporkan insiden</label>
                             <div class="radio">
                                 <input name="pelapor_insiden" value="Karyawan : Dokter / Perawat / Petugas Lainnya"
                                     type="radio" id="pelIn1" required
@@ -114,40 +121,49 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- LOKASI KPCS --}}
                     <div class="row">
                         <div class="col-md-12">
+                            <label class="form-label text-bold">Lokasi diketahui KPCS</label>
                             <div class="form-group">
-                                <label class="form-label">Lokasi diketahui KPC</label>
                                 <input type="text" class="form-control" name="tempat_insiden"
-                                    placeholder="Input tempat insiden">
+                                    placeholder="Dimana terjadinya KPC">
                             </div>
                         </div>
                     </div>
+
+                    {{-- UNIT YANG TERKAIT --}}
                     <div class="row">
                         <div class="col-md-12">
+                            <label class="form-label text-bold">Unit / Departemen terkait KPCS</label>
                             <div class="form-group">
-                                <label class="form-label">Unit / Departemen terkait KPC</label>
                                 <input type="text" class="form-control" name="unit_insiden"
-                                    placeholder="Input unit insiden" required
+                                    placeholder="Unit / Departemen apa yang terkait dengan KPC" required
                                     data-validation-required-message="This field is required">
                             </div>
                         </div>
                     </div>
+
+                    {{-- TINDAKAN SEGERA YANG DILAKUKAN --}}
                     <div class="row">
                         <div class="col-md-12">
+                            <label class="form-label text-bold">Tindakan apa yang dilakukan untuk mengatasi kondisi
+                                potensi cedera selama ini?</label>
                             <div class="form-group">
-                                <label class="form-label">Tindakan apa yang dilakukan untuk mengatasi kondisi potensi
-                                    cedera selama ini?</label>
                                 <textarea rows="5" class="form-control" name="tindakan_cepat"
-                                    placeholder="How is it happen" required
+                                    placeholder="Tindakan apa saja yang sudah dilakukan" required
                                     data-validation-required-message="This field is required"></textarea>
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
+
+                        {{-- YANG MELAKUKUKAN TINDAKAN SEGERA --}}
                         <div class="col-md-6">
+                            <label class="form-label text-bold">Tindakan dilakukan oleh</label>
                             <div class="form-group">
-                                <label class="form-label">Tindakan dilakukan oleh</label>
                                 <div class="row">
                                     <div class="radio">
                                         <div class="input-group mt-2">
@@ -190,9 +206,11 @@
                                 </div>
                             </div>
                         </div>
+
+                        {{-- APAKAH PERNAH TERJADI --}}
                         <div class="col-md-6">
+                            <label class="form-label text-bold">Apakah kejadian yang sama pernah terjadi?</label>
                             <div class="form-group">
-                                <label class="form-label">Apakah kejadian yang sama pernah terjadi?</label>
                                 <div class="row">
                                     <div class="radio">
                                         <input id="pernah1" name="kejadian_insiden" type="radio"
@@ -218,22 +236,23 @@
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
-
                 </div>
-                <!-- /.box-body -->
+
                 <div class="box-footer float-right">
                     <button type="submit" class="btn btn-primary">
                         <i class="ti-save-alt"></i> Save
                     </button>
                 </div>
+
             </form>
         </div>
     </div>
 </section>
 
-@include('script.lapinAll')
+@include('script.autoSelectRadio')
 
 
 @endsection

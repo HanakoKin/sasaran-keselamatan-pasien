@@ -9,7 +9,7 @@
     }
 
     // Example usage with the provided HTML structure
-    var decodedUmur = decodeEntities("{{ $lapin->umur }}");
+    var decodedUmur = decodeEntities("{{ $data->umur }}");
     setRadioButtonCheckedByName('umur', decodedUmur);
 
     function decodeEntities(encodedString) {
@@ -43,9 +43,9 @@
         let input_des_pernah = document.getElementById("des_pernah");
 
         // Ambil data yang akan diubah kalimatnya
-        let data_kejadian_insiden = "{{ $lapin->kejadian_insiden }}";
-        let data_tindakan_insiden = "{{ $lapin->tindakan_insiden }}";
-        let data_kasus_insiden = "{{ $lapin->kasus_insiden }}";
+        let data_kejadian_insiden = "{{ $data->kejadian_insiden }}";
+        let data_tindakan_insiden = "{{ $data->tindakan_insiden }}";
+        let data_kasus_insiden = "{{ $data->kasus_insiden }}";
 
         // Ubah ke array
         let kasusInsidenArray = data_kasus_insiden.split(', ');
@@ -69,13 +69,13 @@
         let textarea_pernah = document.getElementById("textarea_pernah");
 
         if (radio_pelapor_lain.checked) {
-            input_pelapor_lain.value = "{{ $lapin->pelapor_insiden }}";
-            radio_pelapor_lain.value = "{{ $lapin->pelapor_insiden }}"
+            input_pelapor_lain.value = "{{ $data->pelapor_insiden }}";
+            radio_pelapor_lain.value = "{{ $data->pelapor_insiden }}"
         }
 
         if (radio_layanan_lain.checked) {
-            input_layanan_lain.value = "{{ $lapin->layanan_insiden }}";
-            radio_layanan_lain.value = "{{ $lapin->layanan_insiden }}";
+            input_layanan_lain.value = "{{ $data->layanan_insiden }}";
+            radio_layanan_lain.value = "{{ $data->layanan_insiden }}";
         }
 
         if (radio_kasus_lain.checked) {
@@ -84,8 +84,8 @@
         }
 
         if (radio_korban_lain.checked) {
-            input_korban_lain.value = "{{ $lapin->korban_insiden }}";
-            radio_korban_lain.value = "{{ $lapin->korban_insiden }}";
+            input_korban_lain.value = "{{ $data->korban_insiden }}";
+            radio_korban_lain.value = "{{ $data->korban_insiden }}";
         }
 
         if (radio_tindakan_tim.checked) {
@@ -94,8 +94,8 @@
         }
 
         if (radio_tindakan_lain.checked) {
-            input_tindakan_lain.value = "{{ $lapin->tindakan_insiden }}";
-            radio_tindakan_lain.value = "{{ $lapin->tindakan_insiden }}";
+            input_tindakan_lain.value = "{{ $data->tindakan_insiden }}";
+            radio_tindakan_lain.value = "{{ $data->tindakan_insiden }}";
         }
 
         if (radio_pernah_terjadi.checked) {
@@ -111,23 +111,6 @@
     /* Manjalankan fungsi ketika halaman diakses */
     document.addEventListener("DOMContentLoaded", function () {
         displayCustomInputRadio();
-    });
-
-    window.addEventListener('beforeunload', function (e) {
-        // Mendapatkan data status edit dari server dan mengubahnya menjadi false
-        fetch('/lapin/reset-edit-status/{{ $lapin->id }}', {
-                method: 'POST', // Atau 'PUT', 'PATCH', tergantung pada API Anda
-                headers: {
-                    'Content-Type': 'application/json',
-                    'X-CSRF-TOKEN': '{{ csrf_token() }}', // Jangan lupa sesuaikan dengan framework Anda
-                },
-            })
-            .then(response => {
-                // Handle response jika diperlukan
-            })
-            .catch(error => {
-                console.error('Error:', error);
-            });
     });
 
 </script>

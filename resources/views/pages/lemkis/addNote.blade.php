@@ -28,13 +28,28 @@
                     @csrf
 
                     @if (!isset($data->catatan))
-                    <div class="form-group">
-                        <label for="input1">Catatan 1:</label>
-                        <textarea class="form-control" id="textarea1" name="catatan[]" required></textarea>
-                    </div>
-                    <div class="form-group">
-                        <label for="date1">Tanggal untuk Catatan 1:</label>
-                        <input type="date" class="form-control" id="date1" name="tanggal_catatan[]" required>
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group">
+                                <label for="textarea1">Catatan 1:</label>
+                                <textarea rows="5" class="form-control" id="textarea1" name="catatan[]"
+                                    required></textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="form-group">
+                                    <label for="date1">Tanggal untuk Catatan 1:</label>
+                                    <input type="date" class="form-control" id="date1" name="tanggal_catatan[]"
+                                        required>
+                                </div>
+                                <div class="form-group">
+                                    <label for="narasumber1">Narasumber untuk Catatan 1:</label>
+                                    <input type="text" class="form-control" id="narasumber1" name="narasumber[]"
+                                        required>
+                                </div>
+                            </div>
+                        </div>
                     </div>
 
                     <div id="dynamicInputs">
@@ -44,15 +59,32 @@
 
                     @if (isset($data->catatan))
                     @foreach ($fixed_data_catatan as $catatan)
-                    <div class="form-group" id="catatanRow{{ $loop->index }}">
-                        <label for="input{{ $loop->index + 1 }}">Catatan {{ $loop->index + 1 }}:</label>
-                        <textarea class="form-control" id="textarea{{ $loop->index + 1 }}" name="catatan[]"
-                            required>{{ $catatan }}</textarea>
-                    </div>
-                    <div class="form-group" id="tanggalRow{{ $loop->index }}">
-                        <label for="date{{ $loop->index + 1 }}">Tanggal untuk Catatan {{ $loop->index + 1 }}:</label>
-                        <input type="date" class="form-control" id="date{{ $loop->index + 1 }}" name="tanggal_catatan[]"
-                            required value="{{ $fixed_data_tanggal[$loop->index] }}">
+                    <div class="row">
+                        <div class="col-md-9">
+                            <div class="form-group" id="catatanRow{{ $loop->index }}">
+                                <label for="input{{ $loop->index + 1 }}">Catatan {{ $loop->index + 1 }}:</label>
+                                <textarea rows="5" class="form-control" id="textarea{{ $loop->index + 1 }}"
+                                    name="catatan[]" required>{{ $catatan }}</textarea>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="row">
+                                <div class="form-group" id="tanggalRow{{ $loop->index }}">
+                                    <label for="date{{ $loop->index + 1 }}">Tanggal untuk Catatan
+                                        {{ $loop->index + 1 }}:</label>
+                                    <input type="date" class="form-control" id="date{{ $loop->index + 1 }}"
+                                        name="tanggal_catatan[]" required
+                                        value="{{ $fixed_data_tanggal[$loop->index] }}">
+                                </div>
+                                <div class="form-group" id="narasumberRow{{ $loop->index }}">
+                                    <label for="narasumber{{ $loop->index + 1 }}">Narasumber untuk Catatan
+                                        {{ $loop->index + 1 }}:</label>
+                                    <input type="text" class="form-control" id="narasumber{{ $loop->index + 1 }}"
+                                        name="narasumber[]" required value="{{ $fixed_data_narasumber[$loop->index] }}">
+                                </div>
+
+                            </div>
+                        </div>
                     </div>
                     @endforeach
 

@@ -28,6 +28,7 @@
                     <hr class="my-15">
 
                     <input type="hidden" name="lapin_id" value="{{ $lapin->id }}">
+                    <input type="hidden" name="unit_kerja" value="{{ $lapin->unit_kerja }}">
 
                     <div class="row">
                         <div class="col-md-6">
@@ -59,17 +60,18 @@
                             <div class="form-group">
                                 <label class="form-label">Penyebab langsung Accident / Insiden :</label>
                                 <textarea rows="5" class="form-control" name="penyebab_langsung"
-                                    placeholder="How is it happen" required
+                                    placeholder="Apa penyebab langsung dari insiden" required
                                     data-validation-required-message="This field is required"></textarea>
                             </div>
                         </div>
                     </div>
+
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label class="form-label">Penyebab yang melatarbelakangi insiden :</label>
                                 <textarea rows="5" class="form-control" name="penyebab_awal"
-                                    placeholder="How is it happen" required
+                                    placeholder="Apa yang menyebabkan insiden" required
                                     data-validation-required-message="This field is required"></textarea>
                             </div>
                         </div>
@@ -90,7 +92,7 @@
                                         <div class="form-group">
                                             <label class="form-label">Jangka Pendek :</label>
                                             <textarea rows="3" class="form-control" name="rekom_invest_pendek"
-                                                placeholder="How is it happen"></textarea>
+                                                placeholder=""></textarea>
                                         </div>
                                     </td>
                                     <td>
@@ -110,7 +112,7 @@
                                         <div class="form-group">
                                             <label class="form-label">Jangka Menengah :</label>
                                             <textarea rows="3" class="form-control" name="rekom_invest_menengah"
-                                                placeholder="How is it happen"></textarea>
+                                                placeholder=""></textarea>
                                         </div>
                                     </td>
                                     <td>
@@ -130,7 +132,7 @@
                                         <div class="form-group">
                                             <label class="form-label">Jangka Panjang :</label>
                                             <textarea rows="3" class="form-control" name="rekom_invest_panjang"
-                                                placeholder="How is it happen"></textarea>
+                                                placeholder=""></textarea>
                                         </div>
                                     </td>
                                     <td>
@@ -164,7 +166,7 @@
                                         <div class="form-group">
                                             <label class="form-label">Jangka Pendek :</label>
                                             <textarea rows="3" class="form-control" name="realisasi_invest_pendek"
-                                                placeholder="How is it happen"></textarea>
+                                                placeholder=""></textarea>
                                         </div>
                                     </td>
                                     <td>
@@ -184,7 +186,7 @@
                                         <div class="form-group">
                                             <label class="form-label">Jangka Menengah :</label>
                                             <textarea rows="3" class="form-control" name="realisasi_invest_menengah"
-                                                placeholder="How is it happen"></textarea>
+                                                placeholder=""></textarea>
                                         </div>
                                     </td>
                                     <td>
@@ -204,7 +206,7 @@
                                         <div class="form-group">
                                             <label class="form-label">Jangka Panjang :</label>
                                             <textarea rows="3" class="form-control" name="realisasi_invest_panjang"
-                                                placeholder="How is it happen"></textarea>
+                                                placeholder=""></textarea>
                                         </div>
                                     </td>
                                     <td>
@@ -227,13 +229,15 @@
 
                     <div class="row">
                         <div class="col-6">
+
                             <div class="form-group">
                                 <h5>Ka.Ru, Ka.Sie, Ka.Bag Yang Melengkapi</h5>
                                 <label class="form-label">Nama</label>
                                 <input type="text" class="form-control" name="nama_pelengkap"
-                                    placeholder="Input patient name" required
+                                    placeholder="Input nama yang melengkapi" required
                                     data-validation-required-message="This field is required">
                             </div>
+
                             <div class="form-group">
                                 <label class="form-label">Tanda tangan</label>
                                 <div class="signature mb-3">
@@ -276,7 +280,7 @@
                             <div class="form-group">
                                 <label class="form-label">Bagian / Peran</label>
                                 <input type="text" class="form-control" name="bagian_pelengkap"
-                                    placeholder="Input patient name" required
+                                    placeholder="Input bagian / peran yang melengkapi" required
                                     data-validation-required-message="This field is required">
                             </div>
                             <div class="form-group">
@@ -305,20 +309,22 @@
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Direksi RS Husada : </label>
-                                <input type="text" class="form-control" name="direksi" placeholder="Input patient name">
+                                <input type="text" class="form-control" name="direksi" placeholder="Input nama direksi">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Asdir / Manajer Keperawatan : </label>
-                                <input type="text" class="form-control" name="asdir" placeholder="Input patient name">
+                                <input type="text" class="form-control" name="asdir"
+                                    placeholder="Input nama Asdir / Manajer Keperawatan">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Tim Keselamatan Pasien : </label>
-                                <input type="text" class="form-control" name="timkes" placeholder="Input patient name">
+                                <input type="text" class="form-control" name="timkes"
+                                    placeholder="Input nama Tim Keselamatan Pasien">
                             </div>
                             <div class="form-group">
                                 <label class="form-label">Ka.Bag Personalia : </label>
                                 <input type="text" class="form-control" name="personalia"
-                                    placeholder="Input patient name">
+                                    placeholder="Input nama dari Personalia">
                             </div>
                         </div>
                     </div>

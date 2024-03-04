@@ -54,7 +54,8 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/search-patient', [DataController::class, 'search']);
 
     /* Route untuk bar Chart */
-    Route::get('/chart-data/{year}', [LapinController::class, 'barChartLapin']);
+    Route::get('/chart-data/{year}', [LapinController::class, 'barChartLapinYear']);
+    Route::get('/chart-data/{year}/{month}', [LapinController::class, 'barChartLapinMonth']);
 
     /* Route untuk bagian Laporan KPC */
     Route::get('/lapkpc', [LapkpcController::class, 'lapkpc']);
@@ -64,6 +65,7 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/lapkpc/edit/{id}', [LapkpcController::class, 'edit']);
     Route::post('/lapkpc/update/{id}', [LapkpcController::class, 'update'])->name('updateLapkpc');
     Route::get('/lapkpc/delete/{id}', [LapkpcController::class, 'delete']);
+    Route::post('/lapkpc/reset-edit-status/{id}', [LapkpcController::class, 'resetEditStatus']);
     Route::get('/lapkpc/verificate/{id}', [LapkpcController::class, 'verifikasi']);
     Route::post('/lapkpc/grade/{id}', [LapkpcController::class, 'grading'])->name('gradingLapkpc');
 

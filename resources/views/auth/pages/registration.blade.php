@@ -2,6 +2,14 @@
 
 @section('container')
 
+@if(session()->has('success'))
+@include('script.success')
+@endif
+
+@if(session()->has('error'))
+@include('script.error')
+@endif
+
 <div class="d-flex flex-column justify-content-center align-items-center vh-100">
     <div class="row d-flex justify-content-center bg-white rounded50 shadow-lg">
         <div class="col-10">
@@ -19,30 +27,39 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-transparent"><i class="fal fa-user"></i></span>
                             <input type="text" name="username" class="form-control ps-15 bg-transparent"
-                                placeholder="Username">
+                                placeholder="Username" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-transparent"><i class="fal fa-user-tie"></i></span>
                             <input type="text" name="nama" class="form-control ps-15 bg-transparent"
-                                placeholder="Full Name">
+                                placeholder="Full Name" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-transparent"><i class="fal fa-key"></i></span>
                             <input type="password" name="password" class="form-control ps-15 bg-transparent"
-                                placeholder="Password">
+                                placeholder="Password" required>
                         </div>
                     </div>
-                    <div class="form-group">
+                    <div class="form-group" id="roleSelector">
                         <div class="input-group mb-3">
-                            <span class="input-group-text bg-transparent"><i class="fal fa-tools"></i></span>
-                            <select name="role" class="form-control ps-15 bg-transparent">
+                            <select class="form-control" name="role" required>
                                 <option selected disabled>Select one Role</option>
                                 <option value="admin">Admin</option>
                                 <option value="user">User</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <div class="input-group mb-3 d-none" id="unitsChoice">
+                            <select class="form-control select2" id="unit" name="unit" style="width: 100%">
+                                <option selected disabled>Pilih salah satu Unit</option>
+                                @foreach ($unit as $item)
+                                <option value="{{ $item->nama }}">{{ $item->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -61,5 +78,7 @@
         </div>
     </div>
 </div>
+
+@include('script.showUnit')
 
 @endsection

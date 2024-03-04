@@ -6,7 +6,7 @@
 @include('script.success')
 @endif
 
-@if(session()->has('loginError'))
+@if(session()->has('error'))
 @include('script.error')
 @endif
 
@@ -28,14 +28,14 @@
                         <div class="input-group mb-3">
                             <span class="input-group-text bg-transparent"><i class="fal fa-user"></i></span>
                             <input type="text" name="username" class="form-control ps-15 bg-transparent"
-                                placeholder="Username">
+                                placeholder="Username" required>
                         </div>
                     </div>
                     <div class="form-group">
                         <div class="input-group mb-3">
                             <span class="input-group-text  bg-transparent"><i class="fal fa-key"></i></span>
                             <input type="password" name="password" class="form-control ps-15 bg-transparent"
-                                placeholder="Password">
+                                placeholder="Password" required>
                         </div>
                     </div>
                     <div class="row">

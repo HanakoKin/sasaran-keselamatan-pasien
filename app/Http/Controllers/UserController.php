@@ -2,11 +2,14 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Unit;
 use App\Models\User;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
+use Illuminate\Support\Facades\Validator;
+
 
 class UserController extends Controller
 {
@@ -36,7 +39,9 @@ class UserController extends Controller
 
         }
 
-        return back()->with('error', 'Login Failed!');
+        // dd($credentials);
+
+        return redirect('/login')->with('error', 'Login Failed!');
 
     }
 
@@ -44,26 +49,43 @@ class UserController extends Controller
 
         $title = 'Register Page';
 
-        return view('auth.pages.registration', compact('title'));
+        $unit = Unit::all();
+
+        return view('auth.pages.registration', compact('title', 'unit'));
 
     }
 
     public function store(Request $request){
-
-        $validatedData = $request->validate([
+        // Define common validation rules
+        $commonRules = [
             'username' => ['required', 'min:3', 'max:255', 'unique:users'],
             'nama' => 'required|max:255',
-            'password' => 'required|min:5, max:255',
-            'role' => 'required'
-        ]);
+            'password' => 'required|min:8|max:255',
+            'role' => 'required',
+        ];
 
+        // Role-specific validation rules
+        $roleRules = ($request->role === 'user')
+            ? array_merge($commonRules, ['unit' => 'required|string'])
+            : array_merge($commonRules, ['unit' => 'nullable|string']);
+
+        // Validate the request
+        $validator = Validator::make($request->all(), $roleRules);
+
+        if ($validator->fails()) {
+            $errors = implode(', ', $validator->errors()->all());
+            return back()->with('error', $errors)->withInput();
+        }
+
+        // Validation passed, continue processing
+        $validatedData = $validator->validated();
         $validatedData['password'] = Hash::make($validatedData['password']);
 
         User::create($validatedData);
 
-        return redirect('/login')->with('success', 'Registration successfull! Please login');
-
+        return redirect('/login')->with('success', 'Registration successful! Please login');
     }
+
 
     public function logout(Request $request){
 
@@ -73,7 +95,7 @@ class UserController extends Controller
         $request->session()->invalidate();
         $request->session()->regenerateToken();
 
-        return redirect('/login');
+        return redirect('/login')->with('success', 'Log Out successful! Have a nice Day :)');
 
     }
 

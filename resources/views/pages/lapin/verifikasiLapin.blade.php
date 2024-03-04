@@ -15,10 +15,9 @@
                                     <li class="breadcrumb-item"><a href="/dashboard"><i
                                                 class="mdi mdi-home-outline"></i></a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden Signifikan</a>
+                                    <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden</a>
                                     </li>
                                     <li class="breadcrumb-item active" aria-current="page">Verifikasi Laporan Insiden
-                                        Signifikan
                                     </li>
                                 </ol>
                             </nav>

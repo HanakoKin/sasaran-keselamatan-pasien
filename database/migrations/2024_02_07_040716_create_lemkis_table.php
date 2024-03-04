@@ -16,6 +16,8 @@ return new class extends Migration
 
             /* DATA LEMKIS */
             $table->foreignId('lapin_id')->constrained();
+            $table->string('unit_kerja');
+
             $table->text('penyebab_langsung');
             $table->text('penyebab_awal');
             $table->text('rekom_invest_pendek')->nullable();
@@ -53,6 +55,7 @@ return new class extends Migration
 
             $table->text('catatan')->nullable();
             $table->text('tanggal_catatan')->nullable();
+            $table->text('narasumber')->nullable();
 
             $table->timestamps();
         });

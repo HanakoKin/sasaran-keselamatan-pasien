@@ -18,8 +18,8 @@
         let input_des_pernah = document.getElementById("des_pernah");
 
         // Ambil data yang akan diubah kalimatnya
-        let data_kejadian_insiden = "{{ $lapkpc->kejadian_insiden }}";
-        let data_tindakan_insiden = "{{ $lapkpc->tindakan_insiden }}";
+        let data_kejadian_insiden = "{{ $data->kejadian_insiden }}";
+        let data_tindakan_insiden = "{{ $data->tindakan_insiden }}";
 
         // Ubah kalimat pada data
         let fixed_ket_tindakan_tim = data_tindakan_insiden.replace("Tim, yang terdiri dari ", "");
@@ -29,8 +29,8 @@
         let textarea_pernah = document.getElementById("textarea_pernah");
 
         if (radio_pelapor_lain.checked) {
-            input_pelapor_lain.value = "{{ $lapkpc->pelapor_insiden }}";
-            radio_pelapor_lain.value = "{{ $lapkpc->pelapor_insiden }}"
+            input_pelapor_lain.value = "{{ $data->pelapor_insiden }}";
+            radio_pelapor_lain.value = "{{ $data->pelapor_insiden }}"
         }
 
         if (radio_tindakan_tim.checked) {
@@ -39,8 +39,8 @@
         }
 
         if (radio_tindakan_lain.checked) {
-            input_tindakan_lain.value = "{{ $lapkpc->tindakan_insiden }}";
-            radio_tindakan_lain.value = "{{ $lapkpc->tindakan_insiden }}";
+            input_tindakan_lain.value = "{{ $data->tindakan_insiden }}";
+            radio_tindakan_lain.value = "{{ $data->tindakan_insiden }}";
         }
 
         if (radio_pernah_terjadi.checked) {

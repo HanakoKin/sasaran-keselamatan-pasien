@@ -15,8 +15,8 @@
                                     <li class="breadcrumb-item"><a href="/dashboard"><i
                                                 class="mdi mdi-home-outline"></i></a>
                                     </li>
-                                    <li class="breadcrumb-item"><a href="/lapkpc">Kelola Laporan KPC</a></li>
-                                    <li class="breadcrumb-item active" aria-current="page">Verifikasi Laporan KPC
+                                    <li class="breadcrumb-item"><a href="/lapkpc">Kelola Laporan KPCS</a></li>
+                                    <li class="breadcrumb-item active" aria-current="page">Verifikasi Laporan KPCS
                                     </li>
                                 </ol>
                             </nav>
@@ -49,7 +49,8 @@
                                 </h4>
                             </div>
                             <div class="text-center">
-                                <h4 class="box-title text-bold mt-20">LAPORAN KONDISI POTENSIAL CEDERA (KPC)</h4>
+                                <h4 class="box-title text-bold mt-20">LAPORAN KONDISI POTENSIAL CEDERA SIGNIFIKAN (KPCS)
+                                </h4>
                                 <h4 class="box-title text-bold mt-5 mb-20">(INTERNAL)</h4>
                             </div>
 

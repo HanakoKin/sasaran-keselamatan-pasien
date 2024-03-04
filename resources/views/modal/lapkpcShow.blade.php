@@ -25,15 +25,15 @@
                                     <table class="table">
                                         <tbody>
                                             <tr>
-                                                <td width="200">KPC</td>
+                                                <td width="200">KPCS</td>
                                                 <td id="lapkpc"></td>
                                             </tr>
                                             <tr>
-                                                <td>Tanggal Ditemukan KPC</td>
+                                                <td>Tanggal Ditemukan KPCS</td>
                                                 <td id="lapkpcTanggalDitemukan"></td>
                                             </tr>
                                             <tr>
-                                                <td>Jam Ditemukan KPC</td>
+                                                <td>Jam Ditemukan KPCS</td>
                                                 <td id="lapkpcJamDitemukan"></td>
                                             </tr>
                                             <tr>

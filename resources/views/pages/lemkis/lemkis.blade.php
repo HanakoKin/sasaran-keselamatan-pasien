@@ -7,6 +7,9 @@
     @include('script.success')
     @endif
 
+    @if(session()->has('error'))
+    @include('script.error')
+    @endif
 
     <div class="row">
         <div class="col-xl-12 col-12">

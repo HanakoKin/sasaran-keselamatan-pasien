@@ -8,12 +8,12 @@
                 <ol class="breadcrumb mb-3">
                     <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
                     </li>
-                    <li class="breadcrumb-item active" aria-current="page">Tabel Laporan Insiden Signifikan</li>
+                    <li class="breadcrumb-item active" aria-current="page">Tabel Laporan Insiden</li>
                 </ol>
             </nav>
             <div class="box">
                 <div class="box-header py-4">
-                    <h4 class="box-title">Tabel Laporan Insiden Signifikan</h4>
+                    <h4 class="box-title">Tabel Laporan Insiden</h4>
                 </div>
                 <!-- /.box-header -->
                 <div class="box-body">
@@ -21,8 +21,9 @@
                         <table id="example" class="table table-bordered table-hover display margin-top-10">
                             <thead class="text-center">
                                 <tr>
-                                    <th class="min-w-100">Name</th>
-                                    <th>No Register</th>
+                                    <th class="min-w-200">Unit Kerja Pelapor</th>
+                                    <th class="min-w-200">Name</th>
+                                    <th class="min-w-100">No Register</th>
                                     <th class="min-w-150">Ruangan</th>
                                     <th class="min-w-150">Umur</th>
                                     <th class="min-w-150">Jenis Kelamin
@@ -58,6 +59,7 @@
                             <tbody>
                                 @foreach ($lapins as $lapin)
                                 <tr>
+                                    <td> {{ $lapin->unit_kerja }} </td>
                                     <td> {{ $lapin->nama }} </td>
                                     <td> {{ $lapin->noRM }} </td>
                                     <td> {{ $lapin->ruangan }} </td>

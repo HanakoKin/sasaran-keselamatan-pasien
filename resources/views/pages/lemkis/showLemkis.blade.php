@@ -34,7 +34,7 @@
 
                             <div class="d-flex justify-content-between align-items-center m-20">
                                 <img src="{{ asset('assets/images/Husada.png') }}" width="70" alt="">
-                                <div class="">
+                                <div class="" style="width: 35%">
                                     <h4>Nama&nbsp;&nbsp;&nbsp;: {{ $data->lapin->nama }}</h4>
                                     <h4>No. RM&nbsp;: {{ $data->lapin->noRM }}</h4>
                                 </div>
@@ -278,6 +278,7 @@
                                             <tr>
                                                 <td class="text-center">Catatan</td>
                                                 <td class="text-center min-w-150">Tanggal</td>
+                                                <td class="text-center min-w-150">Narasumber</td>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -285,6 +286,7 @@
                                             <tr>
                                                 <td>{{ $catatan }}</td>
                                                 <td>{{ $fixed_data_tanggal[$loop->index] }}</td>
+                                                <td>{{ $fixed_data_narasumber[$loop->index] }}</td>
                                             </tr>
                                             @endforeach
                                         </tbody>

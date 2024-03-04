@@ -31,6 +31,7 @@
                                 <tr>
                                     <td class="">Catatan</td>
                                     <td class="min-w-150">Tanggal</td>
+                                    <td class="min-w-150">Narasumber</td>
                                 </tr>
                             </thead>
                             <tbody>
@@ -38,6 +39,7 @@
                                 <tr>
                                     <td>{{ $catatan }}</td>
                                     <td>{{ $fixed_data_tanggal[$loop->index] }}</td>
+                                    <td>{{ $fixed_data_narasumber[$loop->index] }}</td>
                                 </tr>
                                 @endforeach
                             </tbody>

@@ -17,7 +17,13 @@ class LapkpcController extends Controller
 
         $title = 'Laporan KPC';
 
-        $lapkpcs = Lapkpc::orderBy('created_at', 'desc')->get();
+        $lapkpcs = Lapkpc::orderBy('created_at', 'desc');
+
+        if (!Auth::user()->isAdmin()) {
+            $lapkpcs->where('unit_kerja', Auth::user()->unit);
+        }
+
+        $lapkpcs = $lapkpcs->get();
 
         return view('pages.lapkpc.lapkpc', compact('lapkpcs', 'title'));
 
@@ -28,6 +34,10 @@ class LapkpcController extends Controller
         $title = 'Tabel Kondisi Potensial Cedera';
 
         $lapkpcs = Lapkpc::orderBy('created_at', 'desc')->get();
+
+        if (!Auth::user()->isAdmin()) {
+            return redirect('/lapkpc')->with('error', 'UNAUTHORIZED ACTION');
+        }
 
         return view('pages.lapkpc.lapkpcTable', compact('lapkpcs', 'title'));
 
@@ -70,14 +80,19 @@ class LapkpcController extends Controller
 
         $title = 'Edit data KPC';
 
-        $lapkpc = Lapkpc::findOrFail($id);
+        $data = Lapkpc::findOrFail($id);
+        $kategori = 'lapkpc';
+
+        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $data->unit_kerja)) {
+            return redirect('/lapkpc')->with('error', 'UNAUTHORIZED ACTION');
+        }
 
         // Tandai data sedang diedit
-        $lapkpc->update(['proses_edit' => true]);
+        $data->update(['proses_edit' => true]);
 
-        $fixed_kejadian_insiden = str_replace('Ya, terjadi pada ', '', $lapkpc->kejadian_insiden);
+        $fixed_kejadian_insiden = str_replace('Ya, terjadi pada ', '', $data->kejadian_insiden);
 
-        return view('pages.lapkpc.editLapkpc', compact('lapkpc', 'fixed_kejadian_insiden', 'title'));
+        return view('pages.lapkpc.editLapkpc', compact('data', 'fixed_kejadian_insiden', 'title', 'kategori'));
 
     }
 
@@ -94,7 +109,7 @@ class LapkpcController extends Controller
         // dd($request);
 
         $validatedData = $request->validate([
-            'unit_kerja' => 'required|strting',
+            'unit_kerja' => 'required|string',
             'kpc' => 'required|string',
             'tanggal_ditemukan' => 'required|date',
             'jam_ditemukan' => 'required|date_format:H:i',
@@ -116,9 +131,27 @@ class LapkpcController extends Controller
 
     public function delete($id){
 
-        $lapkpc = Lapkpc::where('id', '=', $id)->delete();
+        $lapkpc = Lapkpc::findOrFail($id);
 
-        return back()->with('success', 'LapKPC deleted successfully!');
+        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $lapkpc->unit_kerja)) {
+            return redirect('/lapkpc')->with('error', 'UNAUTHORIZED ACTION');
+        }
+
+         // Hapus data LAPKPC
+         $lapkpc->delete();
+
+         return back()->with('success', 'LAPKPC deleted successfully!');
+
+    }
+
+    public function resetEditStatus($id){
+
+        $lapkpc = Lapkpc::findOrFail($id);
+
+        // Hapus penanda sedang diedit dari database
+        $lapkpc->update(['proses_edit' => false]);
+
+        return response()->json(['message' => 'Status edit berhasil diperbarui']);
     }
 
     public function verifikasi($id){

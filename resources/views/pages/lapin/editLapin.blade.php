@@ -11,14 +11,14 @@
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
                         </li>
-                        <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden Signifikan</a></li>
-                        <li class="breadcrumb-item active" aria-current="page">Edit Laporan Insiden Signifikan</li>
+                        <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Edit Laporan Insiden</li>
                     </ol>
                 </nav>
             </div>
 
             {{-- Form --}}
-            <form action="{{ route('updateLapin', ['id' => $lapin->id]) }}" method="post" enctype="multipart/form-data"
+            <form action="{{ route('updateLapin', ['id' => $data->id]) }}" method="post" enctype="multipart/form-data"
                 onsubmit="return validasiForm()">
                 @csrf
 
@@ -34,7 +34,7 @@
                                 <div class="form-group mb-0">
                                     <div class="form-check form-check-inline">
                                         <input type="text" class="form-control" id="editUnLap" name="unit_kerja"
-                                            value="{{ $lapin->unit_kerja }}">
+                                            value="{{ $data->unit_kerja }}" readonly>
                                     </div>
                                 </div>
                             </div>
@@ -46,75 +46,81 @@
 
                     <hr class="my-15">
 
-                    {{-- Nama => clear --}}
+                    {{-- NAMA --}}
                     <div class="col-md-12">
                         <label for="editNaLap" class="form-label text-bold">Nama</label>
                         <input type="text" class="form-control" id="editNaLap" name="nama"
                             placeholder="Input patient name" required readonly
-                            data-validation-required-message="This field is required" value="{{ $lapin->nama }}">
+                            data-validation-required-message="This field is required" value="{{ $data->nama }}">
                     </div>
 
-                    {{-- No RM => clear --}}
+                    {{-- NO RM --}}
                     <div class="row my-3">
                         <div class="col-md-6">
                             <label for="editNoRMLap" class="form-label text-bold">No RM</label>
                             <input type="text" class="form-control" id="editNoRMLap" name="noRM"
                                 placeholder="Input Medical Record" required readonly
-                                data-validation-required-message="This field is required" value="{{ $lapin->noRM }}">
+                                data-validation-required-message="This field is required" value="{{ $data->noRM }}">
                         </div>
                         <div class="col-md-6">
                             <label for="editRuLap" class="form-label text-bold">Ruangan</label>
                             {{-- <input type="text" class="form-control" id="editRuLap" name="ruangan"
                                 placeholder="Which room you want?" required readonly
-                                data-validation-required-message="This field is required" value="{{ $lapin->ruangan }}">
+                                data-validation-required-message="This field is required" value="{{ $data->ruangan }}">
                             --}}
                             <select class="form-control select2" id="editRuLap" name="ruangan" style="width: 100%;">
                                 @foreach ($ruangan as $item)
                                 <option value="{{ $item->nama }}"
-                                    {{ $item->nama  == $lapin->ruangan ? 'selected' : ''  }}>{{ $item->nama }}
+                                    {{ $item->nama  == $data->ruangan ? 'selected' : ''  }}>{{ $item->nama }}
                                 </option>
                                 @endforeach
                             </select>
                         </div>
                     </div>
 
-                    {{-- Jenis Kelamin => clear --}}
-                    <div class="col-md-12">
-                        <div class="d-flex align-items-center">
-                            <label for="jenis_kelamin" class="form-label me-3 text-bold">Jenis Kelamin</label>
-                            <div class="form-group mb-0">
-                                <div class="form-check form-check-inline">
-                                    <input name="jenis_kelamin" type="radio" value="Laki-laki" id="jekel1" required
-                                        data-validation-required-message="This field is required"
-                                        {{ $lapin->jenis_kelamin === 'Laki-laki' ? 'checked' : '' }}
-                                        onclick="return false" style="pointer-events: none">
-                                    <label for="jekel1">Laki-laki</label>
-                                </div>
-                                <div class="form-check form-check-inline">
-                                    <input name="jenis_kelamin" type="radio" value="Perempuan" id="jekel2" required
-                                        data-validation-required-message="This field is required"
-                                        {{ $lapin->jenis_kelamin === 'Perempuan' ? 'checked' : '' }}
-                                        onclick="return false" style="pointer-events: none">
-                                    <label for="jekel2">Perempuan</label>
+                    <div class="row mb-3">
+
+                        {{-- JENIS KELAMIN --}}
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <label for="jenis_kelamin" class="form-label me-3 text-bold">Jenis Kelamin</label>
+                                <div class="form-group mb-0">
+                                    <div class="form-check form-check-inline">
+                                        <input name="jenis_kelamin" type="radio" value="Laki-laki" id="jekel1" required
+                                            data-validation-required-message="This field is required"
+                                            {{ $data->jenis_kelamin === 'Laki-laki' ? 'checked' : '' }}
+                                            onclick="return false" style="pointer-events: none">
+                                        <label for="jekel1">Laki-laki</label>
+                                    </div>
+                                    <div class="form-check form-check-inline">
+                                        <input name="jenis_kelamin" type="radio" value="Perempuan" id="jekel2" required
+                                            data-validation-required-message="This field is required"
+                                            {{ $data->jenis_kelamin === 'Perempuan' ? 'checked' : '' }}
+                                            onclick="return false" style="pointer-events: none">
+                                        <label for="jekel2">Perempuan</label>
+                                    </div>
                                 </div>
                             </div>
                         </div>
-                    </div>
 
-                    {{-- New: Tanggal Lahir --}}
-                    <div class="col-md-12 my-3">
-                        <div class="d-flex align-items-center">
-                            <label for="talah" class="form-label text-bold">Tanggal Lahir</label>
-                            <div class="form-group mb-0">
-                                <div class="form-check form-check-inline">
-                                    <input type="date" class="form-control" id="talah" name="tanggal_lahir" value="{{ $lapin->tanggal_lahir }}" readonly>
+                        {{-- TANGGAL LAHIR --}}
+                        <div class="col-md-6">
+                            <div class="d-flex align-items-center">
+                                <label for="talah" class="form-label text-bold">Tanggal Lahir</label>
+                                <div class="form-group mb-0">
+                                    <div class="form-check form-check-inline">
+                                        <input type="date" class="form-control" id="talah" name="tanggal_lahir"
+                                            value="{{ $data->tanggal_lahir }}" readonly>
+                                    </div>
                                 </div>
                             </div>
                         </div>
+
                     </div>
 
-                    {{-- Umur & Penjamin => clear --}}
                     <div class="row">
+
+                        {{-- UMUR --}}
                         <div class="col-md-6">
                             <label for="umur" class="form-label text-bold">Umur</label>
                             <div class="form-group">
@@ -123,7 +129,7 @@
                                         <div class="form-check form-check-inline ms-3">
                                             <input name="umur" value="0 - 1 bulan" type="radio" id="umur1" required
                                                 data-validation-required-message="This field is required"
-                                                {{ $lapin->umur === '0 - 1 bulan' ? 'checked' : '' }}
+                                                {{ $data->umur === '0 - 1 bulan' ? 'checked' : '' }}
                                                 onclick="return false" style="pointer-events: none">
                                             <label for="umur1">0 - 1 bulan</label>
                                         </div>
@@ -132,7 +138,7 @@
                                         <div class="form-check form-check-inline ms-3">
                                             <input name="umur" value="> 1 bulan - 1 tahun" type="radio" id="umur2"
                                                 required data-validation-required-message="This field is required"
-                                                {{ $lapin->umur === '> 1 bulan - 1 tahun' ? 'checked' : '' }}
+                                                {{ $data->umur === '> 1 bulan - 1 tahun' ? 'checked' : '' }}
                                                 onclick="return false" style="pointer-events: none">
                                             <label for="umur1">> 1 bulan - 1 tahun</label>
                                         </div>
@@ -143,7 +149,7 @@
                                         <div class="form-check form-check-inline ms-3">
                                             <input name="umur" value="> 1 tahun - 5 tahun" type="radio" id="umur3"
                                                 required data-validation-required-message="This field is required"
-                                                {{ $lapin->umur === '> 1 tahun - 5 tahun' ? 'checked' : '' }}
+                                                {{ $data->umur === '> 1 tahun - 5 tahun' ? 'checked' : '' }}
                                                 onclick="return false" style="pointer-events: none">
                                             <label for="umur2">> 1 tahun - 5 tahun</label>
                                         </div>
@@ -152,7 +158,7 @@
                                         <div class="form-check form-check-inline ms-3">
                                             <input name="umur" value="> 5 tahun - 15 tahun" type="radio" id="umur4"
                                                 required data-validation-required-message="This field is required"
-                                                {{ $lapin->umur === '> 5 tahun - 15 tahun<' ? 'checked' : '' }}
+                                                {{ $data->umur === '> 5 tahun - 15 tahun<' ? 'checked' : '' }}
                                                 onclick="return false" style="pointer-events: none">
                                             <label for="umur3">> 5 tahun - 15 tahun</label>
                                         </div>
@@ -163,7 +169,7 @@
                                         <div class="form-check form-check-inline ms-3">
                                             <input name="umur" value="> 15 tahun - 30 tahun" type="radio" id="umur5"
                                                 required data-validation-required-message="This field is required"
-                                                {{ $lapin->umur === '> 15 tahun - 30 tahun' ? 'checked' : '' }}
+                                                {{ $data->umur === '> 15 tahun - 30 tahun' ? 'checked' : '' }}
                                                 onclick="return false" style="pointer-events: none">
                                             <label for="umur4">> 15 tahun - 30 tahun</label>
                                         </div>
@@ -172,7 +178,7 @@
                                         <div class="form-check form-check-inline ms-3">
                                             <input name="umur" value="> 30 tahun - 65 tahun" type="radio" id="umur6"
                                                 required data-validation-required-message="This field is required"
-                                                {{ $lapin->umur === '> 30 tahun - 65 tahun' ? 'checked' : '' }}
+                                                {{ $data->umur === '> 30 tahun - 65 tahun' ? 'checked' : '' }}
                                                 onclick="return false" style="pointer-events: none">
                                             <label for="umur5">> 30 tahun - 65 tahun</label>
                                         </div>
@@ -183,7 +189,7 @@
                                         <div class="form-check form-check-inline ms-3">
                                             <input name="umur" value="> 65 tahun" type="radio" id="umur7" required
                                                 data-validation-required-message="This field is required"
-                                                {{ $lapin->umur === '> 65 tahun' ? 'checked' : '' }}
+                                                {{ $data->umur === '> 65 tahun' ? 'checked' : '' }}
                                                 onclick="return false" style="pointer-events: none">
                                             <label for="umur6">> 65 tahun</label>
                                         </div>
@@ -191,81 +197,25 @@
                                 </div>
                             </div>
                         </div>
+
+                        {{-- PENJAMIN --}}
                         <div class="col-md-6">
-                            <label class="form-label text-bold">Penanggung Biaya Pasien</label>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input name="penjamin" type="radio" value="Pribadi" id="penjamin1" required
-                                                data-validation-required-message="This field is required"
-                                                {{ $lapin->penjamin === 'Pribadi' ? 'checked' : '' }}
-                                                onclick="return false" style="pointer-events: none">
-                                            <label for="penjamin1">Pribadi</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input name="penjamin" type="radio" value="Pemerintah" id="penjamin2"
-                                                required data-validation-required-message="This field is required"
-                                                {{ $lapin->penjamin === 'Pemerintah' ? 'checked' : '' }}
-                                                onclick="return false" style="pointer-events: none">
-                                            <label for="penjamin2">Pemerintah</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col md-6">
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input name="penjamin" type="radio" value="BPJS" id="penjamin3" required
-                                                data-validation-required-message="This field is required"
-                                                {{ $lapin->penjamin === 'BPJS' ? 'checked' : '' }}
-                                                onclick="return false" style="pointer-events: none">
-                                            <label for="penjamin3">BPJS</label>
-                                        </div>
-                                    </div>
-                                    <div class="col md-6">
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input name="penjamin" type="radio" value="Asuransi Swasta" id="penjamin4"
-                                                required data-validation-required-message="This field is required"
-                                                {{ $lapin->penjamin === 'Asuransi Swasta' ? 'checked' : '' }}
-                                                onclick="return false" style="pointer-events: none">
-                                            <label for="penjamin4">Asuransi Swasta</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-md-6">
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input name="penjamin" type="radio" value="Perusahaan" id="penjamin5"
-                                                required data-validation-required-message="This field is required"
-                                                {{ $lapin->penjamin === 'Perusahaan' ? 'checked' : '' }}
-                                                onclick="return false" style="pointer-events: none">
-                                            <label for="penjamin5">Perusahaan</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-md-6">
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input name="penjamin" type="radio" value="Lain-lain" id="penjamin6"
-                                                required data-validation-required-message="This field is required"
-                                                {{ $lapin->penjamin === 'Lain-lain' ? 'checked' : '' }}
-                                                onclick="return false" style="pointer-events: none">
-                                            <label for="penjamin6">Lain-lain</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
+                            <label for="editPenLap" class="form-label text-bold">Penjamin</label>
+                            <input type="text" class="form-control" id="editPenLap" name="penjamin" placeholder=""
+                                required readonly data-validation-required-message="This field is required"
+                                value="{{ $data->penjamin }}">
                         </div>
+
                     </div>
 
-                    {{-- Tanggal & jam Masuk => clear --}}
+                    {{-- WAKTU MASUK RS --}}
                     <div class="row">
                         <div class="col-md-6">
                             <label class="form-label text-bold">Tanggal Masuk</label>
                             <div class="col-12">
                                 <input class="form-control" type="date" name="tanggal_masuk" required
                                     data-validation-required-message="This field is required"
-                                    value="{{ $lapin->tanggal_masuk }}" readonly>
+                                    value="{{ $data->tanggal_masuk }}" readonly>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -273,7 +223,7 @@
                             <div class="col-12">
                                 <input class="form-control" type="time" name="jam_masuk" required
                                     data-validation-required-message="This field is required"
-                                    value="{{ $lapin->jam_masuk }}" readonly>
+                                    value="{{ $data->jam_masuk }}" readonly>
                             </div>
                         </div>
                     </div>
@@ -282,88 +232,97 @@
                     </h4>
                     <hr class="my-15">
 
-                    {{-- Tanggal & jam kejadian => clear --}}
-
+                    {{-- WAKTU INSINDEN --}}
                     <p class="mt-3 mb-0 text-bold">1. Tanggal dan Waktu Insiden</p>
-
                     <div class="row">
                         <div class="col-md-6 mt-2">
                             <label class="form-label text-bold">Tanggal:</label>
                             <input class="form-control" type="date" name="tanggal_kejadian" required
                                 data-validation-required-message="This field is required"
-                                value="{{ $lapin->tanggal_kejadian }}">
+                                value="{{ $data->tanggal_kejadian }}">
                         </div>
                         <div class="col-md-6 mt-2">
                             <label class="form-label text-bold">Jam:</label>
                             <input class="form-control" type="time" name="jam_kejadian" required
                                 data-validation-required-message="This field is required"
-                                value="{{ $lapin->jam_kejadian }}">
+                                value="{{ $data->jam_kejadian }}">
                         </div>
                     </div>
 
-                    {{-- Insiden => clear --}}
+                    {{-- INSIDEN --}}
                     <div class="col-md-12 my-3">
                         <label for="editInLap" class="form-label text-bold">2. Insiden</label>
                         <input type="text" class="form-control" id="editInLap" name="insiden"
                             placeholder="Type the incident" required
-                            data-validation-required-message="This field is required" value="{{ $lapin->insiden }}">
+                            data-validation-required-message="This field is required" value="{{ $data->insiden }}">
                     </div>
 
-                    {{-- Kronologis => ?? --}}
+                    {{-- KRONOLOGIS --}}
                     <div class="col-md-12">
                         <label for="editKronoLap" class="form-label text-bold">3. Kronologis Insiden</label>
                         <textarea rows="3" class="form-control" id="editKronoLap" name="kronologis"
                             placeholder="How is it happen" required
-                            data-validation-required-message="This field is required">{{ $lapin->kronologis }}</textarea>
+                            data-validation-required-message="This field is required">{{ $data->kronologis }}</textarea>
                     </div>
 
-                    {{-- Jenis Insiden & Pelapor Insiden => ?? --}}
-
+                    {{-- JENIS INSIDEN --}}
                     <div class="col-md-12 my-3">
                         <label class="form-label text-bold">4. Jenis Insiden</label>
                         <div class="form-group">
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-check form-check-inline ms-3">
-                                        <input name="jenis_insiden" value="Kejadian Nyaris Cedera / KNC" type="radio"
-                                            id="jenIn1" required
+                                        <input name="jenis_insiden" value="Kondisi Potensial Cedera Signifikan / KPCS"
+                                            type="radio" id="jenIn1" required
                                             data-validation-required-message="This field is required"
-                                            {{ $lapin->jenis_insiden === 'Kejadian Nyaris Cedera / KNC' ? 'checked' : '' }}>
-                                        <label for="jenIn1">Kejadian Nyaris Cedera / KNC</label>
+                                            {{ $data->jenis_insiden === 'Kondisi Potensial Cedera Signifikan / KPCS' ? 'checked' : '' }}>
+                                        <label for="jenIn1">Kondisi Potensial Cedera Signifikan / KPCS</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-check form-check-inline ms-3">
-                                        <input name="jenis_insiden" value="Kejadian Tidak Cedera / KTC" type="radio"
+                                        <input name="jenis_insiden" value="Kejadian Tidak Diharapkan / KTD" type="radio"
                                             id="jenIn2" required
                                             data-validation-required-message="This field is required"
-                                            {{ $lapin->jenis_insiden === 'Kejadian Tidak Cedera / KTC' ? 'checked' : '' }}>
-                                        <label for="jenIn2">Kejadian Tidak Cedera / KTC</label>
+                                            {{ $data->jenis_insiden === 'Kejadian Tidak Diharapkan / KTD' ? 'checked' : '' }}>
+                                        <label for="jenIn2">Kejadian Tidak Diharapkan / KTD</label>
                                     </div>
                                 </div>
                             </div>
                             <div class="row">
                                 <div class="col-md-6">
                                     <div class="form-check form-check-inline ms-3">
-                                        <input name="jenis_insiden" value="Kejadian Tidak Diharapkan / KTD" type="radio"
+                                        <input name="jenis_insiden" value="Kejadian Nyaris Cedera / KNC" type="radio"
                                             id="jenIn3" required
                                             data-validation-required-message="This field is required"
-                                            {{ $lapin->jenis_insiden === 'Kejadian Tidak Diharapkan / KTD' ? 'checked' : '' }}>
-                                        <label for="jenIn3">Kejadian Tidak Diharapkan / KTD</label>
+                                            {{ $data->jenis_insiden === 'Kejadian Nyaris Cedera / KNC' ? 'checked' : '' }}>
+                                        <label for="jenIn3">Kejadian Nyaris Cedera / KNC</label>
                                     </div>
                                 </div>
                                 <div class="col-md-6">
                                     <div class="form-check form-check-inline ms-3">
-                                        <input name="jenis_insiden" value="Kondisi Potensial Cedera / KPC" type="radio"
-                                            id="jenIn4" required
+                                        <input name="jenis_insiden" value="Sentinel" type="radio" id="jenIn4" required
                                             data-validation-required-message="This field is required"
-                                            {{ $lapin->jenis_insiden === 'Kondisi Potensial Cedera / KPC' ? 'checked' : '' }}>
-                                        <label for="jenIn4">Kondisi Potensial Cedera / KTC</label>
+                                            {{ $data->jenis_insiden === 'Sentinel' ? 'checked' : '' }}>
+                                        <label for="jenIn4">Sentinel</label>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-check form-check-inline ms-3">
+                                        <input name="jenis_insiden" value="Kejadian Tidak Cedera / KTC" type="radio"
+                                            id="jenIn5" required
+                                            data-validation-required-message="This field is required"
+                                            {{ $data->jenis_insiden === 'Kejadian Tidak Cedera / KTC' ? 'checked' : '' }}>
+                                        <label for="jenIn5">Kejadian Tidak Cedera / KTC</label>
                                     </div>
                                 </div>
                             </div>
                         </div>
                     </div>
+
+                    {{-- PELAPOR INSIDEN --}}
                     <div class="col-md-12">
                         <label for="pelapor_insiden" class="form-label me-3 text-bold">5. Orang Pertama yang Melaporkan
                             Insiden</label>
@@ -375,7 +334,7 @@
                                             value="Karyawan : Dokter / Perawat / Petugas Lainnya" type="radio"
                                             id="pelIn1" required
                                             data-validation-required-message="This field is required"
-                                            {{ $lapin->pelapor_insiden === 'Karyawan ( Dokter / Perawat / Petugas Lainnya )' ? 'checked' : '' }}>
+                                            {{ $data->pelapor_insiden === 'Karyawan ( Dokter / Perawat / Petugas Lainnya )' ? 'checked' : '' }}>
                                         <label for="pelIn1">Karyawan ( Dokter / Perawat / Petugas Lainnya )</label>
                                     </div>
                                 </div>
@@ -384,7 +343,7 @@
                                         <input name="pelapor_insiden" value="Keluarga / Pendamping" type="radio"
                                             id="pelIn2" required
                                             data-validation-required-message="This field is required"
-                                            {{ $lapin->pelapor_insiden === 'Keluarga / Pendamping' ? 'checked' : '' }}>
+                                            {{ $data->pelapor_insiden === 'Keluarga / Pendamping' ? 'checked' : '' }}>
                                         <label for="pelIn2">Keluarga / Pendamping</label>
                                     </div>
                                 </div>
@@ -394,7 +353,7 @@
                                     <div class="form-check form-check-inline ms-3">
                                         <input name="pelapor_insiden" value="Pasien" type="radio" id="pelIn3" required
                                             data-validation-required-message="This field is required"
-                                            {{ $lapin->pelapor_insiden === 'Pasien' ? 'checked' : '' }}>
+                                            {{ $data->pelapor_insiden === 'Pasien' ? 'checked' : '' }}>
                                         <label for="pelIn3">Pasien</label>
                                     </div>
                                 </div>
@@ -402,7 +361,7 @@
                                     <div class="form-check form-check-inline ms-3">
                                         <input name="pelapor_insiden" value="Pengunjung" type="radio" id="pelIn4"
                                             required data-validation-required-message="This field is required"
-                                            {{ $lapin->pelapor_insiden === 'Pengunjung' ? 'checked' : '' }}>
+                                            {{ $data->pelapor_insiden === 'Pengunjung' ? 'checked' : '' }}>
                                         <label for="pelIn4">Pengunjung</label>
                                     </div>
                                 </div>
@@ -414,7 +373,7 @@
                                             <span class="input-group-addon">
                                                 <input name="pelapor_insiden" type="radio" id="pelIn5" value="" required
                                                     data-validation-required-message="This field is required"
-                                                    {{ $lapin->pelapor_insiden !== 'Karyawan ( Dokter / Perawat / Petugas Lainnya )' && $lapin->pelapor_insiden !== 'Pasien' && $lapin->pelapor_insiden !== 'Keluarga / Pendamping' ? 'checked' : '' }}>
+                                                    {{ $data->pelapor_insiden !== 'Karyawan ( Dokter / Perawat / Petugas Lainnya )' && $data->pelapor_insiden !== 'Pasien' && $data->pelapor_insiden !== 'Keluarga / Pendamping' ? 'checked' : '' }}>
                                                 <label for="pelIn5" style="padding-left: 20px;height: 17px;"></label>
                                             </span>
                                             <input id="pelapor_lain" type="text" class="form-control"
@@ -428,7 +387,7 @@
                         </div>
                     </div>
 
-                    {{-- Korban Insiden & Layanan Insiden => ?? --}}
+                    {{-- KORBAN INSIDEN --}}
                     <div class="col-md-12">
                         <label for="korban_insiden" class="form-label text-bold">6. Insiden terjadi pada</label>
                         <div class="form-group">
@@ -438,7 +397,7 @@
                                         <input name="korban_insiden" type="radio" class="form-check-input"
                                             value="Pasien" id="korIn1" required
                                             data-validation-required-message="This field is required"
-                                            {{ $lapin->korban_insiden === 'Pasien' ? 'checked' : '' }}>
+                                            {{ $data->korban_insiden === 'Pasien' ? 'checked' : '' }}>
                                         <label for="korIn1">Pasien</label>
                                     </div>
                                 </div>
@@ -449,7 +408,7 @@
                                                 <input name="korban_insiden" type="radio"
                                                     class="form-check-input mt-0 ms-0" id="korIn2" value="" required
                                                     data-validation-required-message="This field is required"
-                                                    {{ $lapin->korban_insiden !== 'Pasien' ? 'checked' : '' }}>
+                                                    {{ $data->korban_insiden !== 'Pasien' ? 'checked' : '' }}>
                                                 <label class="mb-2" for="korIn2"
                                                     style="padding-left: 20px;height: 17px;"></label>
                                             </div>
@@ -463,25 +422,27 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- LAYANAN INSIDEN --}}
                     <div class="col-md-12">
                         <label for="layanan_insiden" class="form-label text-bold">7. Insiden menyangkut pasien</label>
                         <div class="form-group d-flex justify-content-between align-items-center">
                             <div class="form-check form-check-inlne ms-3">
                                 <input name="layanan_insiden" type="radio" value="Pasien rawat inap" id="layIn1"
                                     required data-validation-required-message="This field is required"
-                                    {{ $lapin->layanan_insiden === 'Pasien Rawat Inap' ? 'checked' : '' }}>
+                                    {{ $data->layanan_insiden === 'Pasien Rawat Inap' ? 'checked' : '' }}>
                                 <label for="layIn1">Pasien rawat inap</label>
                             </div>
                             <div class="form-check form-check-inlne ms-3">
                                 <input name="layanan_insiden" type="radio" value="Pasien rawat jalan" id="layIn2"
                                     required data-validation-required-message="This field is required"
-                                    {{ $lapin->layanan_insiden === 'Pasien Rawat Jalan' ? 'checked' : '' }}>
+                                    {{ $data->layanan_insiden === 'Pasien Rawat Jalan' ? 'checked' : '' }}>
                                 <label for="layIn1">Pasien rawat jalan</label>
                             </div>
                             <div class="form-check form-check-inlne ms-3">
                                 <input name="layanan_insiden" type="radio" value="Pasien UGD" id="layIn3" required
                                     data-validation-required-message="This field is required"
-                                    {{ $lapin->layanan_insiden === 'Pasien UGD' ? 'checked' : '' }}>
+                                    {{ $data->layanan_insiden === 'Pasien UGD' ? 'checked' : '' }}>
                                 <label for="layIn3">Pasien UGD</label>
                             </div>
                             <div class="form-check form-check-inlne p-0">
@@ -489,7 +450,7 @@
                                     <span class="input-group-addon">
                                         <input name="layanan_insiden" type="radio" id="layIn4" value="" required
                                             data-validation-required-message="This field is required"
-                                            {{ $lapin->layanan_insiden !== 'Pasien Rawat Inap' && $lapin->layanan_insiden !== 'Pasien Rawat Jalan' && $lapin->layanan_insiden !== 'Pasien UGD' ? 'checked' : '' }}>
+                                            {{ $data->layanan_insiden !== 'Pasien Rawat Inap' && $data->layanan_insiden !== 'Pasien Rawat Jalan' && $data->layanan_insiden !== 'Pasien UGD' ? 'checked' : '' }}>
                                         <label for="layIn4" style="padding-left: 20px;height: 17px;"></label>
                                     </span>
                                     <input id="layanan_lain" type="text" class="form-control"
@@ -501,18 +462,18 @@
                         </div>
                     </div>
 
-                    {{-- Tempat Insiden => clear --}}
+                    {{-- LOKASI INSIDEN --}}
                     <div class="row">
                         <div class="col-md-12">
                             <div class="form-group">
                                 <label for="editTempLan" class="form-label text-bold">8. Tempat Insiden</label>
                                 <input type="text" id="editTempLan" class="form-control" name="tempat_insiden"
-                                    placeholder="Input tempat insiden" value="{{ $lapin->tempat_insiden }}">
+                                    placeholder="Input tempat insiden" value="{{ $data->tempat_insiden }}">
                             </div>
                         </div>
                     </div>
 
-                    {{-- Insiden terjadi pada => ?? --}}
+                    {{-- INSIDEN YANG TERJADI PADA PASIEN --}}
                     <div class="col-md-12">
                         <label for="kasus_insiden" class="form-label text-bold">9. Insiden terjadi pada pasien ( sesuai
                             kasus penyakit / spesialisasi )</label>
@@ -647,69 +608,68 @@
                         </div>
                     </div>
 
-                    {{-- Unit terkait Insiden => clear --}}
+                    {{-- UNIT YANG TERKAIT --}}
                     <div class="col-md-12">
                         <label class="form-label text-bold">10. Unit ? Departemen terkait yang menyebabkan
                             insiden</label>
                         <input type="text" id="editUnitLap" class="form-control" name="unit_insiden"
                             placeholder="Input unit insiden" required
-                            data-validation-required-message="This field is required"
-                            value="{{ $lapin->unit_insiden }}">
+                            data-validation-required-message="This field is required" value="{{ $data->unit_insiden }}">
                         <div class="invalid-feedback">
                             Valid Unit Insiden is required.
                         </div>
                     </div>
 
-                    {{-- Akibat insiden => clear --}}
+                    {{-- AKIBAT TERHADAP PASIEN --}}
                     <div class="col-md-12 my-3">
                         <label class="form-label text-bold">11. Akibat insiden terhadap pasien</label>
                         <div class="form-group">
                             <div class="form-check form-check-inline ms-3">
                                 <input name="dampak_insiden" type="radio" value="Kematian" id="akIn1" required
                                     data-validation-required-message="This field is required"
-                                    {{ $lapin->dampak_insiden === 'Kematian' ? 'checked' : '' }}>
+                                    {{ $data->dampak_insiden === 'Kematian' ? 'checked' : '' }}>
                                 <label for="akIn1">Kematian</label>
                             </div>
                             <div class="form-check form-check-inline ms-3">
                                 <input name="dampak_insiden" type="radio" value="Cedera Irreversibel / Cedera Berat"
                                     id="akIn2" required data-validation-required-message="This field is required"
-                                    {{ $lapin->dampak_insiden === 'Cedera Irreversibel / Cedera Berat' ? 'checked' : '' }}>
+                                    {{ $data->dampak_insiden === 'Cedera Irreversibel / Cedera Berat' ? 'checked' : '' }}>
                                 <label for="akIn2">Cedera Irreversibel / Cedera Berat</label>
                             </div>
                             <div class="form-check form-check-inline ms-3">
                                 <input name="dampak_insiden" type="radio" value="Cedera Reversibel / Cedera Sedang"
                                     id="akIn3" required data-validation-required-message="This field is required"
-                                    {{ $lapin->dampak_insiden === 'Cedera Reversibel / Cedera Sedang' ? 'checked' : '' }}>
+                                    {{ $data->dampak_insiden === 'Cedera Reversibel / Cedera Sedang' ? 'checked' : '' }}>
                                 <label for="akIn3">Cedera Reversibel / Cedera Sedang</label>
                             </div>
                             <div class="form-check form-check-inline ms-3">
                                 <input name="dampak_insiden" type="radio" value="Cedera Ringan" id="akIn4" required
                                     data-validation-required-message="This field is required"
-                                    {{ $lapin->dampak_insiden === 'Cedera Ringan' ? 'checked' : '' }}>
+                                    {{ $data->dampak_insiden === 'Cedera Ringan' ? 'checked' : '' }}>
                                 <label for="akIn4">Cedera Ringan</label>
                             </div>
                             <div class="form-check form-check-inline ms-3">
                                 <input name="dampak_insiden" type="radio" value="Tidak ada cedera" id="akIn5" required
                                     data-validation-required-message="This field is required"
-                                    {{ $lapin->dampak_insiden === 'Tidak ada cedera' ? 'checked' : '' }}>
+                                    {{ $data->dampak_insiden === 'Tidak ada cedera' ? 'checked' : '' }}>
                                 <label for="akIn5">Tidak Ada Cedera</label>
                             </div>
                         </div>
                     </div>
 
-                    {{-- Tindakan cepat => clear --}}
+                    {{-- TINDAKAN SEGERA YANG DILAKUKAN --}}
                     <div class="col-md-12">
                         <label class="form-label text-bold">12. Tindakan yang dilakukan segera setelah kejadian, dan
                             hasilnya</label>
                         <textarea rows="3" id="editTinCepLap" class="form-control" name="tindakan_cepat"
                             placeholder="How is it happen" required
-                            data-validation-required-message="This field is required">{{ $lapin->tindakan_cepat }}</textarea>
+                            data-validation-required-message="This field is required">{{ $data->tindakan_cepat }}</textarea>
                         <div class="invalid-feedback">
                             Valid Tindakan Insiden is required.
                         </div>
                     </div>
 
-                    {{-- Penindak cepat & Pernah terjadi => ?? --}}
+                    {{-- YANG MELAKUKAN TINDAKAN SEGERA --}}
                     <div class="col-md-12 my-3">
                         <label for="tindakan_insiden" class="form-label text-bold">13. Tindakan dilakukan oleh</label>
                         <div class="form-group">
@@ -718,7 +678,7 @@
                                     <span class="input-group-text">
                                         <input name="tindakan_insiden" type="radio" id="tinIn1" value="" required
                                             data-validation-required-message="This field is required"
-                                            {{ strpos($lapin->tindakan_insiden, 'Tim,') !== false ? 'checked' : '' }}>
+                                            {{ strpos($data->tindakan_insiden, 'Tim,') !== false ? 'checked' : '' }}>
                                         <label class="form-check-label" for="tinIn1">Tim</label>
                                     </span>
                                     <input id="anggota_tim" name="tindakan_insiden" type="hidden" class="form-control"
@@ -732,13 +692,13 @@
                             <div class="form-check ms-3">
                                 <input name="tindakan_insiden" type="radio" value="Dokter" id="tinIn2" required
                                     data-validation-required-message="This field is required"
-                                    {{ $lapin->tindakan_insiden === 'Dokter' ? 'checked' : '' }}>
+                                    {{ $data->tindakan_insiden === 'Dokter' ? 'checked' : '' }}>
                                 <label for="tinIn2">Dokter</label>
                             </div>
                             <div class="form-check ms-3">
                                 <input name="tindakan_insiden" type="radio" value="Perawat" id="tinIn3" required
                                     data-validation-required-message="This field is required"
-                                    {{ $lapin->tindakan_insiden === 'Perawat' ? 'checked' : '' }}>
+                                    {{ $data->tindakan_insiden === 'Perawat' ? 'checked' : '' }}>
                                 <label for="tinIn3">Perawat</label>
                             </div>
                             <div class="form-check ps-0">
@@ -746,7 +706,7 @@
                                     <span class="input-group-text">
                                         <input name="tindakan_insiden" type="radio" id="tinIn4" value="" required
                                             data-validation-required-message="This field is required"
-                                            {{ strpos($lapin->tindakan_insiden, 'Tim,') === false && $lapin->tindakan_insiden !== 'Dokter' && $lapin->tindakan_insiden !== 'Perawat' ? 'checked' : '' }}>
+                                            {{ strpos($data->tindakan_insiden, 'Tim,') === false && $data->tindakan_insiden !== 'Dokter' && $data->tindakan_insiden !== 'Perawat' ? 'checked' : '' }}>
                                         <label for="tinIn4" style="padding-left: 20px;height: 17px;"></label>
                                     </span>
                                     <input id="tindakan_lain" type="text" class="form-control"
@@ -757,6 +717,8 @@
                             </div>
                         </div>
                     </div>
+
+                    {{-- APAKAH SUDAH PERNAH TERJADI --}}
                     <div class="col-md-12">
                         <label for="kejadian_insiden" class="form-label text-bold">14. Apakah kejadian yang sama pernah
                             terjadi?</label>
@@ -764,7 +726,7 @@
                             <div class="form-check ms-3">
                                 <input id="pernah1" name="kejadian_insiden" type="radio" class="form-check-input"
                                     value="Ya" onclick="showTextarea('textarea_pernah')" required
-                                    {{ strpos($lapin->kejadian_insiden, 'Ya,') !== false ? 'checked' : '' }}>
+                                    {{ strpos($data->kejadian_insiden, 'Ya,') !== false ? 'checked' : '' }}>
                                 <label class="form-check-label" for="pernah1">Ya</label>
                                 <div id="textarea_pernah" class="d-none mb-2">
                                     <label for="ket_pernah">Kapan? dan Langkah / tindakan apa yang
@@ -780,25 +742,29 @@
                                 <input name="kejadian_insiden" type="radio" value="Tidak" id="pernah2"
                                     onclick="hideTextarea('textarea_pernah')" required
                                     data-validation-required-message="This field is required"
-                                    {{ strpos($lapin->kejadian_insiden, 'Ya,') === false ? 'checked' : '' }}>
+                                    {{ strpos($data->kejadian_insiden, 'Ya,') === false ? 'checked' : '' }}>
                                 <label for="pernah2">Tidak</label>
                             </div>
                         </div>
                     </div>
+
                 </div>
-                <!-- /.box-body -->
+
                 <div class="box-footer float-right">
                     <button type="submit" class="btn btn-primary">
                         <i class="ti-save-alt"></i> Save
                     </button>
                 </div>
+
             </form>
         </div>
     </div>
 </section>
 
 @include('script.lapinEdit')
-@include('script.lapinAll')
+@include('script.autoSelectRadio')
+@include('script.editProcess')
+
 
 
 @endsection

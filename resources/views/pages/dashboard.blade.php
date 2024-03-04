@@ -2,30 +2,45 @@
 
 @section('container')
 <section class="content">
+
+    @if(session()->has('success'))
+    @include('script.success')
+    @endif
+
+    @if(session()->has('error'))
+    @include('script.error')
+    @endif
+
     <div class="row">
-        <div class="row">
-            <div class="col-12">
-                <div class="box bg-gradient-primary overflow-hidden pull-up">
-                    <div class="box-body pe-0 ps-lg-50 ps-15 py-0">
-                        <div class="row align-items-center">
-                            <div class="col-12 col-lg-8">
-                                <h1 class="fs-40 text-white">Welcome
-                                    <strong>{{ ucfirst(trans(Auth()->user()->username)) }} !</strong></h1>
-                                <p class="text-white mb-0 fs-20">
-                                    Education is the passport to the future, So learn more & more
-                                </p>
-                            </div>
-                            <div class="col-12 col-lg-4"><img
-                                    src="{{ asset('assets/images/svg-icon/color-svg/custom-15.svg') }}" alt="">
-                            </div>
+
+        {{-- Greeting --}}
+        <div class="col-12">
+            <div class="box bg-gradient-primary overflow-hidden pull-up">
+                <div class="box-body pe-0 ps-lg-50 ps-15 py-0">
+                    <div class="row align-items-center">
+                        <div class="col-12 col-lg-8">
+                            <h1 class="fs-40 text-white">Welcome
+                                <strong>{{ ucfirst(trans(Auth()->user()->username)) }} !</strong></h1>
+                            <p class="text-white mb-0 fs-20">
+                                <span id="greetingMessage"></span>, anda sedang login sebagai
+                                <span class="text-bold">{{ Auth()->user()->role }} </span>
+
+                                @if(Auth::user()->role === 'user')
+                                dari unit {{ Auth::user()->unit }}
+                                @endif
+                            </p>
+                            <p class="text-white mb-0 fs-16 mt-3">Total Kasus : {{ $totalKasus }} laporan</p>
+
+                        </div>
+                        <div class="col-12 col-lg-4"><img
+                                src="{{ asset('assets/images/svg-icon/color-svg/custom-15.svg') }}" alt="">
                         </div>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- Di bawah ini kasus berdasarkan jenis --}}
-
+        {{-- Kasus berdasarkan jenis --}}
         <div class="row">
             <div class="col-12">
                 <div class="box no-shadow mb-0 bg-transparent">
@@ -34,7 +49,33 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-3 col-12">
+            <div class="col-md-4 col-12">
+                <a href="#" class="box pull-up">
+                    <div class="box-body">
+                        <div class="d-flex align-items-center">
+                            <i class="fas fa-procedures fs-60 m-0"></i>
+                            <div class="ms-15">
+                                <h5 class="mb-0">Kondisi Potensial Cedera Signifikan</h5>
+                                <p class="text-fade fs-12 mb-0">{{ $jumlahKPC }} kasus</p>
+                            </div>
+                        </div>
+                        <div class="d-flex align-items-center justify-content-between mt-20">
+                            <div class="w-p70">
+                                <div class="progress progress-sm mb-0">
+                                    <div class="progress-bar  bg-{{ $prosentaseKPC >= 0 && $prosentaseKPC <= 25 ? 'info' : ($prosentaseKPC > 25 && $prosentaseKPC <= 50 ? 'success' : ($prosentaseKPC > 50 && $prosentaseKPC <= 75 ? 'warning' : ($prosentaseKPC > 75 ? 'danger' : ''))) }}"
+                                        role="progressbar" aria-valuenow="{{ $prosentaseKPC }}" aria-valuemin="0"
+                                        aria-valuemax="100" style="width: {{ $prosentaseKPC }}%">
+                                    </div>
+                                </div>
+                            </div>
+                            <div>
+                                <div>{{ $prosentaseKPC }}%</div>
+                            </div>
+                        </div>
+                    </div>
+                </a>
+            </div>
+            <div class="col-md-4 col-12">
                 <a href="#" class="box pull-up">
                     <div class="box-body">
                         <div class="d-flex align-items-center">
@@ -60,7 +101,7 @@
                     </div>
                 </a>
             </div>
-            <div class="col-lg-3 col-12">
+            <div class="col-md-4 col-12">
                 <a href="#" class="box pull-up">
                     <div class="box-body">
                         <div class="d-flex align-items-center">
@@ -86,7 +127,10 @@
                     </div>
                 </a>
             </div>
-            <div class="col-lg-3 col-12">
+        </div>
+        <div class="row d-flex justify-content-center">
+
+            <div class="col-md-4 col-12">
                 <a href="#" class="box pull-up">
                     <div class="box-body">
                         <div class="d-flex align-items-center">
@@ -112,36 +156,36 @@
                     </div>
                 </a>
             </div>
-            <div class="col-lg-3 col-12">
+            <div class="col-md-4 col-12">
                 <a href="#" class="box pull-up">
                     <div class="box-body">
                         <div class="d-flex align-items-center">
-                            <i class="fas fa-procedures fs-60 m-0"></i>
+                            <i class="fas fa-radiation fs-60 m-0"></i>
                             <div class="ms-15">
-                                <h5 class="mb-0">Kondisi Potensial Cedera</h5>
-                                <p class="text-fade fs-12 mb-0">{{ $jumlahKPC }} kasus</p>
+                                <h5 class="mb-0">Sentinel</h5>
+                                <p class="text-fade fs-12 mb-0">{{ $jumlahSentinel }} kasus</p>
                             </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-between mt-20">
                             <div class="w-p70">
                                 <div class="progress progress-sm mb-0">
-                                    <div class="progress-bar  bg-{{ $prosentaseKPC >= 0 && $prosentaseKPC <= 25 ? 'info' : ($prosentaseKPC > 25 && $prosentaseKPC <= 50 ? 'success' : ($prosentaseKPC > 50 && $prosentaseKPC <= 75 ? 'warning' : ($prosentaseKPC > 75 ? 'danger' : ''))) }}"
-                                        role="progressbar" aria-valuenow="{{ $prosentaseKPC }}" aria-valuemin="0"
-                                        aria-valuemax="100" style="width: {{ $prosentaseKPC }}%">
+                                    <div class="progress-bar bg-{{ $prosentaseSentinel >= 0 && $prosentaseSentinel <= 25 ? 'info' : ($prosentaseSentinel > 25 && $prosentaseSentinel <= 50 ? 'success' : ($prosentaseSentinel > 50 && $prosentaseSentinel <= 75 ? 'warning' : ($prosentaseSentinel > 75 ? 'danger' : ''))) }}"
+                                        role="progressbar" aria-valuenow="{{ $prosentaseSentinel }}" aria-valuemin="0"
+                                        aria-valuemax="100" style="width: {{ $prosentaseSentinel }}%">
                                     </div>
                                 </div>
                             </div>
                             <div>
-                                <div>{{ $prosentaseKPC }}%</div>
+                                <div>{{ $prosentaseSentinel }}%</div>
                             </div>
                         </div>
                     </div>
                 </a>
             </div>
+
         </div>
 
-        {{-- Di bawah ini kasus berdasarkan grading --}}
-
+        {{-- Kasus berdasarkan grading --}}
         <div class="row">
             <div class="col-12">
                 <div class="box no-shadow mb-0 bg-transparent">
@@ -201,7 +245,7 @@
             <div class="col-xl-3 col-md-6 col-12">
                 <div class="box pull-up">
                     <div class="box-body">
-                        <div class="bg-warning rounded">
+                        <div class="rounded" style="background-color: rgb(243, 207, 0)">
                             <h5 class="text-white text-center p-10">{{ $gradeKuning }} Kasus</h5>
                         </div>
                         <div class="d-flex justify-content-between mt-30">
@@ -246,6 +290,10 @@
                     </div>
                 </div>
             </div>
+        </div>
+
+        {{-- Pie Chart --}}
+        <div class="row">
             <div class="col-xl-6 col-12">
                 <div class="box">
                     <div class="box-body analytics-info">
@@ -261,29 +309,33 @@
                     </div>
                 </div>
             </div>
+        </div>
 
+        {{-- Bar Chart --}}
+        <div class="row">
             <div class="col-md-12 d-flex justify-content-between">
-                <button id="prevYearBtn" class="btn btn-sm border-primary b-2 rounded50"><i
+                <button id="prevBtn" class="btn btn-sm border-primary b-2 rounded50"><i
                         class="fas fa-caret-circle-left"></i> Previous Year</button>
                 <div class="d-flex">
-                    <h4>Bar Chart Data Laporan Insiden</h4>
-                    {{-- <div class="form-check form-switch">
-                        <input class="form-check-input" type="checkbox" role="switch" id="toggleSwitch" checked />
-                    </div> --}}
-                    <button type="button" id="barSwitch" class="btn btn-toggle btn-bar btn-info active"
-                        data-bs-toggle="button" aria-pressed="true" autocomplete="off">
-                        <div class="handle"></div>
-                    </button>
+                    <h4 class="me-4">Bar Chart Data Laporan Insiden <span id="monthDisplay"></span> <span
+                            id="yearDisplay"></span></h4>
                 </div>
-                <button id="nextYearBtn" class="btn btn-sm border-primary b-2 rounded50">Next Year <i
+                <button id="nextBtn" class="btn btn-sm border-primary b-2 rounded50">Next Year <i
                         class="fas fa-caret-circle-right"></i></button>
+            </div>
+
+            <div class="col-md-12 d-flex justify-content-center mb-2">
+                <button type="button" id="barSwitch" class="btn btn-toggle btn-bar btn-info active"
+                    data-bs-toggle="button" aria-pressed="true" autocomplete="off">
+                    <div class="handle"></div>
+                </button>
             </div>
 
             <div>
                 <canvas id="myChart"></canvas>
             </div>
-
         </div>
+
     </div>
 </section>
 
@@ -291,8 +343,6 @@
 
 @include('script.bar-chartJs')
 
-{{-- @include('script.bar-toggle') --}}
-
-{{-- @include('script.bar-chart') --}}
+@include('script.greeting')
 
 @endsection
