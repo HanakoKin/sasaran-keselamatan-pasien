@@ -14,6 +14,25 @@
                         </a>
                     </li>
 
+                    {{-- @if(Auth::user()->role === 'dev') --}}
+                    {{-- User --}}
+                    <li class="treeview {{ Request::is('*admin*') ? 'active menu-open' : '' }}">
+                        <a href="#">
+                            <i class="fal fa-user"></i>
+                            <span>User</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            <li class="{{ Request::is('*admin') || Request::is('*admin/*') ? 'active' : '' }}"><a
+                                    href="{{ route('users') }}"><i class="icon-Commit"><span class="path1"></span><span
+                                            class="path2"></span></i>Kelola Data user</a>
+                            </li>
+                        </ul>
+                    </li>
+                    {{-- @endif --}}
+
                     {{-- Lapin --}}
                     <li class="treeview {{ Request::is('*lapin*') ? 'active menu-open' : '' }}">
                         <a href="#">

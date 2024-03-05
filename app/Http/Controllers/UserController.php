@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Unit;
 use App\Models\User;
+use App\Models\Lapin;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\Auth;
@@ -13,6 +14,74 @@ use Illuminate\Support\Facades\Validator;
 
 class UserController extends Controller
 {
+
+    public function index(){
+
+        $title = 'Profile Page';
+
+        $user = Auth::user();
+
+        $lapins = Lapin::orderBy('created_at', 'desc');
+
+        if (!Auth::user()->isAdmin()) {
+            $lapins->where('unit_kerja', Auth::user()->unit);
+        }
+
+        $lapins = $lapins->get();
+        $total = $lapins->count();
+
+        return view('pages.user.profile', compact('title', 'user', 'total'));
+
+    }
+
+    public function showSetting(){
+
+        $title = 'Setting Page';
+
+        $user = Auth::user();
+
+        $lapins = Lapin::orderBy('created_at', 'desc');
+
+        if (!Auth::user()->isAdmin()) {
+            $lapins->where('unit_kerja', Auth::user()->unit);
+        }
+
+        $lapins = $lapins->get();
+        $total = $lapins->count();
+
+
+        return view('pages.user.setting', compact('title', 'user', 'total'));
+
+    }
+
+    public function changePassword(Request $request){
+
+        $validator = Validator::make($request->all(), [
+            'current_password' => 'required',
+            'new_password' => 'required|min:8|different:current_password',
+            'confirm_password' => 'required|min:8|same:new_password',
+        ]);
+
+        if ($validator->fails()) {
+            $errors = implode(', ', $validator->errors()->all());
+            return back()->with('error', $errors)->withInput();
+        }
+
+        $validatedData = $validator->validated();
+
+        $user = Auth::user();
+
+        if(Hash::check($request->current_password, $user->password)){
+            $user->update([
+                'password' => Hash::make($request->new_password)
+            ]);
+
+            return redirect()->route('settings')->with('success', 'Password has been changed successfully.');
+        } else {
+            return redirect()->route('settings')->with('error', 'Current password is incorrect');
+        }
+
+    }
 
     public function login(){
 
@@ -85,7 +154,6 @@ class UserController extends Controller
 
         return redirect('/login')->with('success', 'Registration successful! Please login');
     }
-
 
     public function logout(Request $request){
 

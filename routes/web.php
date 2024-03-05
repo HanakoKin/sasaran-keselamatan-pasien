@@ -3,6 +3,7 @@
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\DataController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LapinController;
 use App\Http\Controllers\ExportController;
 use App\Http\Controllers\LapkpcController;
@@ -24,6 +25,9 @@ use App\Http\Controllers\LemkisController;
 | Route untuk bagian entry
 |--------------------------------------------------------------------------
 */
+
+Route::redirect('/', '/login');
+
 Route::get('/login', [UserController::class, 'login'])->name('login')->middleware('guest');
 Route::post('/login', [UserController::class, 'authenticate']);
 Route::get('/register', [UserController::class, 'register'])->middleware('guest');
@@ -45,7 +49,7 @@ Route::middleware(['auth'])->group(function(){
     Route::post('/lapin/add', [LapinController::class, 'store']);
     Route::get('/lapin/edit/{id}', [LapinController::class, 'edit']);
     Route::post('/lapin/update/{id}', [LapinController::class, 'update'])->name('updateLapin');
-    Route::get('/lapin/delete/{id}', [LapinController::class, 'delete']);
+    Route::get('/lapin/delete/{id}', [LapinController::class, 'delete'])->name('deleteLapin');
     Route::post('/lapin/reset-edit-status/{id}', [LapinController::class, 'resetEditStatus']);
     Route::get('/lapin/verificate/{id}', [LapinController::class, 'verifikasi']);
     Route::post('/lapin/grade/{id}', [LapinController::class, 'grading'])->name('gradingLapin');
@@ -71,17 +75,23 @@ Route::middleware(['auth'])->group(function(){
 
     /* Route untuk bagian Lembar Kerja Investigasi Sederhana */
     Route::get('/lemkis', [LemkisController::class, 'lemkis']);
-    Route::get('/lemkis/addLemkis/{id}', [LapinController::class, 'addLemkisPage']);
-    Route::get('/lemkisTable', [LemkisController::class, 'lemkisTable']);
     Route::post('/lemkis/add', [LemkisController::class, 'store']);
+    Route::get('/lemkisTable', [LemkisController::class, 'lemkisTable']);
     Route::get('/lemkis/edit/{id}', [LemkisController::class, 'edit']);
     Route::post('/lemkis/update/{id}', [LemkisController::class, 'update'])->name('updateLemkis');
     Route::get('/lemkis/show/{id}', [LemkisController::class, 'show']);
     Route::get('/lemkis/delete/{id}', [LemkisController::class, 'delete']);
+    Route::get('/lemkis/addLemkis/{id}', [LapinController::class, 'addLemkisPage']);
 
     Route::get('/lemkis/noteTable/{id}', [LemkisController::class, 'noteTable']);
     Route::get('/lemkis/addNote/{id}', [LemkisController::class, 'addNoteForm']);
     Route::post('/lemkis/addNote/{id}', [LemkisController::class, 'saveNote'])->name('addNote');
+
+    Route::get('/user/profile', [UserController::class, 'index'])->name('profile');
+    Route::get('/user/setting', [UserController::class, 'showSetting'])->name('settings');
+    Route::post('/user/changePassword', [UserController::class, 'changePassword'])->name('changePassword');
+
+    Route::get('/admin/user', [AdminController::class, 'index'])->name('users');
 
 
 });
@@ -93,3 +103,4 @@ Route::post('/save-json', [DataController::class, 'store']);
 Route::get('/welcome', function (){
     return view('welcome');
 });
+

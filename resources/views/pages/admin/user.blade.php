@@ -47,87 +47,44 @@
                                 <tr class="text-center">
                                     <th scope="col">Foto</th>
                                     <th scope="col">Nama</th>
-                                    <th width="100" scope="col">No RM</th>
-                                    <th scope="col">Status</th>
-                                    <th scope="col">Grade</th>
-                                    <th scope="col">LEMKIS</th>
-                                    @if(Auth::user()->isAdmin())
+                                    <th scope="col">Username</th>
                                     <th scope="col">Unit</th>
-                                    @endif
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
                             <tbody>
-                                @foreach ($lapins as $lapin)
+                                @foreach ($users as $user)
                                 <tr class="text-center">
                                     <td><img src="https://source.unsplash.com/50x50?people" alt="User Avatar"
                                             class="img-fluid rounded-circle mb-3" style="width: 50px;"></td>
-                                    <td>{{ $lapin->nama }}</td>
-                                    <td>{{ $lapin->noRM }}</td>
-                                    <td>{{ $lapin->status }}</td>
-                                    <td>
-                                        @if ($lapin->status != 'Terverifikasi')
-                                        Menunggu verifikasi
-                                        @else
-                                        {{ ucfirst($lapin->grading_risiko) }}
-                                        @endif
-                                    </td>
-                                    <td>{{ isset($lapin->lemkis) ? 'Ada' : 'Belum ada' }}</td>
-                                    @if ((Auth::user()->isAdmin()))
-                                    <td>{{ $lapin->unit_kerja }}</td>
-                                    @endif
+                                    <td>{{ $user->nama }}</td>
+                                    <td>{{ $user->username }}</td>
+                                    <td>{{ $user->unit }}</td>
                                     <td>
 
                                         <a class="btn btn-success btn-sm me-2 mb-2 text-decoration-none"
-                                            data-bs-toggle="modal" onclick="showLapinModal({{ json_encode($lapin) }})">
+                                            data-bs-toggle="modal" onclick="showLapinModal({{ json_encode($user) }})">
                                             <i class="fal fa-eye"></i> Lihat
                                         </a>
 
-                                        @if ((Auth::user()->isAdmin()) || ($lapin->status === "Belum
-                                        terverifikasi"))
-
                                         <a class="btn btn-warning btn-sm me-2 mb-2 text-decoration-none"
-                                            href="{{ url('/lapin/edit', $lapin->id) }}"><i class="fal fa-pen"></i>
+                                            href="{{ url('/admin/user/edit', $user->id) }}"><i class="fal fa-pen"></i>
                                             Edit
                                         </a>
 
-                                        @elseif ((!Auth::user()->isAdmin()) && ($lapin->status ===
-                                        "Belum terverifikasi"))
-                                        <a class="btn btn-warning btn-sm me-2 mb-2 text-decoration-none"
-                                            href="{{ url('/lapin/edit', $lapin->id) }}"><i class="fal fa-pen"></i> Edit
-                                        </a>
-
-                                        @endif
-
-                                        <a href="{{ route('deleteLapin', ['id' => $lapin->id]) }}" data-target="lapin"
+                                        <a href="{{ route('deleteLapin', ['id' => $user->id]) }}" data-target="lapin"
                                             class="btn btn-danger btn-sm me-2 mb-2 text-decoration-none deleteBtn"><i
                                                 class="fal fa-trash-alt"></i> Delete
                                         </a>
-
-                                        @if (Auth::user()->isAdmin())
-
-                                        <a class="btn btn-primary btn-sm me-2 mb-2 text-decoration-none"
-                                            href="{{ url('/lapin/verificate', $lapin->id) }}"><i
-                                                class="fas fa-badge-check"></i> Verifikasi
-                                        </a>
-
-
-                                        @endif
-
-                                        @if (!isset($lapin->lemkis))
-
-                                        <a class="btn btn-info btn-sm me-2 mb-2 text-decoration-none"
-                                            href="{{ url('/lemkis/addLemkis', $lapin->id) }}"><i
-                                                class="fal fa-notes-medical"></i> LEMKIS
-                                        </a>
-
-                                        @endif
 
                                     </td>
                                 </tr>
                                 @endforeach
                             </tbody>
                         </table>
+                        <div class="d-flex justify-content-center">
+                            {{ $users->links('pagination::bootstrap-5') }}
+                        </div>
                     </div>
                 </div>
             </div>

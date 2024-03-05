@@ -15,25 +15,29 @@
 
         {{-- Greeting --}}
         <div class="col-12">
-            <div class="box bg-gradient-primary overflow-hidden pull-up">
-                <div class="box-body pe-0 ps-lg-50 ps-15 py-0">
-                    <div class="row align-items-center">
-                        <div class="col-12 col-lg-8">
-                            <h1 class="fs-40 text-white">Welcome
-                                <strong>{{ ucfirst(trans(Auth()->user()->username)) }} !</strong></h1>
-                            <p class="text-white mb-0 fs-20">
-                                <span id="greetingMessage"></span>, anda sedang login sebagai
-                                <span class="text-bold">{{ Auth()->user()->role }} </span>
 
-                                @if(Auth::user()->role === 'user')
-                                dari unit {{ Auth::user()->unit }}
-                                @endif
-                            </p>
-                            <p class="text-white mb-0 fs-16 mt-3">Total Kasus : {{ $totalKasus }} laporan</p>
+            <div class="box bg-primary-light overflow-hidden pull-up">
+                <div class="box-body d-flex px-0 pb-0">
+                    <div class="flex-grow-1 p-30 flex-grow-1 bg-img dask-bg bg-none-md">
+                        <div class="row">
+                            <div class="col-12 col-lg-8">
+                                <h2>Welcome back, <strong>{{ ucfirst(trans(Auth()->user()->username)) }} !</strong></h2>
 
-                        </div>
-                        <div class="col-12 col-lg-4"><img
-                                src="{{ asset('assets/images/svg-icon/color-svg/custom-15.svg') }}" alt="">
+                                <p class="text-dark my-10 fs-16">
+                                    <span id="greetingMessage"></span>, anda sedang login sebagai
+                                    <span class="text-bold">{{ Auth()->user()->role }} </span>
+
+                                    @if(Auth::user()->role === 'user')
+                                    dari unit {{ Auth::user()->unit }}
+                                    @endif
+                                </p>
+                                <p class="text-dark my-10 fs-16">
+                                    Total Kasus : {{ $totalKasus }} laporan</strong>
+                                </p>
+                            </div>
+                            <div class="col-12 col-lg-4 py-2 px-4"><img
+                                    src="{{ asset('assets/images/logo-dashboard.png') }}" alt="" class="img-fluid">
+                            </div>
                         </div>
                     </div>
                 </div>
@@ -41,7 +45,7 @@
         </div>
 
         {{-- Kasus berdasarkan jenis --}}
-        <div class="row">
+        <div class="row d-flex justify-content-center">
             <div class="col-12">
                 <div class="box no-shadow mb-0 bg-transparent">
                     <div class="box-header no-border px-0">
@@ -51,25 +55,27 @@
             </div>
             <div class="col-md-4 col-12">
                 <a href="#" class="box pull-up">
-                    <div class="box-body">
-                        <div class="d-flex align-items-center">
-                            <i class="fas fa-procedures fs-60 m-0"></i>
-                            <div class="ms-15">
-                                <h5 class="mb-0">Kondisi Potensial Cedera Signifikan</h5>
-                                <p class="text-fade fs-12 mb-0">{{ $jumlahKPC }} kasus</p>
-                            </div>
-                        </div>
-                        <div class="d-flex align-items-center justify-content-between mt-20">
-                            <div class="w-p70">
-                                <div class="progress progress-sm mb-0">
-                                    <div class="progress-bar  bg-{{ $prosentaseKPC >= 0 && $prosentaseKPC <= 25 ? 'info' : ($prosentaseKPC > 25 && $prosentaseKPC <= 50 ? 'success' : ($prosentaseKPC > 50 && $prosentaseKPC <= 75 ? 'warning' : ($prosentaseKPC > 75 ? 'danger' : ''))) }}"
-                                        role="progressbar" aria-valuenow="{{ $prosentaseKPC }}" aria-valuemin="0"
-                                        aria-valuemax="100" style="width: {{ $prosentaseKPC }}%">
-                                    </div>
+                    <div class="box-body d-flex flex-column h-100">
+                        <div class="flex-fill">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-procedures fs-60 m-0"></i>
+                                <div class="ms-15">
+                                    <h5 class="mb-0 fs-18">Kondisi Potensial Cedera Signifikan</h5>
+                                    <p class="text-fade fs-16 mb-0">{{ $jumlahKPC }} kasus</p>
                                 </div>
                             </div>
-                            <div>
-                                <div>{{ $prosentaseKPC }}%</div>
+                            <div class="d-flex align-items-center justify-content-between mt-20">
+                                <div class="w-p70">
+                                    <div class="progress progress-sm mb-0">
+                                        <div class="progress-bar  bg-{{ $prosentaseKPC >= 0 && $prosentaseKPC <= 25 ? 'info' : ($prosentaseKPC > 25 && $prosentaseKPC <= 50 ? 'success' : ($prosentaseKPC > 50 && $prosentaseKPC <= 75 ? 'warning' : ($prosentaseKPC > 75 ? 'danger' : ''))) }}"
+                                            role="progressbar" aria-valuenow="{{ $prosentaseKPC }}" aria-valuemin="0"
+                                            aria-valuemax="100" style="width: {{ $prosentaseKPC }}%">
+                                        </div>
+                                    </div>
+                                </div>
+                                <div>
+                                    <div>{{ $prosentaseKPC }}%</div>
+                                </div>
                             </div>
                         </div>
                     </div>
@@ -81,8 +87,8 @@
                         <div class="d-flex align-items-center">
                             <i class="fas fa-running fs-60 m-0"></i>
                             <div class="ms-15">
-                                <h5 class="mb-0">Kejadian Nyaris Cedera</h5>
-                                <p class="text-fade fs-12 mb-0">{{ $jumlahKNC }} kasus</p>
+                                <h5 class="mb-0 fs-18">Kejadian Nyaris Cedera</h5>
+                                <p class="text-fade fs-16 mb-0">{{ $jumlahKNC }} kasus</p>
                             </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-between mt-20">
@@ -107,8 +113,8 @@
                         <div class="d-flex align-items-center">
                             <i class="fas fa-user-shield fs-60 m-0"></i>
                             <div class="ms-15">
-                                <h5 class="mb-0">Kejadian Tidak Cedera</h5>
-                                <p class="text-fade fs-12 mb-0">{{ $jumlahKTC }} kasus</p>
+                                <h5 class="mb-0 fs-18">Kejadian Tidak Cedera</h5>
+                                <p class="text-fade fs-16 mb-0">{{ $jumlahKTC }} kasus</p>
                             </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-between mt-20">
@@ -127,17 +133,14 @@
                     </div>
                 </a>
             </div>
-        </div>
-        <div class="row d-flex justify-content-center">
-
             <div class="col-md-4 col-12">
                 <a href="#" class="box pull-up">
                     <div class="box-body">
                         <div class="d-flex align-items-center">
                             <i class="fas fa-user-injured fs-60 m-0"></i>
                             <div class="ms-15">
-                                <h5 class="mb-0">Kejadian Tidak Diharapkan</h5>
-                                <p class="text-fade fs-12 mb-0">{{ $jumlahKTD }} kasus</p>
+                                <h5 class="mb-0 fs-18">Kejadian Tidak Diharapkan</h5>
+                                <p class="text-fade fs-16 mb-0">{{ $jumlahKTD }} kasus</p>
                             </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-between mt-20">
@@ -162,8 +165,8 @@
                         <div class="d-flex align-items-center">
                             <i class="fas fa-radiation fs-60 m-0"></i>
                             <div class="ms-15">
-                                <h5 class="mb-0">Sentinel</h5>
-                                <p class="text-fade fs-12 mb-0">{{ $jumlahSentinel }} kasus</p>
+                                <h5 class="mb-0 fs-18">Sentinel</h5>
+                                <p class="text-fade fs-16 mb-0">{{ $jumlahSentinel }} kasus</p>
                             </div>
                         </div>
                         <div class="d-flex align-items-center justify-content-between mt-20">
@@ -182,6 +185,7 @@
                     </div>
                 </a>
             </div>
+
 
         </div>
 

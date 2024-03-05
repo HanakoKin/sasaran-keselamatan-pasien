@@ -10,6 +10,7 @@
     <link rel="icon" href="{{ asset('img/favicon.ico') }}">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
+    @vite(['resources/css/app.css', 'resources/js/app.js'])
     <title>{{ $title }}</title>
 
     @include('partials.head')

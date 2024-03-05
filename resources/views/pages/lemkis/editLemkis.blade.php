@@ -411,36 +411,43 @@
                                 <tr>
                                     <td scope="col" colspan="2">
                                         <div class="d-flex align-items-center">
-                                            <div class="row mt-10">
-                                                <div class="col-6">
+                                            <div class="row mt-10 ms-0">
+                                                <div class="col-5">
                                                     <div class=" form-group mb-0">
                                                         <label class="form-label">Investigasi setelah Grading ulang
                                                             :</label>
                                                     </div>
                                                 </div>
-                                                <div class="col-6 ps-3">
+                                                <div class="col-7 ps-3">
                                                     <div class="form-group mb-0">
                                                         <div class="form-group mb-0 d-flex align-items-left">
                                                             <div class="radio me-3">
-                                                                <input name="grading_akhir" value="hijau" type="radio"
+                                                                <input name="grading_akhir" value="biru" type="radio"
                                                                     id="gradUl1" required
                                                                     data-validation-required-message="This field is required"
+                                                                    {{ $lemkis->grading_akhir === 'biru' ? 'checked' : ''}}>
+                                                                <label for="gradUl1" class="me-1">Biru</label>
+                                                            </div>
+                                                            <div class="radio me-3">
+                                                                <input name="grading_akhir" value="hijau" type="radio"
+                                                                    id="gradUl2" required
+                                                                    data-validation-required-message="This field is required"
                                                                     {{ $lemkis->grading_akhir === 'hijau' ? 'checked' : ''}}>
-                                                                <label for="gradUl1" class="me-1">Hijau</label>
+                                                                <label for="gradUl2" class="me-1">Hijau</label>
                                                             </div>
                                                             <div class="radio me-3">
                                                                 <input name="grading_akhir" value="kuning" type="radio"
-                                                                    id="gradUl2" required
+                                                                    id="gradUl3" required
                                                                     data-validation-required-message="This field is required"
                                                                     {{ $lemkis->grading_akhir === 'kuning' ? 'checked' : ''}}>
-                                                                <label for="gradUl2" class="me-1">Kuning</label>
+                                                                <label for="gradUl3" class="me-1">Kuning</label>
                                                             </div>
                                                             <div class="radio">
                                                                 <input name="grading_akhir" value="merah" type="radio"
-                                                                    id="gradUl3" required
+                                                                    id="gradUl4" required
                                                                     data-validation-required-message="This field is required"
                                                                     {{ $lemkis->grading_akhir === 'merah' ? 'checked' : ''}}>
-                                                                <label for="gradUl3">Merah</label>
+                                                                <label for="gradUl4">Merah</label>
                                                             </div>
                                                         </div>
                                                     </div>

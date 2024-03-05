@@ -350,9 +350,8 @@ class LapinController extends Controller
     public function delete($id){
 
         $lapin = Lapin::findOrFail($id);
-        $lemkis = Lemkis::findOrFail($id);
 
-        if ((!Auth::user()->isAdmin()) || (Auth::user()->unit !== $lapin->unit_kerja)) {
+        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $lapin->unit_kerja)) {
             return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
         }
 
