@@ -180,9 +180,9 @@ class LapinController extends Controller
 
         $lapins = Lapin::orderBy('created_at', 'desc')->get();
 
-        if (!Auth::user()->isAdmin()) {
-            return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
-        }
+        // if (!Auth::user()->isAdmin()) {
+        //     return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
+        // }
 
         return view('pages.lapin.lapinTable', compact('lapins', 'title'));
 
@@ -208,6 +208,8 @@ class LapinController extends Controller
         $request->merge(['kasus_insiden' => $kasusInsidenString]);
         $request->merge(['jam_masuk' => $jam_masuk]);
         $request->merge(['jam_kejadian' => $jam_kejadian]);
+
+        $request->merge(['paraf_pelapor' => $request->input('ttd_pelengkap')]);
 
         // dd($request);
 
@@ -238,8 +240,11 @@ class LapinController extends Controller
             'dampak_insiden' => 'required|string',
             'tindakan_cepat' => 'required|string',
             'tindakan_insiden' => 'required|string',
-            'kejadian_insiden' => 'required|string'
+            'kejadian_insiden' => 'required|string',
+            'paraf_pelapor' =>  'required|string',
         ]);
+
+        // dd($validator);
 
         if ($validator->fails()) {
             $errors = implode(', ', $validator->errors()->all());
@@ -307,6 +312,7 @@ class LapinController extends Controller
 
         $validator = Validator::make($request->all(), [
             'unit_kerja' => 'required|string',
+            'pembuat_laporan' => 'required|string',
             'nama' => 'required|string',
             'ruangan' => 'required|string',
             'umur' => 'required|string',
@@ -329,8 +335,11 @@ class LapinController extends Controller
             'dampak_insiden' => 'required|string',
             'tindakan_cepat' => 'required|string',
             'tindakan_insiden' => 'required|string',
-            'kejadian_insiden' => 'required|string'
+            'kejadian_insiden' => 'required|string',
+            'paraf_pelapor' => 'required|string'
         ]);
+
+        // dd($validator);
 
         if ($validator->fails()) {
             $errors = implode(', ', $validator->errors()->all());
@@ -417,12 +426,20 @@ class LapinController extends Controller
 
         // dd($request);
 
-        $validatedData = $request->validate([
+        $validator = Validator::make($request->all(), [
             'status' => 'required|string',
             'penerima_laporan' => 'required|string',
             'tanggal_terima' => 'required|date',
-            'grading_risiko' => 'required|string'
+            'grading_risiko' => 'required|string',
+            'paraf_penerima' => 'required|string',
         ]);
+
+        if ($validator->fails()) {
+            $errors = implode(', ', $validator->errors()->all());
+            return back()->with('error', $errors)->withInput();
+        }
+
+        $validatedData = $validator->validated();
 
         $statusMessage = ($validatedData['status'] !== 'Terverifikasi') ? 'Lapin verification removed!' : 'Lapin verified!';
 

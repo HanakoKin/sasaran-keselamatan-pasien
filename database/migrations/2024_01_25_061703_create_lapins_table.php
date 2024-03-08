@@ -46,8 +46,10 @@ return new class extends Migration
 
             /* KETERANGAN LAPORAN */
             $table->string('status');
-            $table->string('pembuat_laporan')->nullable();
+            $table->string('pembuat_laporan');
+            $table->text('paraf_pelapor');
             $table->string('penerima_laporan')->nullable();
+            $table->text('paraf_penerima')->nullable();
             $table->string('tanggal_terima')->nullable();
             $table->string('grading_risiko')->nullable();
 

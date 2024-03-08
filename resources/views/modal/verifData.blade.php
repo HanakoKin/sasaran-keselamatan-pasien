@@ -23,9 +23,7 @@
                                             <div class="form-group">
                                                 <label class="form-label">Penerima Laporan</label>
                                                 <input type="text" name="penerima_laporan" class="form-control"
-                                                    placeholder="" value="{{ auth()->user()->nama }}" disabled>
-                                                <input type="hidden" name="penerima_laporan"
-                                                    value="{{ auth()->user()->nama }}">
+                                                    placeholder="" value="{{ auth()->user()->nama }}">
                                             </div>
                                         </div>
                                         <div class="col-md-6">
@@ -77,9 +75,52 @@
                                             </div>
                                         </div>
                                     </div>
-                                </div>
+                                    <div class="row d-flex justify-content-center">
+                                        <div class="col-md-10">
+                                            <div class="text-center">
+                                                <label class="form-label text-bold fs-16">Paraf Penerima Laporan</label>
+                                            </div>
+                                            <div class="form-group">
+                                                <div class="signature mb-0">
+                                                    <div class="text-right  d-flex justify-content-center">
+                                                        <button type="button" class="btn btn-default btn-sm me-1" id="undo"><i
+                                                                class="fa fa-undo"></i> Undo</button>
+                                                        <button type="button" class="btn btn-danger btn-sm" id="clear"><i
+                                                                class="fa fa-eraser"></i> Clear</button>
+                                                    </div>
+                                                    <div class="wrapper mt-2">
+                                                        <canvas id="signature-pad" class="signature-pad b-5 border-dark"
+                                                            width="571" height="255"></canvas>
+                                                    </div>
 
-                                {{-- <input type="hidden" name="status" value="Terverifikasi"> --}}
+                                                    <div class="form-control-feedback"><small>Pastikan menekan tombol <code>Preview &
+                                                                Confirm</code> sebelum mengisi form selanjutnya!</small></div>
+
+                                                    <div class="button mt-2">
+                                                        <button type="button" class="btn btn-info btn-sm" id="save-png"><i
+                                                                class="fas fa-check-circle"></i> Preview &
+                                                            Confirm</button>
+                                                    </div>
+                                                    <!-- Modal untuk tampil preview tanda tangan-->
+                                                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                                        aria-labelledby="myModalLabel">
+                                                        <div class="modal-dialog" role="document">
+                                                            <div class="modal-content">
+                                                                <div class="modal-header">
+                                                                    <h4 class="modal-title" id="myModalLabel">Preview Tanda Tangan</h4>
+                                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                                        aria-label="Close"></button>
+                                                                </div>
+                                                                <div class="modal-body">
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
 
                                 <div class="modal-footer">
                                     <button type="submit" class="btn btn-primary">
@@ -99,3 +140,4 @@
 </div>
 
 @include('script.verifDateData')
+@include('script.verLapSignature')

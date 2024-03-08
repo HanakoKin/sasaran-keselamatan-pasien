@@ -32,9 +32,9 @@ class LemkisController extends Controller
 
         $lemkis = Lemkis::orderBy('created_at', 'desc')->get();
 
-        if (!Auth::user()->isAdmin()) {
-            return redirect('/lemkis')->with('error', 'UNAUTHORIZED ACTION');
-        }
+        // if (!Auth::user()->isAdmin()) {
+        //     return redirect('/lemkis')->with('error', 'UNAUTHORIZED ACTION');
+        // }
 
         return view('pages.lemkis.lemkisTable', compact('lemkis', 'title'));
 
@@ -52,13 +52,15 @@ class LemkisController extends Controller
 
         $title = 'Edit LEMKIS';
 
-        $lemkis = Lemkis::findOrFail($id);
+        $data = Lemkis::findOrFail($id);
 
-        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $lemkis->unit_kerja)) {
+        $kategori = 'lemkis';
+
+        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $data->unit_kerja)) {
             return redirect('/lemkis')->with('error', 'UNAUTHORIZED ACTION');
         }
 
-        return view('pages.lemkis.editLemkis', compact('lemkis', 'title'));
+        return view('pages.lemkis.editLemkis', compact('data', 'title', 'kategori'));
 
     }
 

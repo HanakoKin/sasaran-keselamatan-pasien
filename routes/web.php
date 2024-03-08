@@ -5,7 +5,6 @@ use App\Http\Controllers\DataController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LapinController;
-use App\Http\Controllers\ExportController;
 use App\Http\Controllers\LapkpcController;
 use App\Http\Controllers\LemkisController;
 
@@ -44,7 +43,6 @@ Route::middleware(['auth'])->group(function(){
     /* Route untuk bagian Laporan Insiden */
     Route::get('/dashboard', [LapinController::class, 'dashboard']);
     Route::get('/lapin', [LapinController::class, 'lapin']);
-    Route::get('/lapinTable', [LapinController::class, 'lapinTable']);
     Route::get('/lapin/add', [LapinController::class, 'addLapinPage']);
     Route::post('/lapin/add', [LapinController::class, 'store']);
     Route::get('/lapin/edit/{id}', [LapinController::class, 'edit']);
@@ -63,7 +61,6 @@ Route::middleware(['auth'])->group(function(){
 
     /* Route untuk bagian Laporan KPC */
     Route::get('/lapkpc', [LapkpcController::class, 'lapkpc']);
-    Route::get('/lapkpcTable', [LapkpcController::class, 'lapkpcTable']);
     Route::get('/lapkpc/add', [LapkpcController::class, 'addLapkpcPage']);
     Route::post('/lapkpc/add', [LapkpcController::class, 'store']);
     Route::get('/lapkpc/edit/{id}', [LapkpcController::class, 'edit']);
@@ -75,24 +72,42 @@ Route::middleware(['auth'])->group(function(){
 
     /* Route untuk bagian Lembar Kerja Investigasi Sederhana */
     Route::get('/lemkis', [LemkisController::class, 'lemkis']);
+    Route::get('/lemkis/addLemkis/{id}', [LapinController::class, 'addLemkisPage']);
     Route::post('/lemkis/add', [LemkisController::class, 'store']);
-    Route::get('/lemkisTable', [LemkisController::class, 'lemkisTable']);
     Route::get('/lemkis/edit/{id}', [LemkisController::class, 'edit']);
     Route::post('/lemkis/update/{id}', [LemkisController::class, 'update'])->name('updateLemkis');
-    Route::get('/lemkis/show/{id}', [LemkisController::class, 'show']);
     Route::get('/lemkis/delete/{id}', [LemkisController::class, 'delete']);
-    Route::get('/lemkis/addLemkis/{id}', [LapinController::class, 'addLemkisPage']);
+    Route::get('/lemkis/show/{id}', [LemkisController::class, 'show']);
 
-    Route::get('/lemkis/noteTable/{id}', [LemkisController::class, 'noteTable']);
-    Route::get('/lemkis/addNote/{id}', [LemkisController::class, 'addNoteForm']);
-    Route::post('/lemkis/addNote/{id}', [LemkisController::class, 'saveNote'])->name('addNote');
-
+    /* Route untuk profile dan mengganti password */
     Route::get('/user/profile', [UserController::class, 'index'])->name('profile');
     Route::get('/user/setting', [UserController::class, 'showSetting'])->name('settings');
     Route::post('/user/changePassword', [UserController::class, 'changePassword'])->name('changePassword');
 
-    Route::get('/admin/user', [AdminController::class, 'index'])->name('users');
+});
 
+Route::middleware(['admin'])->group(function (){
+
+    /* Untuk Mengelola User ( Admin/Dev Role ) */
+    Route::get('/admin/user', [AdminController::class, 'index'])->name('users');
+    Route::get('/admin/user/add', [AdminController::class, 'addUserForm'])->name('addUserForm');
+    Route::post('/admin/user/add', [AdminController::class, 'addUser'])->name('addUser');
+    Route::get('/admin/user/edit/{id}', [AdminController::class, 'editUser'])->name('editUser');
+    Route::post('/admin/user/update/{id}', [AdminController::class, 'updateUser'])->name('updateUser');
+    Route::get('/admin/user/delete/{id}', [AdminController::class, 'deleteUser'])->name('deleteUser');
+
+    Route::get('/get-user-info/{id}', [AdminController::class, 'getUserInfo']);
+});
+
+Route::middleware(['skp'])->group(function (){
+
+    /* Untuk Mengelola Table ( Admin/Tim SKP Role ) */
+    Route::get('/lapinTable', [LapinController::class, 'lapinTable']);
+    Route::get('/lapkpcTable', [LapkpcController::class, 'lapkpcTable']);
+    Route::get('/lemkisTable', [LemkisController::class, 'lemkisTable']);
+    Route::get('/lemkis/noteTable/{id}', [LemkisController::class, 'noteTable']);
+    Route::get('/lemkis/addNote/{id}', [LemkisController::class, 'addNoteForm']);
+    Route::post('/lemkis/addNote/{id}', [LemkisController::class, 'saveNote'])->name('addNote');
 
 });
 

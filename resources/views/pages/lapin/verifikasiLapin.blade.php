@@ -4,6 +4,15 @@
 
 <section class="invoice printableArea content">
     <div class="row">
+
+        @if(session()->has('success'))
+        @include('script.success')
+        @endif
+
+        @if(session()->has('error'))
+        @include('script.error')
+        @endif
+
         <div class="col-12">
 
             <div class="row">
@@ -12,8 +21,7 @@
                         <div class="d-block align-items-center pb-0">
                             <nav>
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="/dashboard"><i
-                                                class="mdi mdi-home-outline"></i></a>
+                                    <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
                                     </li>
                                     <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden</a>
                                     </li>
@@ -23,19 +31,25 @@
                             </nav>
                         </div>
                         <div class="d-block">
+
+                            @if (Auth::user()->isAdmin())
+
                             <button class="btn btn-success" data-bs-toggle="modal"
                                 onclick="showVerifModal({{ json_encode($data) }})">
                                 <i class="fal fa-eye"></i> Verifikasi
                             </button>
-                            <button id="print2" class="btn btn-warning" type="button"> <span><i class="fa fa-print"></i>
-                                    Print</span> </button>
+
+                            @endif
+
+                            <button id="print2" class="btn btn-warning" type="button"> <span><i class="fa fa-print"></i> Print</span> </button>
+
                         </div>
                     </div>
                 </div>
             </div>
             <div class="row d-flex justify-content-center invoice-info mt-15">
                 <div class="col-12">
-                    <div class="box box-widget widget-user">
+                    <div class="box box-widget widget-user shadow-none">
                         <div class="box-footer py-0 border-0">
                             <div class="d-flex justify-content-between align-items-center m-20">
                                 <img src="{{ asset('assets/images/Husada.png') }}" width="70" alt="">
@@ -324,9 +338,9 @@
                                         </tr>
                                         <tr>
                                             <td>Paraf</td>
-                                            <td>........</td>
+                                            <td><img src="{{ $data->paraf_pelapor }}" alt="" width="200"></td>
                                             <td>Paraf</td>
-                                            <td>........</td>
+                                            <td class="min-w-200"><img src="{{ $data->paraf_penerima }}" alt="" width="200"></td></td>
                                         </tr>
                                         <tr>
                                             <td>Tgl Lapor</td>
@@ -349,7 +363,7 @@
                                             class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'biru' ? 'b-2 border-info rounded10' : '' }}">
                                             <div class="d-flex align-items-center">
                                                 <div
-                                                    class="d-inline-block w-20 h-20 m-2 b-2 rounded50 {{ $data->grading_risiko === 'biru' ? 'bg-info' : '' }}">
+                                                    class="d-inline-block w-20 h-20 m-2 rounded50 {{ $data->grading_risiko === 'biru' ? 'b-5 border-info' : 'b-2' }}">
                                                 </div>
                                                 <label for="grading1">Biru</label>
                                             </div>
@@ -358,7 +372,7 @@
                                             class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'hijau' ? 'b-2 border-success rounded10' : '' }}">
                                             <div class="d-flex align-items-center">
                                                 <div
-                                                    class="d-inline-block w-20 h-20 m-2 b-2 rounded50 {{ $data->grading_risiko === 'hijau' ? 'bg-success' : '' }}">
+                                                    class="d-inline-block w-20 h-20 m-2 rounded50 {{ $data->grading_risiko === 'hijau' ? 'b-5 border-success' : 'b-2 ' }}">
                                                 </div>
                                                 <label for="grading2">Hijau</label>
                                             </div>
@@ -367,7 +381,7 @@
                                             class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'kuning' ? 'b-2 border-warning rounded10' : '' }}">
                                             <div class="d-flex align-items-center">
                                                 <div
-                                                    class="d-inline-block w-20 h-20 m-2 b-2 rounded50 {{ $data->grading_risiko === 'kuning' ? 'bg-warning' : '' }}">
+                                                    class="d-inline-block w-20 h-20 m-2 rounded50 {{ $data->grading_risiko === 'kuning' ? 'b-5 border-warning' : 'b-2' }}">
                                                 </div>
                                                 <label for="grading3">Kuning</label>
                                             </div>
@@ -376,7 +390,7 @@
                                             class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'merah' ? 'b-2 border-danger rounded10' : '' }}">
                                             <div class="d-flex align-items-center">
                                                 <div
-                                                    class="d-inline-block w-20 h-20 m-2 b-2 rounded50 {{ $data->grading_risiko === 'merah' ? 'bg-danger' : '' }}">
+                                                    class="d-inline-block w-20 h-20 m-2 rounded50 {{ $data->grading_risiko === 'merah' ? 'b-5 border-danger' : 'b-2' }}">
                                                 </div>
                                                 <label for="grading4">Merah</label>
                                             </div>

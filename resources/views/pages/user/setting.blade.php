@@ -42,9 +42,16 @@
                             @csrf
 
                             <div class="box-body">
-                                <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Edit Password</h4>
+                                <h4 class="box-title text-info mb-0"><i class="ti-user me-15"></i> Edit Data</h4>
                                 <hr class="my-15">
                                 <div class="row">
+                                    <div class="col-md-12 col-6">
+                                        <div class="form-group">
+                                            <label for="name" class="form-label">Name</label>
+                                            <input type="text" id="name" name="nama"
+                                                class="form-control" placeholder="" value="{{ $user->nama }}">
+                                        </div>
+                                    </div>
                                     <div class="col-md-12 col-6">
                                         <div class="form-group">
                                             <label for="current_password" class="form-label">Current Password</label>

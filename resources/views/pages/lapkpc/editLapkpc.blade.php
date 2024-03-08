@@ -41,6 +41,21 @@
                                 Valid Unit Kerja is required.
                             </div>
                         </div>
+                        <div class="col-md-4 ms-auto mt-3">
+                            <div class="d-flex align-items-center">
+                                <label for="editPemLap" class="form-label text-bold">Pembuat Laporan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
+                                <div class="form-group mb-0">
+                                    <div class="form-check form-check-inline">
+                                        <input type="text" class="form-control" id="editPemLap" name="pembuat_laporan"
+                                            value="{{ $data->pembuat_laporan }}"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">
+                                Valid Pembuat Laporan is required.
+                            </div>
+                        </div>
                     </div>
 
                     <hr class="my-15">
@@ -252,6 +267,61 @@
                             </div>
                         </div>
 
+                        <hr>
+
+                        <div class="row d-flex justify-content-center">
+                            <div class="col-md-6">
+                                <div class="text-center">
+                                    <label class="form-label text-bold fs-16">Paraf Pelapor Insiden</label>
+                                </div>
+                                <div class="form-group">
+                                    <p>Untuk Paraf, apakah ingin memasukkan Paraf baru?</p>
+                                    <div class="signature-option text-right mb-3">
+                                        <button type="button" class="btn btn-success btn-sm" id="new-signature"><i
+                                                class="fa fa-check"></i> Ya</button>
+                                        <button type="button" class="btn btn-warning btn-sm" id="old-signature"><i
+                                                class="fa fa-undo"></i> Gunakan Paraf lama</button>
+                                    </div>
+                                    <div class="signature mb-3 d-none">
+                                        <div class="text-right d-flex justify-content-center">
+                                            <button type="button" class="btn btn-default btn-sm me-1" id="undo"><i
+                                                    class="fa fa-undo"></i> Undo</button>
+                                            <button type="button" class="btn btn-danger btn-sm" id="clear"><i
+                                                    class="fa fa-eraser"></i> Clear</button>
+                                        </div>
+                                        <div class="wrapper mt-2">
+                                            <canvas id="signature-pad" class="signature-pad b-5 border-dark"
+                                                style="width: 100%;" height="250"></canvas>
+                                        </div>
+
+                                        <div class="form-control-feedback"><small>Pastikan menekan tombol <code>Preview &
+                                                    Confirm</code> sebelum mengisi form selanjutnya!</small></div>
+
+                                        <div class="button mt-2">
+                                            <button type="button" class="btn btn-info btn-sm" id="save-png"><i
+                                                    class="fas fa-check-circle"></i> Preview &
+                                                Confirm</button>
+                                        </div>
+                                        <!-- Modal untuk tampil preview tanda tangan-->
+                                        <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                            aria-labelledby="myModalLabel">
+                                            <div class="modal-dialog" role="document">
+                                                <div class="modal-content">
+                                                    <div class="modal-header">
+                                                        <h4 class="modal-title" id="myModalLabel">Preview Tanda Tangan</h4>
+                                                        <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                            aria-label="Close"></button>
+                                                    </div>
+                                                    <div class="modal-body">
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
                     </div>
 
                 </div>
@@ -270,6 +340,7 @@
 @include('script.lapkpcEdit')
 @include('script.autoSelectRadio')
 @include('script.editProcess')
+@include('script.editSignature')
 
 
 

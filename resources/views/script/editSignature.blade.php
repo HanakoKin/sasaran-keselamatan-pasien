@@ -11,19 +11,29 @@
         // Hapus nilai dari canvas menggunakan signaturePad
         signaturePad.clear();
 
+        document.querySelector('.signature').classList.add('d-none');
+
+        addHiddenInput();
+
         // Hapus nilai dari elemen textarea
         document.getElementById('signature64').value = '';
 
-        document.querySelector('.signature').classList.add('d-none');
-        addHiddenInput();
-
     }
+
+    var kategori = '{{ $kategori }}'
+
+    console.log(kategori === 'lemkis')
 
     function addHiddenInput() {
         var hiddenInput = document.createElement('input');
         hiddenInput.type = 'hidden';
-        hiddenInput.name = 'ttd_pelengkap';
-        hiddenInput.value = '{{ $lemkis->ttd_pelengkap }}';
+        if(kategori === 'lemkis'){
+            hiddenInput.name = 'ttd_pelengkap';
+            hiddenInput.value = '{{ $data->ttd_pelengkap }}';
+        } else {
+            hiddenInput.name = 'paraf_pelapor';
+            hiddenInput.value = '{{ $data->paraf_pelapor }}';
+        }
         hiddenInput.id = 'hiddenInputId';
         document.getElementById('formId').appendChild(hiddenInput);
     }
@@ -81,6 +91,7 @@
     });
 
     document.getElementById('save-png').addEventListener('click', function () {
+
         if (signaturePad.isEmpty()) {
             Swal.fire({
                 icon: 'warning',
@@ -90,8 +101,9 @@
         } else {
             var data = signaturePad.toDataURL('image/png');
             console.log(data);
+            var textareaName = (kategori === 'lemkis') ? 'ttd_pelengkap' : 'paraf_pelapor';
             $('#myModal').modal('show').find('.modal-body').html('<img src="' + data +
-                '"><textarea id="signature64" name="ttd_pelengkap" style="display:none">' + data +
+                '"><textarea id="signature64" name=" ' + textareaName + '"  style="display:none">' + data +
                 '</textarea>');
         }
     });

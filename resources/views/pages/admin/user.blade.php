@@ -16,38 +16,36 @@
     <div class="row">
         <div class="col-xl-12 col-12">
 
-            <div class="d-inline-block align-items-center pb-0">
+            <div class="d-inline-block align-items-center pb-2">
                 <nav>
                     <ol class="breadcrumb mb-0">
                         <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
                         </li>
-                        <li class="breadcrumb-item active" aria-current="page">Kelola Laporan Insiden</li>
+                        <li class="breadcrumb-item active" aria-current="page">Tabel User</li>
                     </ol>
                 </nav>
             </div>
 
-            {{-- Caption --}}
-            <div class="box bg-transparent no-shadow mb-0">
-                <div class="box-header no-border">
-                    <h4 class="box-title">Tabel Laporan Insiden</h4>
+            {{-- Tabel Content --}}
+            <div class="box">
+                <div class="box-header py-4">
+                    <h4 class="box-title">Jumlah User : {{ $totals }} </h4>
                     <div class="box-controls pull-right d-md-flex d-none">
-                        <a href="/lapin/add" class="btn btn-info btn-sm mb-2 text-decoration-none">
+                        <a href="{{ route('addUserForm') }}" class="btn btn-info btn-sm mb-2 text-decoration-none">
                             <i class="fal fa-plus-circle"></i> Add
                         </a>
                     </div>
                 </div>
-            </div>
-
-            {{-- Tabel Content --}}
-            <div class="box">
-                <div class="box-body py-0">
+                <!-- /.box-header -->
+                <div class="box-body">
                     <div class="table-responsive">
-                        <table class="table no-border mb-0">
+                        <table id="example" class="table table-bordered table-hover display margin-top-10">
                             <thead>
                                 <tr class="text-center">
                                     <th scope="col">Foto</th>
                                     <th scope="col">Nama</th>
                                     <th scope="col">Username</th>
+                                    <th scope="col">Role</th>
                                     <th scope="col">Unit</th>
                                     <th scope="col">Aksi</th>
                                 </tr>
@@ -59,11 +57,12 @@
                                             class="img-fluid rounded-circle mb-3" style="width: 50px;"></td>
                                     <td>{{ $user->nama }}</td>
                                     <td>{{ $user->username }}</td>
+                                    <td>{{ $user->role }}</td>
                                     <td>{{ $user->unit }}</td>
                                     <td>
 
                                         <a class="btn btn-success btn-sm me-2 mb-2 text-decoration-none"
-                                            data-bs-toggle="modal" onclick="showLapinModal({{ json_encode($user) }})">
+                                            data-bs-toggle="modal" onclick="showUserModal({{ json_encode($user) }})">
                                             <i class="fal fa-eye"></i> Lihat
                                         </a>
 
@@ -72,7 +71,7 @@
                                             Edit
                                         </a>
 
-                                        <a href="{{ route('deleteLapin', ['id' => $user->id]) }}" data-target="lapin"
+                                        <a href="{{ route('deleteUser', ['id' => $user->id]) }}" data-target="user"
                                             class="btn btn-danger btn-sm me-2 mb-2 text-decoration-none deleteBtn"><i
                                                 class="fal fa-trash-alt"></i> Delete
                                         </a>
@@ -82,9 +81,6 @@
                                 @endforeach
                             </tbody>
                         </table>
-                        <div class="d-flex justify-content-center">
-                            {{ $users->links('pagination::bootstrap-5') }}
-                        </div>
                     </div>
                 </div>
             </div>
@@ -92,10 +88,10 @@
     </div>
 
     {{-- Modal Show Data --}}
-    @include('modal.lapinShow')
+    @include('modal.userShow')
 
     {{-- JS for Modal --}}
-    @include('script.lapinShow')
+    @include('script.userShow')
 
     {{-- JS for Delete --}}
     @include('script.confirm-delete')

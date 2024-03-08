@@ -4,6 +4,15 @@
 
 <section class="invoice printableArea content">
     <div class="row">
+
+        @if(session()->has('success'))
+        @include('script.success')
+        @endif
+
+        @if(session()->has('error'))
+        @include('script.error')
+        @endif
+
         <div class="col-12">
 
             <div class="row">
@@ -166,9 +175,9 @@
                                 </tr>
                                 <tr>
                                     <td>Paraf</td>
-                                    <td>........</td>
+                                    <td><img src="{{ $data->paraf_pelapor }}" alt="" width="200"></td>
                                     <td>Paraf</td>
-                                    <td>........</td>
+                                    <td class="min-w-200"><img src="{{ $data->paraf_penerima }}" alt="" width="200"></td></td>
                                 </tr>
                                 <tr>
                                     <td>Tgl Lapor</td>

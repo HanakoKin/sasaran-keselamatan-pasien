@@ -77,12 +77,11 @@
                                             Delete
                                         </a>
 
-                                        @if (Auth::user()->role === 'admin')
+                                        @if ((Auth::user()->isAdmin()) || ($lapkpc->status === "Terverifikasi"))
 
                                         <a class="btn btn-primary btn-sm me-2 mb-2 text-decoration-none"
                                             href="{{ url('/lapkpc/verificate', $lapkpc->id) }}"><i
-                                                class="fas fa-badge-check"></i>
-                                            Verifikasi
+                                            class="fas fa-badge-check"></i> Cetak
                                         </a>
 
                                         @endif

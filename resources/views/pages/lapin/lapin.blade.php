@@ -104,13 +104,12 @@
                                                 class="fal fa-trash-alt"></i> Delete
                                         </a>
 
-                                        @if (Auth::user()->isAdmin())
+                                        @if ((Auth::user()->isAdmin()) || ($lapin->status === "Terverifikasi"))
 
                                         <a class="btn btn-primary btn-sm me-2 mb-2 text-decoration-none"
                                             href="{{ url('/lapin/verificate', $lapin->id) }}"><i
-                                                class="fas fa-badge-check"></i> Verifikasi
+                                                class="fas fa-badge-check"></i> Cetak
                                         </a>
-
 
                                         @endif
 

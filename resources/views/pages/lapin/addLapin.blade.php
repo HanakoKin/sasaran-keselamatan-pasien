@@ -37,7 +37,7 @@
                                 <div class="form-group mb-0">
                                     <div class="form-check form-check-inline">
                                         <input type="text" class="form-control" id="unLap" name="unit_kerja"
-                                            value="{{ is_null(Auth::user()->unit) ? 'TIM SKP' : Auth::user()->unit }}"
+                                            value="{{ is_null(Auth::user()->unit) ? 'Admin' : Auth::user()->unit }}"
                                             required readonly>
                                     </div>
                                 </div>
@@ -46,11 +46,25 @@
                                 Valid Unit Kerja is required.
                             </div>
                         </div>
+                        <div class="col-md-4 ms-auto mt-3">
+                            <div class="d-flex align-items-center">
+                                <label for="pemLap" class="form-label text-bold">Pembuat Laporan &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;:</label>
+                                <div class="form-group mb-0">
+                                    <div class="form-check form-check-inline">
+                                        <input type="text" class="form-control" id="pemLap" name="pembuat_laporan"
+                                            value="{{ auth()->user()->nama }}"
+                                            required>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="invalid-feedback">
+                                Valid Pembuat Laporan is required.
+                            </div>
+                        </div>
                     </div>
 
                     <hr class="my-15">
 
-                    <input type="hidden" name="pembuat_laporan" value="{{ auth()->user()->nama }}">
                     <input type="hidden" name="status" value="Belum terverifikasi">
 
                     {{-- NAMA --}}
@@ -205,67 +219,6 @@
                                 Please select a valid Umur.
                             </div>
                         </div>
-
-                        {{-- PENJAMIN --}}
-                        {{-- <div class="col-md-6">
-                            <label for="penjamin" class="form-label text-bold">Penanggung Biaya Pasien</label>
-                            <div class="form-group">
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input id="penjamin1" name="penjamin" type="radio" class="form-check-input"
-                                                value="Pribadi" required onclick="return false"
-                                                style="pointer-events: none">
-                                            <label class="form-check-label" for="penjamin1">Pribadi</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input id="penjamin2" name="penjamin" type="radio" class="form-check-input"
-                                                value="Pemerintah" required onclick="return false"
-                                                style="pointer-events: none">
-                                            <label class="form-check-label" for="penjamin2">Pemerintah</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input id="penjamin3" name="penjamin" type="radio" class="form-check-input"
-                                                value="BPJS" required onclick="return false"
-                                                style="pointer-events: none">
-                                            <label class="form-check-label" for="penjamin3">BPJS</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input id="penjamin4" name="penjamin" type="radio" class="form-check-input"
-                                                value="Asuransi Swasta" required onclick="return false"
-                                                style="pointer-events: none">
-                                            <label class="form-check-label" for="penjamin4">Asuransi Swasta</label>
-                                        </div>
-                                    </div>
-                                </div>
-                                <div class="row">
-                                    <div class="col-6">
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input id="penjamin5" name="penjamin" type="radio" class="form-check-input"
-                                                value="Perusahaan" required onclick="return false"
-                                                style="pointer-events: none">
-                                            <label class="form-check-label" for="penjamin5">Perusahaan</label>
-                                        </div>
-                                    </div>
-                                    <div class="col-6">
-                                        <div class="form-check form-check-inline ms-3">
-                                            <input id="penjamin6" name="penjamin" type="radio" class="form-check-input"
-                                                value="Lain-lain" required onclick="return false"
-                                                style="pointer-events: none">
-                                            <label class="form-check-label" for="penjamin6">Lain-lain</label>
-                                        </div>
-                                    </div>
-                                </div>
-                            </div>
-                        </div> --}}
 
                         <div class="col-md-6">
                             <label for="penjamin" class="form-label text-bold">Penjamin</label>
@@ -759,6 +712,54 @@
                         </div>
                     </div>
 
+                    <hr>
+
+                    <div class="row d-flex justify-content-center">
+                        <div class="col-md-6">
+                            <div class="text-center">
+                                <label class="form-label text-bold fs-16">Paraf Pelapor Insiden</label>
+                            </div>
+                            <div class="form-group">
+                                <div class="signature mb-3">
+                                    <div class="text-right  d-flex justify-content-center">
+                                        <button type="button" class="btn btn-default btn-sm me-1" id="undo"><i
+                                                class="fa fa-undo"></i> Undo</button>
+                                        <button type="button" class="btn btn-danger btn-sm" id="clear"><i
+                                                class="fa fa-eraser"></i> Clear</button>
+                                    </div>
+                                    <div class="wrapper mt-2">
+                                        <canvas id="signature-pad" class="signature-pad b-5 border-dark"
+                                            style="width: 100%;" height="250"></canvas>
+                                    </div>
+
+                                    <div class="form-control-feedback"><small>Pastikan menekan tombol <code>Preview &
+                                                Confirm</code> sebelum mengisi form selanjutnya!</small></div>
+
+                                    <div class="button mt-2">
+                                        <button type="button" class="btn btn-info btn-sm" id="save-png"><i
+                                                class="fas fa-check-circle"></i> Preview &
+                                            Confirm</button>
+                                    </div>
+                                    <!-- Modal untuk tampil preview tanda tangan-->
+                                    <div class="modal fade" id="myModal" tabindex="-1" role="dialog"
+                                        aria-labelledby="myModalLabel">
+                                        <div class="modal-dialog" role="document">
+                                            <div class="modal-content">
+                                                <div class="modal-header">
+                                                    <h4 class="modal-title" id="myModalLabel">Preview Tanda Tangan</h4>
+                                                    <button type="button" class="btn-close" data-bs-dismiss="modal"
+                                                        aria-label="Close"></button>
+                                                </div>
+                                                <div class="modal-body">
+                                                </div>
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
                 </div>
 
                 <div class="box-footer float-right">
@@ -774,6 +775,8 @@
 
 @include('script.lapinAdd')
 @include('script.autoSelectRadio')
+@include('script.addSignature')
+
 
 
 @endsection

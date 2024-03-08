@@ -38,7 +38,7 @@ class UserController extends Controller
 
         $title = 'Setting Page';
 
-        $user = Auth::user();
+        $user = User::where('id', Auth::user()->id)->first();
 
         $lapins = Lapin::orderBy('created_at', 'desc');
 
@@ -56,11 +56,21 @@ class UserController extends Controller
 
     public function changePassword(Request $request){
 
-        $validator = Validator::make($request->all(), [
-            'current_password' => 'required',
-            'new_password' => 'required|min:8|different:current_password',
-            'confirm_password' => 'required|min:8|same:new_password',
-        ]);
+        $commonRules = [
+            'nama' => 'required|max:255'
+        ];
+
+        // dd($request);
+
+        // If user wont change the password
+        if ($request['current_password'] !== NULL) {
+            $commonRules['current_password'] = 'required|string';
+            $commonRules['new_password'] = 'required|min:8|different:current_password';
+            $commonRules['confirm_password'] = 'required|min:8|same:new_password';
+        }
+
+        // Validate the request
+        $validator = Validator::make($request->all(), $commonRules);
 
         if ($validator->fails()) {
             $errors = implode(', ', $validator->errors()->all());
@@ -71,15 +81,25 @@ class UserController extends Controller
 
         $user = Auth::user();
 
-        if(Hash::check($request->current_password, $user->password)){
-            $user->update([
-                'password' => Hash::make($request->new_password)
-            ]);
-
-            return redirect()->route('settings')->with('success', 'Password has been changed successfully.');
-        } else {
+        if (isset($validatedData['current_password']) && !Hash::check($validatedData['current_password'], $user->password)) {
             return redirect()->route('settings')->with('error', 'Current password is incorrect');
         }
+
+        if ($request['current_password'] !== NULL) {
+            $user->update([
+                'nama' => $validatedData['nama'],
+                'password' => Hash::make($validatedData['new_password']),
+            ]);
+            $message = 'Profile name or password have been updated successfully.';
+        } else {
+            $user->update([
+                'nama' => $validatedData['nama'],
+            ]);
+            $message = 'Profile name have been updated successfully.';
+        }
+
+
+        return redirect('/user/setting')->with('success', $message);
 
     }
 

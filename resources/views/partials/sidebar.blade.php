@@ -14,7 +14,7 @@
                         </a>
                     </li>
 
-                    {{-- @if(Auth::user()->role === 'dev') --}}
+                    @if(Auth::user()->role === 'admin')
                     {{-- User --}}
                     <li class="treeview {{ Request::is('*admin*') ? 'active menu-open' : '' }}">
                         <a href="#">
@@ -31,7 +31,7 @@
                             </li>
                         </ul>
                     </li>
-                    {{-- @endif --}}
+                    @endif
 
                     {{-- Lapin --}}
                     <li class="treeview {{ Request::is('*lapin*') ? 'active menu-open' : '' }}">

@@ -32,7 +32,7 @@
                 </li>
                 <li class="btn-group nav-item d-none d-xl-inline-block">
                     <div class="b-2 border-info rounded10">
-                        <h4 class="text-info m-3">{{ ucfirst(trans(Auth::user()->username)) }} -
+                        <h4 class="text-info m-3">{{ ucfirst(trans(Auth::user()->nama)) }} -
                             {{ !Auth::user()->unit ? 'Admin' : Auth::user()->unit }}</h4>
                     </div>
                 </li>

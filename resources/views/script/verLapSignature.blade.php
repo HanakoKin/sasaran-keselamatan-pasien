@@ -1,23 +1,27 @@
 <script src="https://cdn.jsdelivr.net/npm/signature_pad@2.3.2/dist/signature_pad.min.js"></script>
 <script>
+
+    /* UNTUK CANVAS */
+
     var canvas = document.getElementById('signature-pad');
+
+    var signatureElement = document.querySelector('.signature');
 
     // Adjust canvas coordinate space taking into account pixel ratio,
     // to make it look crisp on mobile devices.
     // This also causes canvas to be cleared.
+
     function resizeCanvas() {
         // When zoomed out to less than 100%, for some very strange reason,
         // some browsers report devicePixelRatio as less than 1
         // and only part of the canvas is cleared then.
         var ratio = Math.max(window.devicePixelRatio || 1, 1);
-        canvas.width = canvas.offsetWidth * ratio;
-        canvas.height = canvas.offsetHeight * ratio;
+
         canvas.getContext("2d").scale(ratio, ratio);
 
-        console.log(canvas.width)
-        console.log(canvas.height)
+        console.log(canvas.width);
+        console.log(canvas.height);
         console.log(canvas.getContext("2d").scale(ratio, ratio))
-
     }
 
     window.onresize = resizeCanvas;
@@ -37,7 +41,7 @@
         } else {
             var data = signaturePad.toDataURL('image/png');
             $('#myModal').modal('show').find('.modal-body').html('<img src="' + data +
-                '"><textarea id="signature64" name="ttd_pelengkap" style="display:none">' + data +
+                '"><textarea id="signature64" name="paraf_penerima" style="display:none">' + data +
                 '</textarea>');
         }
     });
