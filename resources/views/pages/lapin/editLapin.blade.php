@@ -19,7 +19,7 @@
 
             {{-- Form --}}
             <form action="{{ route('updateLapin', ['id' => $data->id]) }}" method="post" enctype="multipart/form-data"
-                onsubmit="return validasiForm()">
+                onsubmit="return validasiForm()" id="formId">
                 @csrf
 
                 <div class="box-body">

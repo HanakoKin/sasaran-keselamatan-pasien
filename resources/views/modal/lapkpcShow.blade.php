@@ -60,6 +60,14 @@
                                                 <td>Kejadian Insiden</td>
                                                 <td id="lapkpcKejadianInsiden"></td>
                                             </tr>
+                                            <tr>
+                                                <td>Pembuat Laporan</td>
+                                                <td id="lapkpcPembuatLaporan"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Paraf Pelapor</td>
+                                                <td><img src="" id="lapkpcParafPelapor" alt="" width="300"></td>
+                                            </tr>
 
 
                                         </tbody>

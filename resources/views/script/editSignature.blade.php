@@ -36,6 +36,10 @@
         }
         hiddenInput.id = 'hiddenInputId';
         document.getElementById('formId').appendChild(hiddenInput);
+
+        console.log(hiddenInput.name);
+        console.log(hiddenInput.value);
+
     }
 
     function removeHiddenInput() {

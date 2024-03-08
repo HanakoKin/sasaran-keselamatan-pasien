@@ -21,6 +21,7 @@
                         <table id="example" class="table table-bordered table-hover display margin-top-10 w-p100">
                             <thead class="text-center">
                                 <tr>
+                                    <th rowspan="2" class="min-w-200">Unit Kerja Pelapor</th>
                                     <th rowspan="2" class="min-w-300">Penyebab Langsung</th>
                                     <th rowspan="2" class="min-w-300">Penyebab Awal</th>
                                     <th colspan="3">Rekomendasi Jangka Pendek</th>
@@ -71,6 +72,7 @@
                             <tbody>
                                 @foreach ($lemkis as $item)
                                 <tr>
+                                    <td> {{ $item->unit_kerja }} </td>
                                     <td> {{ $item->penyebab_langsung }} </td>
                                     <td> {{ $item->penyebab_awal }} </td>
                                     <td> {{ $item->rekom_invest_pendek }} </td>

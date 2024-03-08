@@ -18,7 +18,7 @@ class LapkpcController extends Controller
 
         $lapkpcs = Lapkpc::orderBy('created_at', 'desc');
 
-        if (!Auth::user()->isAdmin()) {
+        if (Auth::user()->role === 'user') {
             $lapkpcs->where('unit_kerja', Auth::user()->unit);
         }
 
@@ -33,10 +33,6 @@ class LapkpcController extends Controller
         $title = 'Tabel KPCS';
 
         $lapkpcs = Lapkpc::orderBy('created_at', 'desc')->get();
-
-        // if (!Auth::user()->isAdmin()) {
-        //     return redirect('/lapkpc')->with('error', 'UNAUTHORIZED ACTION');
-        // }
 
         return view('pages.lapkpc.lapkpcTable', compact('lapkpcs', 'title'));
 
@@ -93,7 +89,7 @@ class LapkpcController extends Controller
         $data = Lapkpc::findOrFail($id);
         $kategori = 'lapkpc';
 
-        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $data->unit_kerja)) {
+        if ((Auth::user()->role === 'user') && (Auth::user()->unit !== $data->unit_kerja)) {
             return redirect('/lapkpc')->with('error', 'UNAUTHORIZED ACTION');
         }
 
@@ -108,15 +104,11 @@ class LapkpcController extends Controller
 
     public function update(Request $request, $id){
 
-        // dd($request);
-
         $jam_ditemukan = substr($request->jam_ditemukan, 0, 5);
         $jam_ditemukan = substr($request->jam_ditemukan, 0, 5);
 
         $request->merge(['jam_ditemukan' => $jam_ditemukan]);
         $request->merge(['jam_ditemukan' => $jam_ditemukan]);
-
-        // dd($request);
 
         $validator = Validator::make($request->all(), [
             'unit_kerja' => 'required|string',
@@ -151,7 +143,7 @@ class LapkpcController extends Controller
 
         $lapkpc = Lapkpc::findOrFail($id);
 
-        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $lapkpc->unit_kerja)) {
+        if ((Auth::user()->role === 'user') && (Auth::user()->unit !== $lapkpc->unit_kerja)) {
             return redirect('/lapkpc')->with('error', 'UNAUTHORIZED ACTION');
         }
 

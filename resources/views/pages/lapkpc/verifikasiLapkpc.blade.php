@@ -31,10 +31,14 @@
                             </nav>
                         </div>
                         <div class="d-block">
+
+                            @if (Auth::user()->role !== 'user')
                             <button class="btn btn-success" data-bs-toggle="modal"
                                 onclick="showVerifModal({{ json_encode($data) }})">
                                 <i class="fal fa-eye"></i> Verifikasi
                             </button>
+                            @endif
+
                             <button id="print2" class="btn btn-warning" type="button"> <span><i class="fa fa-print"></i>
                                     Print</span> </button>
                         </div>
@@ -43,7 +47,7 @@
             </div>
             <div class="row d-flex justify-content-center invoice-info">
                 <div class="col-12">
-                    <div class="box box-widget widget-user">
+                    <div class="box box-widget widget-user shadow-none">
                         <div class="box-footer py-0 border-0">
                             <div class="d-flex justify-content-between align-items-center m-20">
                                 <img src="{{ asset('assets/images/Husada.png') }}" width="70" alt="">

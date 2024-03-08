@@ -46,6 +46,9 @@
                                     <th class="min-w-70">Foto</th>
                                     <th class="min-w-150">KPCS</th>
                                     <th class="min-w-150">Pelapor KPCS</th>
+                                    @if(Auth::user()->role !== 'user')
+                                    <th scope="col">Unit</th>
+                                    @endif
                                     <th class="min-w-150">Status</th>
                                     <th class="min-w-200">Aksi</th>
                                 </tr>
@@ -56,7 +59,10 @@
                                     <td><img src="https://source.unsplash.com/50x50?people" alt="User Avatar"
                                             class="img-fluid rounded-circle mb-3" style="width: 50px;"></td>
                                     <td>{{ $lapkpc->kpc }}</td>
-                                    <td>{{ $lapkpc->pelapor_insiden }}</td>
+                                    <td>{{ $lapkpc->pembuat_laporan }}</td>
+                                    @if(Auth::user()->role !== 'user')
+                                    <td>{{ $lapkpc->unit_kerja }}</td>
+                                    @endif
                                     <td>{{ $lapkpc->status }}</td>
                                     <td>
 
@@ -77,7 +83,7 @@
                                             Delete
                                         </a>
 
-                                        @if ((Auth::user()->isAdmin()) || ($lapkpc->status === "Terverifikasi"))
+                                        @if ((Auth::user()->role !== 'user') || ($lapkpc->status === "Terverifikasi"))
 
                                         <a class="btn btn-primary btn-sm me-2 mb-2 text-decoration-none"
                                             href="{{ url('/lapkpc/verificate', $lapkpc->id) }}"><i

@@ -18,10 +18,10 @@ class LapinController extends Controller
 
         $title = 'Dashboard';
 
-        if (Auth::user()->isAdmin()) {
-            $lapins = Lapin::orderBy('created_at', 'desc')->get();
-        } else {
+        if (Auth::user()->role === 'user') {
             $lapins = Lapin::Where('unit_kerja', Auth::user()->unit)->get();
+        } else {
+            $lapins = Lapin::orderBy('created_at', 'desc')->get();
         }
 
         $totalKasus = $lapins->count();
@@ -164,7 +164,7 @@ class LapinController extends Controller
 
         $lapins = Lapin::orderBy('created_at', 'desc');
 
-        if (!Auth::user()->isAdmin()) {
+        if (Auth::user()->role === 'user') {
             $lapins->where('unit_kerja', Auth::user()->unit);
         }
 
@@ -179,10 +179,6 @@ class LapinController extends Controller
         $title = 'Tabel Laporan Insiden';
 
         $lapins = Lapin::orderBy('created_at', 'desc')->get();
-
-        // if (!Auth::user()->isAdmin()) {
-        //     return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
-        // }
 
         return view('pages.lapin.lapinTable', compact('lapins', 'title'));
 
@@ -267,7 +263,7 @@ class LapinController extends Controller
         $ruangan = Ruangan::all();
         $kategori = 'lapin';
 
-        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $data->unit_kerja)) {
+        if ((Auth::user()->role === 'user') && (Auth::user()->unit !== $data->unit_kerja)) {
             return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
         }
 
@@ -360,7 +356,7 @@ class LapinController extends Controller
 
         $lapin = Lapin::findOrFail($id);
 
-        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $lapin->unit_kerja)) {
+        if ((Auth::user()->role === 'user') && (Auth::user()->unit !== $lapin->unit_kerja)) {
             return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
         }
 
@@ -443,14 +439,9 @@ class LapinController extends Controller
 
         $statusMessage = ($validatedData['status'] !== 'Terverifikasi') ? 'Lapin verification removed!' : 'Lapin verified!';
 
-
         Lapin::where('id', $id)->update($validatedData);
 
-        // return back()->with('success', 'LAPIN deleted successfully!');
-
         return redirect('/lapin')->with('success', $statusMessage);
-
-        // return view('pages.verifikasiLapin', compact('title', 'lapin'));
     }
 
     public function addLemkisPage($id){
@@ -459,7 +450,7 @@ class LapinController extends Controller
 
         $lapin = Lapin::findOrFail($id);
 
-        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $lapin->unit_kerja)) {
+        if ((Auth::user()->role === 'user') && (Auth::user()->unit !== $lapin->unit_kerja)) {
             return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
         }
 

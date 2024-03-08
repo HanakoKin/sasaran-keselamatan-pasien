@@ -16,6 +16,9 @@
         $('#lapkpcTindakanInsiden').text(": " + lapkpc.tindakan_insiden);
         $('#lapkpcKejadianInsiden').text(": " + lapkpc.kejadian_insiden);
 
+        $('#lapkpcPembuatLaporan').text(": " + lapkpc.pembuat_laporan);
+        $('#lapkpcParafPelapor').attr('src', lapkpc.paraf_pelapor);
+
         $('#showLapkpc').modal('show')
 
         function formatDate(dateString) {

@@ -32,7 +32,7 @@
                         </div>
                         <div class="d-block">
 
-                            @if (Auth::user()->isAdmin())
+                            @if (Auth::user()->role !== 'user')
 
                             <button class="btn btn-success" data-bs-toggle="modal"
                                 onclick="showVerifModal({{ json_encode($data) }})">

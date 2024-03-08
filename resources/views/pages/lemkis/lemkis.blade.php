@@ -42,6 +42,9 @@
                                     <th scope="col">Nama</th>
                                     <th scope="col">No RM</th>
                                     <th scope="col">Insiden</th>
+                                    @if(Auth::user()->role !== 'user')
+                                    <th scope="col">Unit</th>
+                                    @endif
                                     <th scope="col">Aksi</th>
                                 </tr>
                             </thead>
@@ -53,9 +56,12 @@
                                     <td>{{ $lemkis->lapin->nama }}</td>
                                     <td>{{ $lemkis->lapin->noRM }}</td>
                                     <td>{{ $lemkis->lapin->insiden }}</td>
+                                    @if(Auth::user()->role !== 'user')
+                                    <td>{{ $lemkis->unit_kerja }}</td>
+                                    @endif
                                     <td>
 
-                                        @if (Auth::user()->role === 'admin')
+                                        @if (Auth::user()->role !== 'user')
 
                                         <a class="btn btn-info btn-sm me-2 mb-2 text-decoration-none"
                                             href="{{ url('/lemkis/noteTable' , $lemkis->id) }}"><i

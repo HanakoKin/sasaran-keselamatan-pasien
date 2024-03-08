@@ -18,7 +18,7 @@
             </div>
 
             {{-- Form --}}
-            <form action="{{ route('updateLapkpc', ['id' => $data->id]) }}" method="post" enctype="multipart/form-data">
+            <form action="{{ route('updateLapkpc', ['id' => $data->id]) }}" method="post" enctype="multipart/form-data" id="formId">
                 @csrf
 
                 <div class="box-body">

@@ -34,6 +34,8 @@
         $('#lapinTindakanInsiden').text(": " + lapin.tindakan_insiden);
         $('#lapinKejadianInsiden').text(": " + lapin.kejadian_insiden);
 
+        $('#lapinPembuatLaporan').text(": " + lapin.pembuat_laporan);
+        $('#lapinParafPelapor').attr('src', lapin.paraf_pelapor);
         $('#showLapin').modal('show')
 
         function formatDate(dateString) {

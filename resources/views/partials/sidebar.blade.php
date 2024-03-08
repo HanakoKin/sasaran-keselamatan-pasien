@@ -43,7 +43,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            @if (Auth::user()->role === 'admin')
+                            @if (Auth::user()->role !== 'user')
                             <li class="{{ Request::is('*lapinTable') ? 'active' : '' }}"><a href="/lapinTable"><i
                                         class="icon-Commit"><span class="path1"></span><span
                                             class="path2"></span></i>Tabel Data Lapin</a></li>
@@ -65,7 +65,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            @if (Auth::user()->role === 'admin')
+                            @if (Auth::user()->role !== 'user')
                             <li class="{{ Request::is('*lapkpcTable') ? 'active' : '' }}"><a href="/lapkpcTable"><i
                                         class="icon-Commit"><span class="path1"></span><span
                                             class="path2"></span></i>Tabel Data KPCS</a></li>
@@ -88,7 +88,7 @@
                             </span>
                         </a>
                         <ul class="treeview-menu">
-                            @if (Auth::user()->role === 'admin')
+                            @if (Auth::user()->role !== 'user')
                             <li class="{{ Request::is('*lemkisTable') ? 'active' : '' }}"><a href="/lemkisTable"><i
                                         class="icon-Commit"><span class="path1"></span><span
                                             class="path2"></span></i>Tabel Data LEMKIS</a></li>

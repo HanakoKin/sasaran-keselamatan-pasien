@@ -118,6 +118,14 @@
                                                 <td>Apakah kejadian yang sama pernah terjadi?</td>
                                                 <td id="lapinKejadianInsiden"></td>
                                             </tr>
+                                            <tr>
+                                                <td>Pembuat Laporan</td>
+                                                <td id="lapinPembuatLaporan"></td>
+                                            </tr>
+                                            <tr>
+                                                <td>Paraf Pelapor</td>
+                                                <td><img src="" id="lapinParafPelapor" alt="" width="300"></td>
+                                            </tr>
 
 
                                         </tbody>

@@ -51,7 +51,7 @@
                                     <th scope="col">Status</th>
                                     <th scope="col">Grade</th>
                                     <th scope="col">LEMKIS</th>
-                                    @if(Auth::user()->isAdmin())
+                                    @if(Auth::user()->role !== 'user')
                                     <th scope="col">Unit</th>
                                     @endif
                                     <th scope="col">Aksi</th>
@@ -73,7 +73,7 @@
                                         @endif
                                     </td>
                                     <td>{{ isset($lapin->lemkis) ? 'Ada' : 'Belum ada' }}</td>
-                                    @if ((Auth::user()->isAdmin()))
+                                    @if(Auth::user()->role !== 'user')
                                     <td>{{ $lapin->unit_kerja }}</td>
                                     @endif
                                     <td>
@@ -83,7 +83,7 @@
                                             <i class="fal fa-eye"></i> Lihat
                                         </a>
 
-                                        @if ((Auth::user()->isAdmin()) || ($lapin->status === "Belum
+                                        @if ((Auth::user()->role !== 'user') || ($lapin->status === "Belum
                                         terverifikasi"))
 
                                         <a class="btn btn-warning btn-sm me-2 mb-2 text-decoration-none"
@@ -91,7 +91,7 @@
                                             Edit
                                         </a>
 
-                                        @elseif ((!Auth::user()->isAdmin()) && ($lapin->status ===
+                                        @elseif ((Auth::user()->role === 'user') && ($lapin->status ===
                                         "Belum terverifikasi"))
                                         <a class="btn btn-warning btn-sm me-2 mb-2 text-decoration-none"
                                             href="{{ url('/lapin/edit', $lapin->id) }}"><i class="fal fa-pen"></i> Edit
@@ -104,7 +104,7 @@
                                                 class="fal fa-trash-alt"></i> Delete
                                         </a>
 
-                                        @if ((Auth::user()->isAdmin()) || ($lapin->status === "Terverifikasi"))
+                                        @if ((Auth::user()->role !== 'user') || ($lapin->status === "Terverifikasi"))
 
                                         <a class="btn btn-primary btn-sm me-2 mb-2 text-decoration-none"
                                             href="{{ url('/lapin/verificate', $lapin->id) }}"><i

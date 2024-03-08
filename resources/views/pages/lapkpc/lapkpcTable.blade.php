@@ -21,6 +21,7 @@
                         <table id="example" class="table table-bordered table-hover display margin-top-10 w-p100">
                             <thead class="text-center">
                                 <tr>
+                                    <th class="min-w-200">Unit Kerja Pelapor</th>
                                     <th class="min-w-300">Kondisi Potensial Cedera</th>
                                     <th class="min-w-150">Tanggal Ditemukan</th>
                                     <th class="min-w-120">Jam Ditemukan</th>
@@ -40,6 +41,7 @@
                             <tbody>
                                 @foreach ($lapkpcs as $lapkpc)
                                 <tr>
+                                    <td> {{ $lapkpc->unit_kerja }} </td>
                                     <td> {{ $lapkpc->kpc }} </td>
                                     <td> {{ $lapkpc->tanggal_ditemukan }} </td>
                                     <td> {{ $lapkpc->jam_ditemukan }} </td>
@@ -51,8 +53,8 @@
                                     <td> {{ $lapkpc->kejadian_insiden }} </td>
                                     <td> {{ $lapkpc->status }} </td>
                                     <td> {{ $lapkpc->pembuat_laporan }} </td>
-                                    <td> {{ $lapkpc->penerima_laporan }} </td>
                                     <td> {{ $lapkpc->created_at }} </td>
+                                    <td> {{ $lapkpc->penerima_laporan }} </td>
                                     <td> {{ $lapkpc->tanggal_terima }} </td>
                                 </tr>
                                 @endforeach

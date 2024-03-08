@@ -16,7 +16,7 @@ class LemkisController extends Controller
 
         $lemkises = Lemkis::orderBy('created_at', 'desc');
 
-        if (!Auth::user()->isAdmin()) {
+        if (Auth::user()->role === 'user') {
             $lemkises->where('unit_kerja', Auth::user()->unit);
         }
 
@@ -56,7 +56,7 @@ class LemkisController extends Controller
 
         $kategori = 'lemkis';
 
-        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $data->unit_kerja)) {
+        if ((Auth::user()->role === 'user') && (Auth::user()->unit !== $data->unit_kerja)) {
             return redirect('/lemkis')->with('error', 'UNAUTHORIZED ACTION');
         }
 
@@ -168,7 +168,7 @@ class LemkisController extends Controller
 
         $lemkis = Lemkis::findOrFail($id);
 
-        if ((!Auth::user()->isAdmin()) && (Auth::user()->unit !== $lemkis->unit_kerja)) {
+        if ((Auth::user()->role === 'user') && (Auth::user()->unit !== $lemkis->unit_kerja)) {
             return redirect('/lemkis')->with('error', 'UNAUTHORIZED ACTION');
         }
 

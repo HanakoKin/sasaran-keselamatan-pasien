@@ -29,7 +29,7 @@
             </div>
             <div class="row d-flex justify-content-center invoice-info">
                 <div class="col-12">
-                    <div class="box box-widget widget-user">
+                    <div class="box box-widget widget-user shadow-none">
                         <div class="box-footer py-0 border-0">
 
                             <div class="d-flex justify-content-between align-items-center m-20">

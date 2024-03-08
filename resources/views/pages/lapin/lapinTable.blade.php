@@ -50,8 +50,8 @@
                                         Insiden</th>
                                     <th class="min-w-150">Status</th>
                                     <th class="min-w-150">Pembuat Laporan</th>
-                                    <th class="min-w-150">Penerima Laporan</th>
                                     <th class="min-w-150">Tanggal Lapor</th>
+                                    <th class="min-w-150">Penerima Laporan</th>
                                     <th class="min-w-150">Tanggal Terima</th>
                                     <th class="min-w-150">Grading</th>
                                 </tr>
@@ -85,8 +85,8 @@
                                     <td> {{ $lapin->kejadian_insiden }} </td>
                                     <td> {{ $lapin->status }} </td>
                                     <td> {{ $lapin->pembuat_laporan }} </td>
-                                    <td> {{ $lapin->penerima_laporan }} </td>
                                     <td> {{ $lapin->created_at }} </td>
+                                    <td> {{ $lapin->penerima_laporan }} </td>
                                     <td> {{ $lapin->tanggal_terima }} </td>
                                     <td> {{ $lapin->grading_risiko ? ucfirst(trans($lapin->grading_risiko)) : '' }}
                                     </td>
