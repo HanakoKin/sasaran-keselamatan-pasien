@@ -99,7 +99,7 @@ class UserController extends Controller
         }
 
 
-        return redirect('/user/setting')->with('success', $message);
+        return redirect('/dashboard')->with('success', $message);
 
     }
 

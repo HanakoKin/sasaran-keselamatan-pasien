@@ -18,7 +18,7 @@ $(function () {
 
     $("#example").DataTable({
         dom: "Bfrtip",
-        buttons: ["excel"],
+        buttons: ["excel"]
         // responsive: true,
         // buttons: ["copy", "csv", "excel", "pdf", "print"],
     });
@@ -41,7 +41,12 @@ $(function () {
         autoWidth: false,
     });
 
-    $("#complex_header").DataTable();
+    $("#complex_header").DataTable({
+        paging: false,
+        dom: "Bfrtip",
+        buttons: ["excel"],
+        info: false,
+    });
 
     //--------Individual column searching
 
