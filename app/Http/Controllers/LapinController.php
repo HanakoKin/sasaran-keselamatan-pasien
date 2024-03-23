@@ -14,7 +14,8 @@ use Illuminate\Support\Facades\Validator;
 class LapinController extends Controller
 {
 
-    public function dashboard(){
+    public function dashboard()
+    {
 
         $title = 'Dashboard';
 
@@ -39,7 +40,8 @@ class LapinController extends Controller
         $gradeKuning = $lapins->where('grading_risiko', 'kuning')->count();
         $gradeMerah = $lapins->where('grading_risiko', 'merah')->count();
 
-        function calculatePercentage($jumlah, $total) {
+        function calculatePercentage($jumlah, $total)
+        {
             return ($total > 0) ? number_format(($jumlah / $total) * 100, 0) : 0;
         }
 
@@ -66,11 +68,11 @@ class LapinController extends Controller
             $colorClass = 'danger';
         }
 
-        return view('pages.dashboard', compact('title', 'jumlahKNC', 'jumlahKTC', 'jumlahKTD', 'jumlahKPC','jumlahSentinel', 'prosentaseKPC', 'prosentaseKNC', 'prosentaseKTC', 'prosentaseKTD', 'prosentaseSentinel', 'gradeBiru', 'gradeHijau', 'gradeKuning', 'gradeMerah', 'prosentaseBiru', 'prosentaseHijau', 'prosentaseKuning', 'prosentaseMerah', 'colorClass', 'totalKasus'));
-
+        return view('pages.dashboard', compact('title', 'jumlahKNC', 'jumlahKTC', 'jumlahKTD', 'jumlahKPC', 'jumlahSentinel', 'prosentaseKPC', 'prosentaseKNC', 'prosentaseKTC', 'prosentaseKTD', 'prosentaseSentinel', 'gradeBiru', 'gradeHijau', 'gradeKuning', 'gradeMerah', 'prosentaseBiru', 'prosentaseHijau', 'prosentaseKuning', 'prosentaseMerah', 'colorClass', 'totalKasus'));
     }
 
-    public function barChartLapinYear($year){
+    public function barChartLapinYear($year)
+    {
         $targetYear = $year;
         $unit = Auth::user()->unit;
 
@@ -117,7 +119,8 @@ class LapinController extends Controller
         return response()->json($data);
     }
 
-    public function barChartLapinMonth($year, $month){
+    public function barChartLapinMonth($year, $month)
+    {
         $targetYear = $year;
         $targetMonth = $month;
         $unit = Auth::user()->unit;
@@ -158,7 +161,8 @@ class LapinController extends Controller
         ]);
     }
 
-    public function lapin(){
+    public function lapin()
+    {
 
         $title = 'Laporan Insiden';
 
@@ -171,30 +175,30 @@ class LapinController extends Controller
         $lapins = $lapins->get();
 
         return view('pages.lapin.lapin', compact('lapins', 'title'));
-
     }
 
-    public function lapinTable(){
+    public function lapinTable()
+    {
 
         $title = 'Tabel Laporan Insiden';
 
         $lapins = Lapin::orderBy('created_at', 'desc')->get();
 
         return view('pages.lapin.lapinTable', compact('lapins', 'title'));
-
     }
 
-    public function addLapinPage(){
+    public function addLapinPage()
+    {
 
         $title = 'Laporan Insiden Form';
 
         $ruangan = Ruangan::all();
 
         return view('pages.lapin.addLapin', compact('title', 'ruangan'));
-
     }
 
-    public function store(Request $request){
+    public function store(Request $request)
+    {
 
         $kasusInsidenString = implode(', ', $request->input('kasus_insiden', []));
 
@@ -245,17 +249,16 @@ class LapinController extends Controller
         if ($validator->fails()) {
             $errors = implode(', ', $validator->errors()->all());
             return back()->with('error', $errors)->withInput();
-
         }
 
         $validatedData = $validator->validated();
 
         Lapin::create($validatedData);
         return redirect('/lapin')->with('success', 'LAPIN added successfully!');
-
     }
 
-    public function edit($id){
+    public function edit($id)
+    {
 
         $title = 'Edit Laporan Insiden';
 
@@ -283,17 +286,17 @@ class LapinController extends Controller
         // Pemisahan data
         $fixed_data_kasus_insiden = explode(', ', $data_kasus_insiden);
 
-        if(count($fixed_data_kasus_insiden) === 1) {
+        if (count($fixed_data_kasus_insiden) === 1) {
             $fixed_data_kasus_insiden = [$data_kasus_insiden];
         }
 
         $fixed_kejadian_insiden = str_replace('Ya, terjadi pada ', '', $data->kejadian_insiden);
 
         return view('pages.lapin.editLapin', compact('data', 'fixed_data_kasus_insiden', 'fixed_kejadian_insiden', 'title', 'ruangan', 'kategori'));
-
     }
 
-    public function update(Request $request, $id){
+    public function update(Request $request, $id)
+    {
 
         $kasusInsidenString = implode(', ', $request->input('kasus_insiden', []));
 
@@ -349,10 +352,10 @@ class LapinController extends Controller
         Lapin::where('id', $id)->update(['proses_edit' => false]);
 
         return redirect('/lapin')->with('success', 'LAPIN updated successfully!');
-
     }
 
-    public function delete($id){
+    public function delete($id)
+    {
 
         $lapin = Lapin::findOrFail($id);
 
@@ -360,16 +363,17 @@ class LapinController extends Controller
             return redirect('/lapin')->with('error', 'UNAUTHORIZED ACTION');
         }
 
-         // Hapus data terkait dari tabel Lemkis
-         Lemkis::where('lapin_id', $id)->delete();
+        // Hapus data terkait dari tabel Lemkis
+        Lemkis::where('lapin_id', $id)->delete();
 
-         // Hapus data Lapin
-         $lapin->delete();
+        // Hapus data Lapin
+        $lapin->delete();
 
-         return back()->with('success', 'LAPIN deleted successfully!');
+        return back()->with('success', 'LAPIN deleted successfully!');
     }
 
-    public function resetEditStatus($id){
+    public function resetEditStatus($id)
+    {
 
         $lapin = Lapin::findOrFail($id);
 
@@ -379,7 +383,8 @@ class LapinController extends Controller
         return response()->json(['message' => 'Status edit berhasil diperbarui']);
     }
 
-    public function print($id){
+    public function print($id)
+    {
 
         $title = "Print Laporan Insiden";
 
@@ -388,7 +393,8 @@ class LapinController extends Controller
         return view('pages.lapin.printLapin', compact('title', 'lapin'));
     }
 
-    public function verifikasi($id){
+    public function verifikasi($id)
+    {
 
         $title = "Verifikasi Laporan Insiden";
 
@@ -416,7 +422,8 @@ class LapinController extends Controller
         return view('pages.lapin.verifikasiLapin', compact('title', 'data', 'category'));
     }
 
-    public function grading(Request $request, $id){
+    public function grading(Request $request, $id)
+    {
 
         $lapin = Lapin::findOrFail($id);
 
@@ -444,7 +451,8 @@ class LapinController extends Controller
         return redirect('/lapin')->with('success', $statusMessage);
     }
 
-    public function addLemkisPage($id){
+    public function addLemkisPage($id)
+    {
 
         $title = 'Lembar Kerja Investigasi Sederhana';
 
@@ -455,7 +463,5 @@ class LapinController extends Controller
         }
 
         return view('pages.lemkis.addLemkis', compact('title', 'lapin'));
-
     }
-
 }

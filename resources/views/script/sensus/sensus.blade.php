@@ -86,13 +86,13 @@
                     if (data.mainArray[index]) {
                         // Add cells for each day
                         for (let i = 1; i <= data.totalDay; i++) {
-                            var value = data.mainArray[index][i - 1] || '0';
+                            var value = data.mainArray[index][i - 1] || ' ';
                             tableRow.append($('<td>').text(value));
                         }
                     } else {
                         // If data.mainArray[index] is undefined, add placeholder cells
                         for (let i = 1; i <= data.totalDay; i++) {
-                            tableRow.append($('<td>').text('0'));
+                            tableRow.append($('<td>').text(' '));
                         }
                     }
 

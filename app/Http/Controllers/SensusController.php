@@ -225,7 +225,6 @@ class SensusController extends Controller
                 'Kesalahan pencampuran obat',
                 'Kesalahan dosis obat',
                 'Reaksi efek samping obat',
-
             ];
         } else if ($item === 'spesialis') {
             $question = [
@@ -241,7 +240,23 @@ class SensusController extends Controller
                 'Ketidakpatuhan cuci tangan',
                 'Pasien jatuh',
             ];
-        } else if ($item === 'lab') {
+        } else if ($item === 'lab'){
+            $question = [
+                'Ketidaktepatan identifikasi pasien',
+                'Komunikasi kurang efektif',
+                'Kesalahan penyediaan sample',
+                'Kesalahan menginput hasil',
+                'Kesalahan pengoperasian alat',
+                'Kesalahan pencampuran reagen',
+                'Kesalahan mencetak hasil',
+                'Kesalahan golongan darah',
+                'Kesalahan menyampaikan hasil',
+                'Kesalahan pengambilan sample',
+                'Ketidakpatuhan cuci tangan',
+                'Pasien jatuh',
+
+            ];
+        } else if ($item === 'kritis') {
             $question = [
                 'Ketidaktepatan identifikasi pasien',
                 'Komunikasi kurang efektif',

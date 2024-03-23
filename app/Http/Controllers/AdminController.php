@@ -83,7 +83,7 @@ class AdminController extends Controller
 
         $data = User::findOrFail($id);
 
-        dd($data);
+        // dd($data);
 
         $unit = Unit::all();
 

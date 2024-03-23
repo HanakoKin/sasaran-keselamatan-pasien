@@ -105,7 +105,7 @@
 
                     // Add cells for each day
                     for (let i = 1; i <= data.totalDay; i++) {
-                        var value = data.mainArray[index] ? (data.mainArray[index][i - 1] || '0') : '0';
+                        var value = data.mainArray[index] ? (data.mainArray[index][i - 1] || ' ') : ' ';
                         var inputElement = $('<input>').attr({
                             type: 'text',
                             class: 'form-control p-2',
