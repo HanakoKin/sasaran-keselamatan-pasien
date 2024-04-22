@@ -5,7 +5,10 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Igd;
 use App\Models\Lab;
+<<<<<<< HEAD
 use App\Models\Gizi;
+=======
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
 use App\Models\Rajal;
 use App\Models\Ranap;
 use App\Models\Rehab;
@@ -19,18 +22,25 @@ use App\Models\Radiologi;
 use App\Models\Spesialis;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
+<<<<<<< HEAD
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
+=======
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
 
 class SensusController extends Controller
 {
     public function index($item)
     {
+<<<<<<< HEAD
         $title = 'Sensus ' . ucwords(trans($item)) . ' Page';
 
         if ((Auth::user()->role === 'user') && (Auth::user()->unit !== strtoupper(trans($item)))) {
             return redirect('/dashboard')->with('error', 'UNAUTHORIZED ACTION');
         }
+=======
+        $title = 'Sensus ' . $item . ' Page';
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
 
         $type = $item;
 
@@ -44,6 +54,7 @@ class SensusController extends Controller
 
         if ($item === 'admission') {
             $datas = Admission::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+<<<<<<< HEAD
         } else if ($item === 'bank darah') {
             $datas = Bandar::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
         } else if ($item === 'EEG EMG' || $item === 'fisioterapi') {
@@ -76,6 +87,34 @@ class SensusController extends Controller
         //     $datas = Rehab::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
         // }
 
+=======
+        } else if ($item === 'rshusada') {
+            $datas = Rshusada::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        } else if ($item === 'bandar') {
+            $datas = Bandar::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        } else if ($item === 'farmasi') {
+            $datas = Farmasi::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        } else if ($item === 'igd') {
+            $datas = Igd::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        } else if ($item === 'operasi') {
+            $datas = Operasi::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        } else if ($item === 'spesialis') {
+            $datas = Spesialis::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        } else if ($item === 'lab') {
+            $datas = Lab::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        } else if ($item === 'kritis') {
+            $datas = Kritis::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        } else if ($item === 'radiologi') {
+            $datas = Radiologi::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        } else if ($item === 'ranap') {
+            $datas = Ranap::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        } else if ($item === 'rajal') {
+            $datas = Rajal::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        } else if ($item === 'rehab') {
+            $datas = Rehab::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        }
+
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
         $sensus = [];
 
         foreach ($datas as $data) {
@@ -109,6 +148,7 @@ class SensusController extends Controller
                 'Ketidakpatuhan cuci tangan',
                 'Pasien jatuh'
             ];
+<<<<<<< HEAD
         } else if ($item === 'bank darah') {
             $question = [
                 'Ketidaktepatan identifikasi pasien',
@@ -315,6 +355,8 @@ class SensusController extends Controller
                 'Pasien jatuh',
                 'Tertusuk jarum',
             ];
+=======
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
         } else if ($item === 'rshusada') {
             $question = [
                 'Ketidaktepatan identifikasi pasien rawat inap',
@@ -364,7 +406,92 @@ class SensusController extends Controller
                 'Reaksi efek samping obat',
                 'Reaksi efek samping transfusi darah',
             ];
+<<<<<<< HEAD
         } else if ($item === 'unit rawat jalan') {
+=======
+        } else if ($item === 'bandar') {
+            $question = [
+                'Ketidaktepatan identifikasi pasien',
+                'Komunikasi kurang efektif',
+                'Kesalahan golongan darah',
+                'Kesalahan jenis darah',
+                'Reaksi transfusi darah',
+                'Perbedaan hasil skrining',
+                'Ketidakpatuhan cuci tangan',
+            ];
+        } else if ($item === 'farmasi') {
+            $question = [
+                'Ketidaktepatan identifikasi pasien',
+                'Komunikasi kurang efektif',
+                'Ketidakpatuhan cuci tangan',
+                'Kesalahan yang terkait dengan obat yang perlu diwaspadai (High Alert Medications)',
+                'Kesalahan penyerahan obat pada pasien URJ',
+                'Kesalahan penyerahan obat pada pasien rawat inap',
+                'Kelebihan penyerahan obat pada pasien URJ',
+                'Kelebihan penyerahan obat pada pasien rawat inap',
+                'Kekurangan penyerahan obat pada pasien URJ',
+                'Kekurangan penyerahan obat pada pasien rawat inap',
+                'Kesalahan dosis obat',
+                'Kesalahan pembacaan resep obat',
+                'Kesalahan jenis obat',
+                'Kesalahan pencampuran obat KEMOTERAPI',
+                'Kesalahan pengemasan obat',
+
+            ];
+        } else if ($item === 'igd') {
+            $question = [
+                'Kesalahan identifikasi pasien',
+                'Kesalahan identifikasi kegawatdaruratan',
+                'Komunikasi yang kurang efektif',
+                'kesalahan yang terkait dengan obat yang perlu diwaspadai (high alert medications)',
+                'Kesalahan transportasi pasien',
+                'Kesalahan transportasi pasien pada saat merujuk',
+                'Kesalahan transportasi pada saat menjemput pasien',
+                'Kesalahan pemberian obat',
+                'Ketidakpatuhan cuci tangan',
+                'Pasien jatuh',
+                'Tertusuk jarum',
+            ];
+        } else if ($item === 'gizi') {
+            $question = [
+                'Keterlambatan penyediaan makanan pada pasien baru',
+                'Ketidaktepatan identifikasi pasien',
+                'Kesalahan jenis diet',
+                'Keterlambatan penyediaan makanan pagi pasien rawat inap',
+                'Tercemarnya makanan',
+                'Kesalahan sediaan diet khusus',
+                'Komunikasi kurang efektif',
+                'Ketidakpatuhan cuci tangan',
+            ];
+        } else if ($item === 'operasi') {
+            $question = [
+                'Ketidaktepatan identifikasi pasien',
+                'Komunikasi kurang efektif',
+                'Kesalahan jenis operasi',
+                'Kesalahan posisi',
+                'kesalahan terkait dengan obat yang perlu diwaspadai (High Alert Medications)',
+                'Ketidakpatuhan pelaksanaan TIME OUT',
+                'Tertinggalnya kain kassa',
+                'Tertinggalnya instrumen',
+                'Operasi tanpa spesialis anestesi',
+                'Operasi dengan kekurangan darah',
+                'Konsultasi durante operasi',
+                'Perluasan operasi',
+                'Kesalahan diagnosis pra operasi',
+                'Trauma elektrik',
+                'Ketidakpatuhan cuci tangan',
+                'Pasien jatuh',
+                'Kesalahan pemberian informasi harga alat kesehatan',
+                'Reaksi efek samping transfusi darah',
+                'Kesalahan pemberian informasi kepada dokter',
+                'Kesalahan pemberian obat',
+                'Kesalahan cara pemberian obat',
+                'Kesalahan pencampuran obat',
+                'Kesalahan dosis obat',
+                'Reaksi efek samping obat',
+            ];
+        } else if ($item === 'spesialis') {
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
             $question = [
                 'Ketidaktepatan identifikasi pasien rawat jalan',
                 'Komunikasi kurang efektif',
@@ -378,6 +505,134 @@ class SensusController extends Controller
                 'Ketidakpatuhan cuci tangan',
                 'Pasien jatuh',
             ];
+<<<<<<< HEAD
+=======
+        } else if ($item === 'lab'){
+            $question = [
+                'Ketidaktepatan identifikasi pasien',
+                'Komunikasi kurang efektif',
+                'Kesalahan penyediaan sample',
+                'Kesalahan menginput hasil',
+                'Kesalahan pengoperasian alat',
+                'Kesalahan pencampuran reagen',
+                'Kesalahan mencetak hasil',
+                'Kesalahan golongan darah',
+                'Kesalahan menyampaikan hasil',
+                'Kesalahan pengambilan sample',
+                'Ketidakpatuhan cuci tangan',
+                'Pasien jatuh',
+
+            ];
+        } else if ($item === 'kritis') {
+            $question = [
+                'Ketidaktepatan identifikasi pasien',
+                'Komunikasi kurang efektif',
+                'kesalahan yang terkait dengan obat yang perlu diwaspadai (High Alert Medications)',
+                'Vagal reflex pada pemasangan ETT',
+                'Tersumbatnya saluran nafas yang berakibat bradikardi',
+                'Kesalahan setting ventilator',
+                'Infus blong',
+                'Luka tekan',
+                'Kesalahan pemberian obat',
+                'Kesalahan cara pemberian obat',
+                'Kesalahan pencampuran obat',
+                'Kesalahan dosis obat',
+                'Reaksi efek samping obat',
+                'Kesalahan sampling',
+                'Kesalahan hasil sampling',
+                'Kesalahan identifikasi pasien pada saat pengambilan sample',
+                'Ketidaktepatan tehnik pengambilan sample darah',
+                'Kesalahan persiapan operasi',
+                'Trauma elektrik',
+                'Luka bakar akibat buli – buli panas',
+                'Kesalahan persiapan pemeriksaan penunjang',
+                'Kesalahan golongan/jenis darah',
+                'Reaksi efek samping transfusi darah',
+                'Kesalahan pemberian informasi harga alat kesehatan',
+                'Kesalahan pemberian informasi kepada dokter',
+                'Ketidak jelasan tulisan pada rekam medis pasien',
+                'Luka bakar akibat pemasangan Bicnat Drip (100 CC)',
+                'Flebitis',
+                'Ketidakpatuhan cuci tangan',
+                'Pasien jatuh',
+                'VAP (Ventilator Associated Pneumonia)',
+                'ISK (Infeksi Saluran Kemih)',
+                'IADP (Infeksi Aliran Darah Primer - Pemasangan PVC)',
+                'IDO (Infeksi Daerah Operasi)',
+            ];
+        } else if ($item === 'radiologi') {
+            $question = [
+                'Ketidaktepatan identifikasi pasien',
+                'Komunikasi kurang efektif',
+                'kesalahan yang terkait dengan obat yang perlu diwaspadai (High Alert Medications)',
+                'Kesalahan interpretasi hasil',
+                'Keterlambatan foto ruangan lebih dari 15 menit',
+                'Keterlambatan radiologi pada pemeriksaan radiologi',
+                'Kesalahan posisi pemeriksaan',
+                'Reaksi obat kontras',
+                'Keterlambatan penyerahan hasil foto',
+                'Pengulangan pemeriksaan radiologi',
+                'Ketidakpatuhan cuci tangan',
+                'Pasien jatuh',
+            ];
+        } else if ($item === 'ranap') {
+            $question = [
+                'Ketidaktepatan identifikasi pasien',
+                'Komunikasi kurang efektif',
+                'Pasien jatuh',
+                'Infus blong',
+                'Luka tekan',
+                'kesalahan yang terkait dengan obat yang perlu diwaspadai (High Alert Medications)',
+                'Kesalahan pemberian obat',
+                'Kesalahan cara pemberian obat',
+                'Kesalahan pencampuran obat',
+                'Kesalahan dosis obat',
+                'Reaksi efek samping obat',
+                'Kesalahan sampling',
+                'Kesalahan hasil sampling',
+                'Kesalahan identifikasi pasien pada saat pengambilan sample',
+                'Ketidaktepatan tehnik pengambilan sample darah',
+                'Kesalahan persiapan operasi',
+                'Trauma elektrik',
+                'Luka bakar akibat buli – buli panas',
+                'Kesalahan persiapan pemeriksaan penunjang',
+                'Kesalahan golongan/jenis darah',
+                'Reaksi efek samping transfusi darah',
+                'Kesalahan pemberian informasi harga alat kesehatan',
+                'Kesalahan pemberian informasi kepada dokter',
+                'Ketidak jelasan tulisan pada rekam medis pasien',
+                'Luka bakar akibat pemasangan Bicnat Drip (100 CC)',
+                'Ketidakpatuhan cuci tangan',
+                'Tertusuk jarum',
+                'Flebitis',
+                'ISK (Infeksi Saluran Kemih)',
+                'IADP (Infeksi Aliran Darah Primer - pemasangan CVC)',
+                'IDO (Infeksi  Daerah Operasi)',
+            ];
+        } else if ($item === 'rajal') {
+            $question = [
+                'Ketidaktepatan identifikasi pasien rawat jalan',
+                'Komunikasi kurang efektif',
+                'kesalahan yang terkait dengan obat yang perlu diwaspadai (high alert medications)',
+                'Kesalahan pemberian obat',
+                'Kesalahan cara pemberian obat',
+                'Kesalahan pencampuran obat',
+                'Kesalahan sampling',
+                'Kesalahan identifikasi pasien pada saat pengambilan sample',
+                'Kesalahan pemberian informasi',
+                'Ketidakpatuhan cuci tangan',
+                'Pasien jatuh',
+            ];
+        } else if ($item === 'rehab') {
+            $question = [
+                'Ketidaktepatan identifikasi pasien',
+                'Komunikasi kurang efektif',
+                'Luka bakar akibat diatermi',
+                'kesalahan yang terkait dengan obat yang perlu diwaspadai (High Alert Medications)',
+                'Ketidakpatuhan cuci tangan',
+                'Pasien jatuh',
+            ];
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
         }
 
         $evenDayMonths = ['April', 'Juni', 'September', 'November'];
@@ -437,11 +692,16 @@ class SensusController extends Controller
         $sensusString = rtrim($sensusString, ', --');
         $request->merge(['sensus' => $sensusString]);
 
+<<<<<<< HEAD
         $commonRules = [
+=======
+        $validatedData = $request->validate([
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
             'jml_hari' => 'string',
             'bulan' => 'string',
             'tahun' => 'string',
             'sensus' => 'string',
+<<<<<<< HEAD
         ];
 
         $units = [
@@ -479,6 +739,9 @@ class SensusController extends Controller
         }
 
         $validatedData = $validator->validated();
+=======
+        ]);
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
 
         if ($item === 'admission') {
             $data = Admission::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
@@ -487,13 +750,25 @@ class SensusController extends Controller
             } else {
                 Admission::create($validatedData);
             }
+<<<<<<< HEAD
         } else if ($item === 'bank darah') {
+=======
+        } else if ($item === 'rshusada') {
+            $data = Rshusada::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
+            if (isset($data)) {
+                $data->update($validatedData);
+            } else {
+                Rshusada::create($validatedData);
+            }
+        } else if ($item === 'bandar') {
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
             $data = Bandar::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
             if (isset($data)) {
                 $data->update($validatedData);
             } else {
                 Bandar::create($validatedData);
             }
+<<<<<<< HEAD
         } else if ($item === 'EEG EMG' || $item === 'fisioterapi') {
             $data = Rehab::where('tahun', $request->tahun)->where('bulan', $request->bulan)->where('unit', $item)->first();
             if (isset($data)) {
@@ -501,6 +776,8 @@ class SensusController extends Controller
             } else {
                 Rehab::create($validatedData);
             }
+=======
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
         } else if ($item === 'farmasi') {
             $data = Farmasi::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
             if (isset($data)) {
@@ -508,6 +785,7 @@ class SensusController extends Controller
             } else {
                 Farmasi::create($validatedData);
             }
+<<<<<<< HEAD
         } else if ($item === 'gizi produksi') {
             $data = Gizi::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
             if (isset($data)) {
@@ -523,28 +801,51 @@ class SensusController extends Controller
                 Ranap::create($validatedData);
             }
         } else if ($item === 'kamar operasi') {
+=======
+        } else if ($item === 'igd') {
+            $data = Igd::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
+            if (isset($data)) {
+                $data->update($validatedData);
+            } else {
+                Igd::create($validatedData);
+            }
+        } else if ($item === 'operasi') {
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
             $data = Operasi::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
             if (isset($data)) {
                 $data->update($validatedData);
             } else {
                 Operasi::create($validatedData);
             }
+<<<<<<< HEAD
         } else if ($item === 'klinik spesialis') {
+=======
+        } else if ($item === 'spesialis') {
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
             $data = Spesialis::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
             if (isset($data)) {
                 $data->update($validatedData);
             } else {
                 Spesialis::create($validatedData);
             }
+<<<<<<< HEAD
         } else if ($item === 'laboratorium') {
+=======
+        } else if ($item === 'lab') {
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
             $data = Lab::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
             if (isset($data)) {
                 $data->update($validatedData);
             } else {
                 Lab::create($validatedData);
             }
+<<<<<<< HEAD
         } else if ($item === 'pav ICU' || $item === 'pav ICCU') {
             $data = Kritis::where('tahun', $request->tahun)->where('bulan', $request->bulan)->where('unit', $item)->first();
+=======
+        } else if ($item === 'kritis') {
+            $data = Kritis::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
             if (isset($data)) {
                 $data->update($validatedData);
             } else {
@@ -557,6 +858,7 @@ class SensusController extends Controller
             } else {
                 Radiologi::create($validatedData);
             }
+<<<<<<< HEAD
         } else if ($item === 'rshusada') {
             $data = Rshusada::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
             if (isset($data)) {
@@ -572,12 +874,32 @@ class SensusController extends Controller
                 Igd::create($validatedData);
             }
         } else if ($item === 'unit rawat jalan') {
+=======
+        } else if ($item === 'ranap') {
+            $data = Ranap::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
+            if (isset($data)) {
+                $data->update($validatedData);
+            } else {
+                Ranap::create($validatedData);
+            }
+        } else if ($item === 'rajal') {
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
             $data = Rajal::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
             if (isset($data)) {
                 $data->update($validatedData);
             } else {
                 Rajal::create($validatedData);
             }
+<<<<<<< HEAD
+=======
+        } else if ($item === 'rehab') {
+            $data = Rehab::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
+            if (isset($data)) {
+                $data->update($validatedData);
+            } else {
+                Rehab::create($validatedData);
+            }
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
         }
 
 

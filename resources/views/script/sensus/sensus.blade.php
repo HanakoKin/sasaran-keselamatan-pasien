@@ -56,8 +56,11 @@
         nextBtn.addEventListener('click', increaseMonth);
     }
 
+<<<<<<< HEAD
     console.log('{{ $type }}');
 
+=======
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
     function updateDisplay(month, year) {
         var h4Caption = document.getElementById('h4Caption');
 
@@ -71,7 +74,11 @@
                 year: year
             },
             dataType: 'json', // Expect JSON as the response
+<<<<<<< HEAD
             success: function (data) {
+=======
+            success: function(data) {
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
                 console.log(data);
                 // Clear the existing table body content
                 $('#tableBody').empty();
@@ -102,13 +109,21 @@
                     $('#tableBody').append(tableRow);
                 }
             },
+<<<<<<< HEAD
             error: function (error) {
+=======
+            error: function(error) {
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
                 console.error('Error:', error);
             }
         });
     }
 
+<<<<<<< HEAD
     $(document).ready(function () {
+=======
+    $(document).ready(function() {
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
         updateDisplay(monthNames[currentMonth - 1], currentYear); // Replace with your initial values
     });
 
@@ -131,5 +146,8 @@
         addHeader(getDay(currentMonth, currentYear));
         updateDisplay(monthNames[currentMonth - 1], currentYear);
     }
+<<<<<<< HEAD
 
+=======
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
 </script>

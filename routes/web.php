@@ -87,6 +87,7 @@ Route::middleware(['auth'])->group(function () {
     Route::get('/user/profile', [UserController::class, 'index'])->name('profile');
     Route::get('/user/setting', [UserController::class, 'showSetting'])->name('settings');
     Route::post('/user/changePassword', [UserController::class, 'changePassword'])->name('changePassword');
+<<<<<<< HEAD
 
 
     /* Untuk Mengelola Sensus Harian */
@@ -95,6 +96,8 @@ Route::middleware(['auth'])->group(function () {
     Route::post('submit-{item}', [SensusController::class, 'store']);
     Route::get('showData-{item}', [SensusController::class, 'showData']);
 
+=======
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
 });
 
 Route::middleware(['admin'])->group(function () {
@@ -120,6 +123,16 @@ Route::middleware(['skp'])->group(function () {
     Route::get('/lemkis/addNote/{id}', [LemkisController::class, 'addNoteForm']);
     Route::post('/lemkis/addNote/{id}', [LemkisController::class, 'saveNote'])->name('addNote');
 
+<<<<<<< HEAD
+=======
+    /* Untuk Mengelola Sensus Harian */
+
+    Route::get('sensus/{item}', [SensusController::class, 'index']);
+    Route::get('sensus/{item}/add', [SensusController::class, 'add']);
+    Route::post('submit-{item}', [SensusController::class, 'store']);
+    Route::get('showData-{item}', [SensusController::class, 'showData']);
+
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
     // Route::get('sensus/admission', [AdmissionController::class, 'index']);
     // Route::get('sensus/admission/add', [AdmissionController::class, 'add']);
     // Route::post('submit-admission', [AdmissionController::class, 'store']);

@@ -13,7 +13,10 @@ return new class extends Migration
     {
         Schema::create('kritis', function (Blueprint $table) {
             $table->id();
+<<<<<<< HEAD
             $table->string('unit');
+=======
+>>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
             $table->string('bulan');
             $table->string('tahun');
             $table->string('jml_hari');
