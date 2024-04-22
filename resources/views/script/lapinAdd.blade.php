@@ -1,9 +1,9 @@
 <script>
-    document.getElementById('noRMLap').addEventListener('change', function () {
+    document.getElementById('noRegLap').addEventListener('change', function () {
 
-        var noRM = this.value;
+        var noReg = this.value;
 
-        console.log(noRM)
+        console.log(noReg)
 
         fetch('http://10.1.10.7:6070/BipubApi/api/Token', {
             method: 'GET',
@@ -30,7 +30,7 @@
                         'Authorization': 'Bearer ' + tokenData,
                     },
                     body: JSON.stringify({
-                        noRM: noRM,
+                        noReg: noReg,
                     })
                 })
                 .then(response => {
@@ -46,6 +46,8 @@
                     // Isi formulir dengan data yang diterima
                     document.getElementById('naLap').value = informasiPasien.pasienName || '';
 
+                    document.getElementById('noRMLap').value = informasiPasien.pasienId || '';
+
                     document.getElementById('talah').value = informasiPasien.birthDate || '';
 
                     // Ceklist radiobox
@@ -56,35 +58,7 @@
                         .gender === 'Female') {
                         document.getElementById('jekel2').checked = true;
                     }
-
-                    const umurMap = {
-                        'umur1': 'umur1',
-                        'umur2': 'umur2',
-                        'umur3': 'umur3',
-                        'umur4': 'umur4',
-                        'umur5': 'umur5',
-                        'umur6': 'umur6',
-                        'umur7': 'umur7'
-                    };
-
-                    if (informasiPasien.umur && umurMap[informasiPasien.umur]) {
-                        document.getElementById(umurMap[informasiPasien.umur]).checked = true;
-                    }
-
-                    // const penjaminMap = {
-                    //     'Pribadi': 'penjamin1',
-                    //     'Pemerintah': 'penjamin2',
-                    //     'BPJS': 'penjamin3',
-                    //     'Asuransi Swasta': 'penjamin4',
-                    //     'Perusahaan': 'penjamin5',
-                    //     'Lain-lain': 'penjamin6'
-                    // }
-
-                    // if (informasiPasien.penjamin && penjaminMap[informasiPasien.penjamin]) {
-                    //     document.getElementById(penjaminMap[informasiPasien.penjamin]).checked =
-                    //         true;
-                    // }
-
+                    document.getElementById('umur').value = informasiPasien.umur || '';
                     document.getElementById('penjamin').value = informasiPasien.penjamin || '';
 
                     // Lanjutkan mengisi formulir tanggal & jam

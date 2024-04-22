@@ -1,5 +1,5 @@
 <script>
-    $(function () {
+    $(function() {
         "use strict";
         // ------------------------------
         // Basic pie chart
@@ -104,7 +104,7 @@
 
         chartJenis.setOption(option);
 
-        $(function () {
+        $(function() {
 
             // Resize chart on menu width change and window resize
             $(window).on('resize', resize);
@@ -112,7 +112,7 @@
 
             // Resize function
             function resize() {
-                setTimeout(function () {
+                setTimeout(function() {
 
                     // Resize chart
                     chartJenis.resize();
@@ -142,7 +142,7 @@
             },
 
             // Add custom colors
-            color: ['#389f99', '#689f38', 'rgb(243, 207, 0)', '#ee1044'],
+            color: ['#0054FF', '#0AD200', '#FFF100', '#FA0001'],
 
             // Display toolbox
             toolbox: {
@@ -214,7 +214,7 @@
 
         chartGrading.setOption(option);
 
-        $(function () {
+        $(function() {
 
             // Resize chart on menu width change and window resize
             $(window).on('resize', resize);
@@ -222,7 +222,7 @@
 
             // Resize function
             function resize() {
-                setTimeout(function () {
+                setTimeout(function() {
 
                     // Resize chart
                     chartGrading.resize();
@@ -230,5 +230,4 @@
             }
         });
     });
-
 </script>

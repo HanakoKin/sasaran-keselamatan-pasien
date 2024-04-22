@@ -14,7 +14,7 @@
                         </a>
                     </li>
 
-                    @if(Auth::user()->role === 'admin')
+                    @if (Auth::user()->role === 'admin')
                     {{-- User --}}
                     <li class="treeview {{ Request::is('*admin*') ? 'active menu-open' : '' }}">
                         <a href="#">
@@ -27,7 +27,8 @@
                         <ul class="treeview-menu">
                             <li class="{{ Request::is('*admin') || Request::is('*admin/*') ? 'active' : '' }}"><a
                                     href="{{ route('users') }}"><i class="icon-Commit"><span class="path1"></span><span
-                                            class="path2"></span></i>Kelola Data user</a>
+                                            class="path2"></span></i>Kelola Data
+                                    user</a>
                             </li>
                         </ul>
                     </li>
@@ -55,6 +56,29 @@
                         </ul>
                     </li>
 
+                    {{-- Lembar Investigasi Sederhana --}}
+                    <li class="treeview {{ Request::is('*lemkis*') ? 'active menu-open' : '' }}">
+                        <a href="#">
+                            <i class="fal fa-file-invoice"></i>
+                            <span>Lembar Investigasi</span>
+                            <span class="pull-right-container">
+                                <i class="fa fa-angle-right pull-right"></i>
+                            </span>
+                        </a>
+                        <ul class="treeview-menu">
+                            @if (Auth::user()->role !== 'user')
+                            <li class="{{ Request::is('*lemkisTable') ? 'active' : '' }}"><a href="/lemkisTable"><i
+                                        class="icon-Commit"><span class="path1"></span><span
+                                            class="path2"></span></i>Tabel Data LEMKIS</a></li>
+                            @endif
+                            <li class="{{ Request::is('*lemkis') || Request::is('*lemkis/*') ? 'active' : '' }}"><a
+                                    href="/lemkis"><i class="icon-Commit"><span class="path1"></span><span
+                                            class="path2"></span></i>Kelola Data LEMKIS</a>
+                            </li>
+                        </ul>
+                    </li>
+
+
                     {{-- Laporan KPC --}}
                     <li class="treeview {{ Request::is('*lapkpc*') ? 'active menu-open' : '' }}">
                         <a href="#">
@@ -78,37 +102,102 @@
                         </ul>
                     </li>
 
-                    {{-- Lembar Investigasi Sederhana --}}
-                    <li class="treeview {{ Request::is('*lemkis*') ? 'active menu-open' : '' }}">
+                    {{-- Sensus Harian --}}
+
+                    @php
+                    $sensusItems = [
+                    // 'rshusada',
+                    'admission',
+                    'bank darah',
+                    'EEG EMG',
+                    'fisioterapi',
+                    'farmasi',
+                    'gizi produksi',
+                    'graha utama Lt V',
+                    'graha utama Lt VI',
+                    'kamar operasi',
+                    'klinik spesialis',
+                    'laboratorium',
+                    'pav ICU',
+                    'pav ICU anak',
+                    'pav ICCU',
+                    'pav anggrek',
+                    'pav cempaka',
+                    'pav gladiola',
+                    'pav mawar',
+                    'pav melati',
+                    'pav nusa indah',
+                    'pav putra I',
+                    'pav putra III',
+                    'perina',
+                    'radiologi',
+                    'unit gawat darurat',
+                    'unit rawat jalan',
+                    'vk graha 5',
+                    // 'kritis',
+                    // 'ranap',
+                    ];
+                    @endphp
+
+                    @if (Auth::user()->role !== 'user')
+                    <li class="treeview {{ Request::is('*sensus*') ? 'active menu-open' : '' }}">
                         <a href="#">
-                            <i class="fal fa-file-invoice"></i>
-                            <span>Lembar Investigasi</span>
+                            <i class="fal fa-file-medical"></i>
+                            <span>Sensus Harian</span>
                             <span class="pull-right-container">
                                 <i class="fa fa-angle-right pull-right"></i>
                             </span>
                         </a>
+
                         <ul class="treeview-menu">
-                            @if (Auth::user()->role !== 'user')
-                            <li class="{{ Request::is('*lemkisTable') ? 'active' : '' }}"><a href="/lemkisTable"><i
-                                        class="icon-Commit"><span class="path1"></span><span
-                                            class="path2"></span></i>Tabel Data LEMKIS</a></li>
-                            @endif
-                            <li class="{{ Request::is('*lemkis') || Request::is('*lemkis/*') ? 'active' : '' }}"><a
-                                    href="/lemkis"><i class="icon-Commit"><span class="path1"></span><span
-                                            class="path2"></span></i>Kelola Data LEMKIS</a>
+
+                            @foreach ($sensusItems as $item)
+                            @php
+                            $isActive = request()->is("*$item");
+                            $class = $isActive ? 'active' : '';
+                            $href = url("/sensus/$item");
+                            @endphp
+
+                            <li class="{{ $class }}">
+                                <a href="{{ $href }}">
+                                    <i class="icon-Commit">
+                                        <span class="path1"></span>
+                                        <span class="path2"></span>
+                                    </i>
+                                    {{ ucwords(str_replace('_', ' ', $item)) }}
+                                </a>
                             </li>
+                            @endforeach
                         </ul>
+
                     </li>
+                    @elseif (Auth::user()->role === 'user')
+                    @foreach ($sensusItems as $item)
+                    @if (Auth::user()->unit === strtoupper(trans($item)))
+                    @php
+                    $isActive = request()->is("*$item");
+                    $class = $isActive ? 'active' : '';
+                    $href = url("/sensus/$item");
+                    @endphp
+                    <li class="{{ $class }}">
+                        <a href="{{ $href }}">
+                            <i class="fal fa-file-medical"></i>
+                            <span>{{ 'Sensus ' . ucwords(str_replace('_', ' ', $item)) }}</span>
+                        </a>
+                    </li>
+                    @endif
+                    @endforeach
+                    @endif
 
                 </ul>
             </div>
         </div>
     </section>
-    <div class="sidebar-footer">
+    {{-- <div class="sidebar-footer">
         <a href="javascript:void(0)" class="link" data-bs-toggle="tooltip" title="Settings"><span
                 class="icon-Settings-2"></span></a>
         <a href="mailbox.html" class="link" data-bs-toggle="tooltip" title="Email"><span class="icon-Mail"></span></a>
         <a href="javascript:void(0)" class="link" data-bs-toggle="tooltip" title="Logout"><span
                 class="icon-Lock-overturning"><span class="path1"></span><span class="path2"></span></span></a>
-    </div>
+    </div> --}}
 </aside>

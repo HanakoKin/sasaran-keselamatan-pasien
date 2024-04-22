@@ -45,14 +45,14 @@
                         <table class="table no-border mb-0">
                             <thead>
                                 <tr class="text-center">
-                                    <th scope="col">Foto</th>
+                                    <th scope="col">#</th>
                                     <th scope="col">Nama</th>
-                                    <th width="100" scope="col">No RM</th>
+                                    <th width="100" scope="col">No Reg</th>
                                     <th scope="col">Status</th>
                                     <th scope="col">Grade</th>
                                     <th scope="col">LEMKIS</th>
                                     @if(Auth::user()->role !== 'user')
-                                    <th scope="col">Unit</th>
+                                    <th scope="col">Unit Pelapor</th>
                                     @endif
                                     <th scope="col">Aksi</th>
                                 </tr>
@@ -60,10 +60,9 @@
                             <tbody>
                                 @foreach ($lapins as $lapin)
                                 <tr class="text-center">
-                                    <td><img src="https://source.unsplash.com/50x50?people" alt="User Avatar"
-                                            class="img-fluid rounded-circle mb-3" style="width: 50px;"></td>
+                                    <td>{{ $loop->iteration }}</td>
                                     <td>{{ $lapin->nama }}</td>
-                                    <td>{{ $lapin->noRM }}</td>
+                                    <td>{{ $lapin->noReg }}</td>
                                     <td>{{ $lapin->status }}</td>
                                     <td>
                                         @if ($lapin->status != 'Terverifikasi')

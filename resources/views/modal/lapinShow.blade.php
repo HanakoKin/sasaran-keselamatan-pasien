@@ -58,7 +58,7 @@
                                                 <td>Jam Masuk</td>
                                                 <td id="lapinJamMasuk"></td>
                                             </tr>
-                                            <tr>
+                                            {{-- <tr>
                                                 <td>Tanggal Kejadian</td>
                                                 <td id="lapinTanggalKejadian"></td>
                                             </tr>
@@ -83,7 +83,7 @@
                                                 <td id="lapinPelaporInsiden"></td>
                                             </tr>
                                             <tr>
-                                                <td>Korban Insiden</td>
+                                                <td>Insiden terjadi pada</td>
                                                 <td id="lapinKorbanInsiden"></td>
                                             </tr>
                                             <tr>
@@ -125,9 +125,7 @@
                                             <tr>
                                                 <td>Paraf Pelapor</td>
                                                 <td><img src="" id="lapinParafPelapor" alt="" width="300"></td>
-                                            </tr>
-
-
+                                            </tr> --}}
                                         </tbody>
                                     </table>
                                 </div>

@@ -20,6 +20,7 @@ class UnitSeeder extends Seeder
             ['nama' => 'ADMISSION'],
             ['nama' => 'AKREDITASI'],
             ['nama' => 'AKUNTING'],
+            ['nama' => 'BANK DARAH'],
             ['nama' => 'BENDAHARA'],
             ['nama' => 'BRONCHOSCOPY'],
             ['nama' => 'BUILDING MAINTENANCE'],

@@ -18,24 +18,24 @@
         $('#lapinPenjamin').text(": " + lapin.penjamin);
         $('#lapinTanggalMasuk').text(": " + formatDate(lapin.tanggal_masuk));
         $('#lapinJamMasuk').text(": " + removeSeconds(lapin.jam_masuk));
-        $('#lapinTanggalKejadian').text(": " + formatDate(lapin.tanggal_kejadian));
-        $('#lapinJamKejadian').text(": " + removeSeconds(lapin.jam_kejadian));
-        $('#lapinInsiden').text(": " + lapin.insiden);
-        $('#lapinKronologis').text(": " + lapin.kronologis);
-        $('#lapinJenisInsiden').text(": " + lapin.jenis_insiden);
-        $('#lapinPelaporInsiden').text(": " + lapin.pelapor_insiden);
-        $('#lapinKorbanInsiden').text(": " + lapin.korban_insiden);
-        $('#lapinLayananInsiden').text(": " + lapin.layanan_insiden);
-        $('#lapinTempatInsiden').text(": " + lapin.tempat_insiden);
-        $('#lapinKasusInsiden').text(": " + lapin.kasus_insiden);
-        $('#lapinUnitInsiden').text(": " + lapin.unit_insiden);
-        $('#lapinDampakInsiden').text(": " + lapin.dampak_insiden);
-        $('#lapinTindakanCepat').text(": " + lapin.tindakan_cepat);
-        $('#lapinTindakanInsiden').text(": " + lapin.tindakan_insiden);
-        $('#lapinKejadianInsiden').text(": " + lapin.kejadian_insiden);
+        // $('#lapinTanggalKejadian').text(": " + formatDate(lapin.tanggal_kejadian));
+        // $('#lapinJamKejadian').text(": " + removeSeconds(lapin.jam_kejadian));
+        // $('#lapinInsiden').text(": " + lapin.insiden);
+        // $('#lapinKronologis').text(": " + lapin.kronologis);
+        // $('#lapinJenisInsiden').text(": " + lapin.jenis_insiden);
+        // $('#lapinPelaporInsiden').text(": " + lapin.pelapor_insiden);
+        // $('#lapinKorbanInsiden').text(": " + lapin.korban_insiden);
+        // $('#lapinLayananInsiden').text(": " + lapin.layanan_insiden);
+        // $('#lapinTempatInsiden').text(": " + lapin.tempat_insiden);
+        // $('#lapinKasusInsiden').text(": " + lapin.kasus_insiden);
+        // $('#lapinUnitInsiden').text(": " + lapin.unit_insiden);
+        // $('#lapinDampakInsiden').text(": " + lapin.dampak_insiden);
+        // $('#lapinTindakanCepat').text(": " + lapin.tindakan_cepat);
+        // $('#lapinTindakanInsiden').text(": " + lapin.tindakan_insiden);
+        // $('#lapinKejadianInsiden').text(": " + lapin.kejadian_insiden);
 
-        $('#lapinPembuatLaporan').text(": " + lapin.pembuat_laporan);
-        $('#lapinParafPelapor').attr('src', lapin.paraf_pelapor);
+        // $('#lapinPembuatLaporan').text(": " + lapin.pembuat_laporan);
+        // $('#lapinParafPelapor').attr('src', lapin.paraf_pelapor);
         $('#showLapin').modal('show')
 
         function formatDate(dateString) {

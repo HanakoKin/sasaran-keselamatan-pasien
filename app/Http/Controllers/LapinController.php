@@ -100,7 +100,7 @@ class LapinController extends Controller
                     ->whereMonth('tanggal_kejadian', $targetMonth)
                     ->where('jenis_insiden', $type);
 
-                if (!Auth::user()->isAdmin()) {
+                if (!Auth::user()->role === 'user') {
                     $lapinQuery->where('unit_kerja', $unit);
                 }
 
@@ -135,7 +135,7 @@ class LapinController extends Controller
         foreach ($categories as $index => $category) {
             $lapinQuery = Lapin::whereRaw('MONTH(tanggal_kejadian) = ? AND YEAR(tanggal_kejadian) = ? AND jenis_insiden = ?', [$targetMonth, $targetYear, $category]);
 
-            if (!Auth::user()->isAdmin()) {
+            if (!Auth::user()->role === 'admin') {
                 $lapinQuery->where('unit_kerja', $unit);
             }
 
@@ -214,7 +214,8 @@ class LapinController extends Controller
             'pembuat_laporan' => 'required|string',
             'status' => 'required|string',
             'nama' => 'required|string',
-            'noRM' => 'required|string|unique:lapins',
+            'noRM' => 'required|string',
+            'noReg' => 'required|string|unique:lapins',
             'ruangan' => 'required|string',
             'tanggal_lahir' => 'required|date',
             'umur' => 'required|string',

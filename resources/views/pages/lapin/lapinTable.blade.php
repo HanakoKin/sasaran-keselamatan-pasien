@@ -61,7 +61,7 @@
                                 <tr>
                                     <td> {{ $lapin->unit_kerja }} </td>
                                     <td> {{ $lapin->nama }} </td>
-                                    <td> {{ $lapin->noRM }} </td>
+                                    <td> {{ $lapin->noReg }} </td>
                                     <td> {{ $lapin->ruangan }} </td>
                                     <td> {{ $lapin->umur }} </td>
                                     <td> {{ $lapin->jenis_kelamin }} </td>

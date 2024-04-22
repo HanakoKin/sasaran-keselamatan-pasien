@@ -25,7 +25,7 @@ class DataController extends Controller
     public function search(Request $request)
     {
 
-        $noRM = $request->input('noRM');
+        $noReg = $request->input('noReg');
 
         $headers = [
             'Content-Type' => 'application/json',
@@ -34,13 +34,14 @@ class DataController extends Controller
             'Authorization' => $request->header('Authorization'), // Ambil token dari header permintaan
         ];
 
-        $api1Response = Http::withHeaders($headers)->get("http://10.1.10.7:6070/BipubApi/api/Reg/$noRM")->json();
+        $api1Response = Http::withHeaders($headers)->get("http://10.1.10.7:6070/BipubApi/api/Reg/$noReg")->json();
 
         $informasiPasien = [];
 
         if (isset($api1Response['status']) && $api1Response['status'] === 'success') {
 
             // Ambil informasi dari API Pertama
+            $informasiPasien['pasienId'] = $api1Response['data']['pasienId'];
             $informasiPasien['regDate'] = $api1Response['data']['regDate'];
             $informasiPasien['regTime'] = $api1Response['data']['regTime'];
             $informasiPasien['pasienName'] = $api1Response['data']['pasienName'];
@@ -65,24 +66,13 @@ class DataController extends Controller
 
                 // Hitung umur dari tanggal lahir
                 $tanggalLahir = Carbon::parse($api2Response['data']['birthDate']);
-                $umur = $tanggalLahir->diffInMonths(Carbon::now());
-                if ($umur <= 1) {
-                    $kategoriUmur = 'umur1';
-                } elseif ($umur > 1 && $umur <= 12) {
-                    $kategoriUmur = 'umur2';
-                } elseif ($umur > 12 && $umur <= 60) {
-                    $kategoriUmur = 'umur3';
-                } elseif ($umur > 60 && $umur <= 180) {
-                    $kategoriUmur = 'umur4';
-                } elseif ($umur > 180 && $umur <= 360) {
-                    $kategoriUmur = 'umur5';
-                } elseif ($umur > 360 && $umur <= 780) {
-                    $kategoriUmur = 'umur6';
-                } elseif ($umur > 780) {
-                    $kategoriUmur = 'umur7';
-                }
+                $diff = $tanggalLahir->diff(Carbon::now());
 
-                $informasiPasien['umur'] = $kategoriUmur;
+                $tahun = $diff->y;
+                $bulan = $diff->m;
+                $hari = $diff->d;
+
+                $informasiPasien['umur'] = "$tahun Tahun, $bulan Bulan, $hari Hari";
 
                 // Kirim data ke tampilan
                 return response()->json($informasiPasien);

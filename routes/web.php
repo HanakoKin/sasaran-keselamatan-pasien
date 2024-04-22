@@ -5,8 +5,12 @@ use App\Http\Controllers\DataController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\AdminController;
 use App\Http\Controllers\LapinController;
+use App\Http\Controllers\BandarController;
 use App\Http\Controllers\LapkpcController;
 use App\Http\Controllers\LemkisController;
+use App\Http\Controllers\SensusController;
+use App\Http\Controllers\RshusadaController;
+use App\Http\Controllers\AdmissionController;
 
 /*
 |--------------------------------------------------------------------------
@@ -38,7 +42,7 @@ Route::post('/logout', [UserController::class, 'logout']);
 | Route yang sudah berfungsi CRUD nya
 |--------------------------------------------------------------------------
 */
-Route::middleware(['auth'])->group(function(){
+Route::middleware(['auth'])->group(function () {
 
     /* Route untuk bagian Laporan Insiden */
     Route::get('/dashboard', [LapinController::class, 'dashboard']);
@@ -84,9 +88,16 @@ Route::middleware(['auth'])->group(function(){
     Route::get('/user/setting', [UserController::class, 'showSetting'])->name('settings');
     Route::post('/user/changePassword', [UserController::class, 'changePassword'])->name('changePassword');
 
+
+    /* Untuk Mengelola Sensus Harian */
+    Route::get('sensus/{item}', [SensusController::class, 'index']);
+    Route::get('sensus/{item}/add', [SensusController::class, 'add']);
+    Route::post('submit-{item}', [SensusController::class, 'store']);
+    Route::get('showData-{item}', [SensusController::class, 'showData']);
+
 });
 
-Route::middleware(['admin'])->group(function (){
+Route::middleware(['admin'])->group(function () {
 
     /* Untuk Mengelola User ( Admin/Dev Role ) */
     Route::get('/admin/user', [AdminController::class, 'index'])->name('users');
@@ -99,7 +110,7 @@ Route::middleware(['admin'])->group(function (){
     Route::get('/get-user-info/{id}', [AdminController::class, 'getUserInfo']);
 });
 
-Route::middleware(['skp'])->group(function (){
+Route::middleware(['skp'])->group(function () {
 
     /* Untuk Mengelola Table ( Admin/Tim SKP Role ) */
     Route::get('/lapinTable', [LapinController::class, 'lapinTable']);
@@ -109,13 +120,28 @@ Route::middleware(['skp'])->group(function (){
     Route::get('/lemkis/addNote/{id}', [LemkisController::class, 'addNoteForm']);
     Route::post('/lemkis/addNote/{id}', [LemkisController::class, 'saveNote'])->name('addNote');
 
+    // Route::get('sensus/admission', [AdmissionController::class, 'index']);
+    // Route::get('sensus/admission/add', [AdmissionController::class, 'add']);
+    // Route::post('submit-admission', [AdmissionController::class, 'store']);
+    // Route::get('showData-admission', [AdmissionController::class, 'showData']);
+
+    // /* Untuk Mengelola Sensus Harian Rs Husada */
+    // Route::get('test/rshusada', [RshusadaController::class, 'index']);
+    // Route::get('test/rshusada/add', [RshusadaController::class, 'add']);
+    // Route::post('submit-rshusada', [RshusadaController::class, 'store']);
+    // Route::get('showDatas-rshusada', [RshusadaController::class, 'showData']);
+
+    // /* Untuk Mengelola Sensus Harian Bank Darah */
+    // Route::get('sensus/bandar', [BandarController::class, 'index']);
+    // Route::get('sensus/bandar/add', [BandarController::class, 'add']);
+    // Route::post('submit-bandar', [BandarController::class, 'store']);
+    // Route::get('showData-bandar', [BandarController::class, 'showData']);
 });
 
 Route::get('/show-data', [DataController::class, 'index']);
 Route::post('/save-json', [DataController::class, 'store']);
 
 
-Route::get('/welcome', function (){
+Route::get('/welcome', function () {
     return view('welcome');
 });
-

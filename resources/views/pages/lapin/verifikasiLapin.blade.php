@@ -1,15 +1,14 @@
 @extends('index')
 
 @section('container')
-
 <section class="invoice printableArea content">
     <div class="row">
 
-        @if(session()->has('success'))
+        @if (session()->has('success'))
         @include('script.success')
         @endif
 
-        @if(session()->has('error'))
+        @if (session()->has('error'))
         @include('script.error')
         @endif
 
@@ -21,7 +20,8 @@
                         <div class="d-block align-items-center pb-0">
                             <nav>
                                 <ol class="breadcrumb mb-0">
-                                    <li class="breadcrumb-item"><a href="/dashboard"><i class="mdi mdi-home-outline"></i></a>
+                                    <li class="breadcrumb-item"><a href="/dashboard"><i
+                                                class="mdi mdi-home-outline"></i></a>
                                     </li>
                                     <li class="breadcrumb-item"><a href="/lapin">Kelola Laporan Insiden</a>
                                     </li>
@@ -33,15 +33,14 @@
                         <div class="d-block">
 
                             @if (Auth::user()->role !== 'user')
-
                             <button class="btn btn-success" data-bs-toggle="modal"
                                 onclick="showVerifModal({{ json_encode($data) }})">
                                 <i class="fal fa-eye"></i> Verifikasi
                             </button>
-
                             @endif
 
-                            <button id="print2" class="btn btn-warning" type="button"> <span><i class="fa fa-print"></i> Print</span> </button>
+                            <button id="print2" class="btn btn-warning" type="button"> <span><i class="fa fa-print"></i>
+                                    Print</span> </button>
 
                         </div>
                     </div>
@@ -61,11 +60,11 @@
 
                             <div class="d-flex justify-content-center">
                                 <h4 class="b-4 text-center d-inline-block p-3 rounded10 border-dark">
-                                    RAHASIA, TIDAK BOLEH DIFOTOCOPY, DILAPORKAN MAXIMAL 2x24 JAM
+                                    RAHASIA, TIDAK BOLEH DIFOTOCOPY, DILAPORKAN MAKSIMAL 2x24 JAM
                                 </h4>
                             </div>
                             <div class="text-center">
-                                <h4 class="box-title mt-15 text-bold">LAPORAN INSIDEN SIGNIFIKAN</h4>
+                                <h4 class="box-title mt-15 text-bold">LAPORAN INSIDEN</h4>
                                 <h4 class="box-title mt-5 mb-20 text-bold">(INTERNAL)</h4>
                             </div>
 
@@ -90,20 +89,20 @@
                                 <div class="col-6">
                                     <div class="row">
                                         <div class="col-6">
-                                            <h5>No RM </h5>
+                                            <h5>No Reg </h5>
                                         </div>
                                         <div class="col-6">
-                                            <span>: {{ $data->noRM }}</span>
+                                            <span>: {{ $data->noReg }}</span>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-6">
                                     <div class="row">
                                         <div class="col-3">
-                                            <h5>Ruangan </h5>
+                                            <h5>No RM </h5>
                                         </div>
                                         <div class="col-9">
-                                            <span>: {{ $data->ruangan }}</span>
+                                            <span>: {{ $data->noRM }}</span>
                                         </div>
                                     </div>
                                 </div>
@@ -111,7 +110,17 @@
 
                             {{-- Umur --}}
                             <div class="row">
-                                <div class="col-12">
+                                <div class="col-6">
+                                    <div class="row">
+                                        <div class="col-6">
+                                            <h5>Ruangan </h5>
+                                        </div>
+                                        <div class="col-6">
+                                            <span>: {{ $data->ruangan }}</span>
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="col-6">
                                     <div class="row">
                                         <div class="col-3">
                                             <h5>Umur </h5>
@@ -338,9 +347,14 @@
                                         </tr>
                                         <tr>
                                             <td>Paraf</td>
-                                            <td><img src="{{ $data->paraf_pelapor }}" alt="" width="200"></td>
+                                            <td><img src="{{ $data->paraf_pelapor }}" alt="" width="200">
+                                            </td>
                                             <td>Paraf</td>
-                                            <td class="min-w-200"><img src="{{ $data->paraf_penerima }}" alt="" width="200"></td></td>
+                                            <td class="min-w-200">
+                                                @if($data->paraf_penerima !== NULL)
+                                                <img src="{{ $data->paraf_penerima }}" alt="" width="200">
+                                                @endif
+                                            </td>
                                         </tr>
                                         <tr>
                                             <td>Tgl Lapor</td>
@@ -351,46 +365,48 @@
                                     </tbody>
                                 </table>
                             </div>
-                            @if ($data->grading_risiko === 'biru' || $data->grading_risiko === 'hijau' ||
-                            $data->grading_risiko
-                            === 'kuning' || $data->grading_risiko === 'merah')
+                            @if (
+                            $data->grading_risiko === 'biru' ||
+                            $data->grading_risiko === 'hijau' ||
+                            $data->grading_risiko === 'kuning' ||
+                            $data->grading_risiko === 'merah')
                             <div class="col-md-12 mb-5">
                                 <label for="grading_risiko" class="form-label me-3 text-bold fs-20">Grading Risiko
                                     Kejadian</label>
                                 <div class="d-flex align-items-center">
                                     <div class="form-group mb-10">
                                         <div
-                                            class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'biru' ? 'b-2 border-info rounded10' : '' }}">
+                                            class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'biru' ? 'b-2 border-primary rounded10' : '' }}">
                                             <div class="d-flex align-items-center">
                                                 <div
-                                                    class="d-inline-block w-20 h-20 m-2 rounded50 {{ $data->grading_risiko === 'biru' ? 'b-5 border-info' : 'b-2' }}">
+                                                    class="d-inline-block w-20 h-20 m-2 rounded50 {{ $data->grading_risiko === 'biru' ? 'b-5 border-primary' : 'b-2' }}">
                                                 </div>
                                                 <label for="grading1">Biru</label>
                                             </div>
                                         </div>
-                                        <div
-                                            class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'hijau' ? 'b-2 border-success rounded10' : '' }}">
+                                        <div class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3"
+                                            style="{{ $data->grading_risiko === 'hijau' ? 'border: 2px solid #0AD200; border-radius: 10px' : '' }}">
                                             <div class="d-flex align-items-center">
-                                                <div
-                                                    class="d-inline-block w-20 h-20 m-2 rounded50 {{ $data->grading_risiko === 'hijau' ? 'b-5 border-success' : 'b-2 ' }}">
+                                                <div class="d-inline-block w-20 h-20 m-2 rounded50"
+                                                    style="{{ $data->grading_risiko === 'hijau' ? 'border: 5px solid #0AD200' : 'border: 2px' }}">
                                                 </div>
                                                 <label for="grading2">Hijau</label>
                                             </div>
                                         </div>
-                                        <div
-                                            class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'kuning' ? 'b-2 border-warning rounded10' : '' }}">
+                                        <div class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3"
+                                            style="{{ $data->grading_risiko === 'kuning' ? 'border: 2px solid #FFF100; border-radius: 10px' : '' }}">
                                             <div class="d-flex align-items-center">
-                                                <div
-                                                    class="d-inline-block w-20 h-20 m-2 rounded50 {{ $data->grading_risiko === 'kuning' ? 'b-5 border-warning' : 'b-2' }}">
+                                                <div class="d-inline-block w-20 h-20 m-2 rounded50"
+                                                    style="{{ $data->grading_risiko === 'kuning' ? 'border: 5px solid #FFF100' : 'border: 2px' }}">
                                                 </div>
                                                 <label for="grading3">Kuning</label>
                                             </div>
                                         </div>
-                                        <div
-                                            class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3 {{ $data->grading_risiko === 'merah' ? 'b-2 border-danger rounded10' : '' }}">
+                                        <div class="form-check form-check-inline ps-0 pe-3 mb-0 me-0 ms-3"
+                                            style="{{ $data->grading_risiko === 'merah' ? 'border: 2px solid #FA0001; border-radius: 10px' : '' }}">
                                             <div class="d-flex align-items-center">
-                                                <div
-                                                    class="d-inline-block w-20 h-20 m-2 rounded50 {{ $data->grading_risiko === 'merah' ? 'b-5 border-danger' : 'b-2' }}">
+                                                <div class="d-inline-block w-20 h-20 m-2 rounded50"
+                                                    style="{{ $data->grading_risiko === 'merah' ? 'border: 5px solid #FA0001' : 'border: 2px' }}">
                                                 </div>
                                                 <label for="grading4">Merah</label>
                                             </div>
@@ -413,5 +429,4 @@
 
 {{-- JS for Showing Modal --}}
 @include('script.popupVerif')
-
 @endsection

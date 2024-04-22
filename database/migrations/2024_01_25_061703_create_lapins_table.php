@@ -18,7 +18,8 @@ return new class extends Migration
 
             /* DATA PASIEN */
             $table->string('nama');
-            $table->string('noRM')->unique();
+            $table->string('noReg')->unique();
+            $table->string('noRM');
             $table->string('ruangan');
             $table->string('umur');
             $table->string('jenis_kelamin');
