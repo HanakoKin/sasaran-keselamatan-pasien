@@ -15,32 +15,28 @@ use Illuminate\Support\Facades\Validator;
 
 class AdminController extends Controller
 {
+    // User Page
     public function index()
     {
-
         $title = 'User Page';
-
         $users = User::orderBy('created_at', 'desc')->get();
-
-        // dd($users);
 
         $totals = $users->count();
         return view('pages.admin.user', compact('title', 'users', 'totals'));
     }
 
+    // User add Form Page
     public function addUserForm()
     {
-
         $title = 'Add User Page';
-
         $unit = Unit::all();
 
         return view('pages.admin.addUser', compact('title', 'unit'));
     }
 
+    // Add new User Function
     public function addUser(Request $request)
     {
-
         if ($request->role === 'admin' && $request->unit === NULL) {
             $request->merge(['unit' => 'Admin']);
         } else if ($request->role === 'Tim SKP' && $request->unit === NULL) {
@@ -54,12 +50,10 @@ class AdminController extends Controller
             'role' => 'required',
         ];
 
-        // Role-specific validation rules
         $roleRules = ($request->role === 'user')
             ? array_merge($commonRules, ['unit' => 'required|string'])
             : array_merge($commonRules, ['unit' => 'nullable|string']);
 
-        // Validate the request
         $validator = Validator::make($request->all(), $roleRules);
 
         if ($validator->fails()) {
@@ -67,7 +61,6 @@ class AdminController extends Controller
             return back()->with('error', $errors)->withInput();
         }
 
-        // Validation passed, continue processing
         $validatedData = $validator->validated();
         $validatedData['password'] = Hash::make($validatedData['password']);
 
@@ -76,27 +69,19 @@ class AdminController extends Controller
         return redirect()->route('users')->with('success', 'User addedd successfully!');
     }
 
+    // User edit Form Page
     public function editUser($id)
     {
-
         $title = 'Edit User';
-
         $data = User::findOrFail($id);
-
-<<<<<<< HEAD
-        dd($data);
-=======
-        // dd($data);
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
-
         $unit = Unit::all();
 
         return view('pages.admin.editUser', compact('data', 'title', 'unit'));
     }
 
+    // Edit existing User Function
     public function updateUser(Request $request, $id)
     {
-
         if ($request->role === 'admin') {
             $request->merge(['unit' => 'Admin']);
         } else if ($request->role === 'Tim SKP') {
@@ -116,18 +101,17 @@ class AdminController extends Controller
         }
 
         $validatedData = $validator->validated();
-
         User::where('id', $id)->update($validatedData);
-
         return redirect()->route('users')->with('success', 'User updated successfully!');
     }
 
+    // Delete User Function
     public function deleteUser($id)
     {
 
         $user = User::findOrFail($id);
 
-        if (!Auth::user()->isAdmin()) {
+        if (!Auth::user()->role === 'admin') {
             return redirect('/dashboard')->with('error', 'UNAUTHORIZED ACTION');
         }
         // Hapus data User
@@ -136,6 +120,7 @@ class AdminController extends Controller
         return back()->with('success', 'User deleted successfully!');
     }
 
+    // Get User Info Function
     public function getUserInfo($id)
     {
         $user = User::find($id);
@@ -151,7 +136,6 @@ class AdminController extends Controller
         } else {
             $totalLapin = 0;
         }
-
 
         return response()->json([
             'user' => $user,

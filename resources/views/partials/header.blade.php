@@ -5,22 +5,15 @@
             <span class="icon-Align-left"><span class="path1"></span><span class="path2"></span><span
                     class="path3"></span></span>
         </a>
-        <!-- Logo -->
         <a href="index.html" class="logo">
-            <!-- logo-->
             <div class="logo-lg">
                 <span class="light-logo my-2"><img src="{{ asset('assets/images/logo-dashboard.png') }}" alt="logo"
                         height="50"></span>
-                {{-- <span class="dark-logo"><img src="{{ asset('assets/images/logo-light-text.png') }}"
-                alt="logo"></span> --}}
-
             </div>
         </a>
     </div>
-    <!-- Header Navbar -->
-    <nav class="navbar navbar-static-top">
-        <!-- Sidebar toggle button-->
 
+    <nav class="navbar navbar-static-top">
         <div class="app-menu">
             <ul class="header-megamenu nav">
                 <li class="btn-group nav-item d-md-none">
@@ -41,9 +34,9 @@
 
         <div class="navbar-custom-menu r-side ms-auto">
             <ul class="nav navbar-nav ">
-                <!-- User Account-->
                 <li class="dropdown user user-menu">
-                    <a href="#" class="waves-effect waves-light dropdown-toggle" data-bs-toggle="dropdown" title="User">
+                    <a href="#" class="waves-effect waves-light dropdown-toggle" data-bs-toggle="dropdown"
+                        title="User">
                         <i class="icon-User"><span class="path1"></span><span class="path2"></span></i>
                     </a>
                     <ul class="dropdown-menu animated flipInX">
@@ -61,7 +54,6 @@
                                         style="font-size: 1.2rem; margin-right: 10px;"></i> Logout
                                 </button>
                             </form>
-
                         </li>
                     </ul>
                 </li>

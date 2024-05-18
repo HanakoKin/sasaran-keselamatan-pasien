@@ -7,7 +7,6 @@
 <!-- Vendor JS -->
 <script src="{{ asset('assets/vendor_components/datatable/datatables.min.js') }}"></script>
 <script src="{{ asset('assets/vendor_components/sweetalert/sweetalert.min.js') }}"></script>
-{{-- <script src="{{ asset('assets/vendor_components/chart.js-master/Chart.min.js') }}"></script> --}}
 <script src="{{ asset('assets/vendor_components/echarts/dist/echarts-en.min.js') }}"></script>
 <script src="{{ asset('assets/vendor_components/sweetalert/jquery.sweet-alert.custom.js') }}"></script>
 <script src="{{ asset('assets/vendor_components/bootstrap-select/dist/js/bootstrap-select.js') }}"></script>
@@ -18,7 +17,6 @@
 <script src="{{ asset('assets/vendor_components/select2/dist/js/select2.full.js') }}"></script>
 <script src="{{ asset('assets/vendor_plugins/iCheck/icheck.min.js') }}"></script>
 <script src="{{ asset('assets/vendor_plugins/JqueryPrintArea/demo/jquery.PrintArea.js') }}"></script>
-
 
 <!-- Template JS -->
 <script src="{{ asset('assets/js/template.js') }}"></script>

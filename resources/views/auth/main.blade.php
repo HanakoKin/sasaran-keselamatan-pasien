@@ -10,14 +10,12 @@
     <link rel="icon" href="{{ asset('assets/images/Husada.png') }}">
 
     <title> {{ $title }} </title>
-
     @include('partials.head')
 
 </head>
 
 <body class="hold-transition theme-primary bg-img"
     style="background-image: url({{ asset('assets/images/auth-bg/bg-1.jpg') }})">
-
 
     <div class="container-fluid">
 
@@ -27,15 +25,6 @@
         </main>
 
     </div>
-
-    {{-- <div class="container h-p100">
-        <div class="row align-items-center justify-content-md-center h-p100">
-
-            @yield('container')
-
-        </div>
-    </div> --}}
-
 
     @include('partials.script')
 

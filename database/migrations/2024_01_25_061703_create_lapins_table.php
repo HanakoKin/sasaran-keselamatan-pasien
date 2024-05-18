@@ -18,7 +18,7 @@ return new class extends Migration
 
             /* DATA PASIEN */
             $table->string('nama');
-            $table->string('noReg')->unique();
+            $table->string('noReg');
             $table->string('noRM');
             $table->string('ruangan');
             $table->string('umur');
@@ -44,6 +44,7 @@ return new class extends Migration
             $table->text('tindakan_cepat');
             $table->string('tindakan_insiden');
             $table->text('kejadian_insiden');
+            $table->string('status_pelapor');
 
             /* KETERANGAN LAPORAN */
             $table->string('status');

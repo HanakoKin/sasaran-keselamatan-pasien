@@ -12,8 +12,9 @@ use Illuminate\Support\Facades\Validator;
 class LapkpcController extends Controller
 {
 
-    public function lapkpc(){
-
+    // LapKPC Page
+    public function lapkpc()
+    {
         $title = 'Laporan KPCS';
 
         $lapkpcs = Lapkpc::orderBy('created_at', 'desc');
@@ -24,34 +25,35 @@ class LapkpcController extends Controller
 
         $lapkpcs = $lapkpcs->get();
 
-        return view('pages.lapkpc.lapkpc', compact('lapkpcs', 'title'));
+        return view('pages.lapkpc.index', compact('lapkpcs', 'title'));
 
     }
 
-    public function lapkpcTable(){
+    // LapKPC Table Page
+    public function lapkpcTable()
+    {
 
         $title = 'Tabel KPCS';
 
         $lapkpcs = Lapkpc::orderBy('created_at', 'desc')->get();
 
-        return view('pages.lapkpc.lapkpcTable', compact('lapkpcs', 'title'));
+        return view('pages.lapkpc.table', compact('lapkpcs', 'title'));
 
     }
 
-    public function addLapkpcPage(){
-
+    // Add LapKPC Form Page
+    public function addLapkpcPage()
+    {
         $title = 'Laporan KPCS Form';
-
-        return view('pages.lapkpc.addLapkpc', compact('title'));
-
+        return view('pages.lapkpc.add', compact('title'));
     }
 
-    public function store(Request $request){
-
+    // Add new LapKPC Function
+    public function store(Request $request)
+    {
         $request->merge(['paraf_pelapor' => $request->input('ttd_pelengkap')]);
 
         $validator = Validator::make($request->all(), [
-
             'unit_kerja' => 'required|string',
             'pembuat_laporan' => 'required|string',
             'status' => 'required|string',
@@ -65,27 +67,22 @@ class LapkpcController extends Controller
             'tindakan_insiden' => 'required|string',
             'kejadian_insiden' => 'required|string',
             'paraf_pelapor' =>  'required|string',
-
         ]);
 
         if ($validator->fails()) {
             $errors = implode(', ', $validator->errors()->all());
             return back()->with('error', $errors)->withInput();
-
         }
 
         $validatedData = $validator->validated();
-
         Lapkpc::create($validatedData);
-
         return redirect()->to('/lapkpc')->with('success', 'LapKPC added successfully!');
-
     }
 
-    public function edit($id){
-
+    // LapKPC edit Form
+    public function edit($id)
+    {
         $title = 'Edit data KPCS';
-
         $data = Lapkpc::findOrFail($id);
         $kategori = 'lapkpc';
 
@@ -93,17 +90,14 @@ class LapkpcController extends Controller
             return redirect('/lapkpc')->with('error', 'UNAUTHORIZED ACTION');
         }
 
-        // Tandai data sedang diedit
         $data->update(['proses_edit' => true]);
-
         $fixed_kejadian_insiden = str_replace('Ya, terjadi pada ', '', $data->kejadian_insiden);
-
-        return view('pages.lapkpc.editLapkpc', compact('data', 'fixed_kejadian_insiden', 'title', 'kategori'));
-
+        return view('pages.lapkpc.edit', compact('data', 'fixed_kejadian_insiden', 'title', 'kategori'));
     }
 
-    public function update(Request $request, $id){
-
+    // Edit existing LapKPC Function
+    public function update(Request $request, $id)
+    {
         $jam_ditemukan = substr($request->jam_ditemukan, 0, 5);
         $jam_ditemukan = substr($request->jam_ditemukan, 0, 5);
 
@@ -136,11 +130,11 @@ class LapkpcController extends Controller
         Lapkpc::where('id', $id)->update(['proses_edit' => false]);
 
         return redirect()->to('/lapkpc')->with('success', 'LapKPC updated successfully!');
-
     }
 
-    public function delete($id){
-
+    // Delete LapKPC Function
+    public function delete($id)
+    {
         $lapkpc = Lapkpc::findOrFail($id);
 
         if ((Auth::user()->role === 'user') && (Auth::user()->unit !== $lapkpc->unit_kerja)) {
@@ -151,25 +145,23 @@ class LapkpcController extends Controller
          $lapkpc->delete();
 
          return back()->with('success', 'LAPKPC deleted successfully!');
-
     }
 
-    public function resetEditStatus($id){
-
+    // Reset Edit Status Function
+    public function resetEditStatus($id)
+    {
         $lapkpc = Lapkpc::findOrFail($id);
 
-        // Hapus penanda sedang diedit dari database
         $lapkpc->update(['proses_edit' => false]);
 
         return response()->json(['message' => 'Status edit berhasil diperbarui']);
     }
 
-    public function verifikasi($id){
-
+    // LapKPC Verification Page
+    public function verifikasi($id)
+    {
         $title = "Verifikasi KPCS";
-
         $category = "Lapkpc";
-
         $data = lapkpc::findOrFail($id);
 
         if ($data->proses_edit) {
@@ -177,7 +169,6 @@ class LapkpcController extends Controller
         }
 
         $data->tanggal_ditemukan = Carbon::parse($data->tanggal_ditemukan)->format('d-m-Y');
-
         if ($data->tanggal_terima !== null) {
             $data->tanggal_terima = Carbon::parse($data->tanggal_terima)->format('d-m-Y');
         } else {
@@ -185,16 +176,12 @@ class LapkpcController extends Controller
         }
 
         $data->jam_ditemukan = substr($data->jam_ditemukan, 0, 5);
-
-        return view('pages.lapkpc.verifikasiLapkpc', compact('title', 'data', 'category'));
+        return view('pages.lapkpc.verification', compact('title', 'data', 'category'));
     }
 
-    public function grading(Request $request, $id){
-
-        $lapkpc = Lapkpc::findOrFail($id);
-
-        // dd($request);
-
+    // LapKPC Grading Function
+    public function grading(Request $request, $id)
+    {
         $validator = Validator::make($request->all(), [
             'status' => 'required|string',
             'penerima_laporan' => 'required|string',
@@ -208,13 +195,8 @@ class LapkpcController extends Controller
         }
 
         $validatedData = $validator->validated();
-
         Lapkpc::where('id', $id)->update($validatedData);
-
         return redirect('/lapkpc')->with('success', 'LAPKPC deleted successfully!');
-
-        // return view('pages.verifikasiLapin', compact('title', 'lapin'));
     }
-
 
 }

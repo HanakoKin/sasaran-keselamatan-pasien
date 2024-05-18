@@ -4,11 +4,11 @@
     <section class="content pt-0">
 
         @if (session()->has('success'))
-            @include('script.success')
+            @include('script.alert.success')
         @endif
 
         @if (session()->has('error'))
-            @include('script.error')
+            @include('script.alert.error')
         @endif
 
 
@@ -35,7 +35,6 @@
                             </a>
                         </div>
                     </div>
-                    <!-- /.box-header -->
                     <div class="box-body">
                         <div class="table-responsive">
                             <table id="example" class="table table-bordered table-hover display margin-top-10">
@@ -89,13 +88,13 @@
         </div>
 
         {{-- Modal Show Data --}}
-        @include('modal.userShow')
+        @include('modal.user.show')
 
         {{-- JS for Modal --}}
-        @include('script.userShow')
+        @include('script.user.show')
 
         {{-- JS for Delete --}}
-        @include('script.confirm-delete')
+        @include('script.confirm.delete')
 
     </section>
 @endsection

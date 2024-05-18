@@ -10,18 +10,8 @@ use Illuminate\Support\Facades\Http;
 
 class DataController extends Controller
 {
-    /**
-     * Display a listing of the resource.
-     */
 
-    public function index(Request $request)
-    {
-        $response = Http::get('https://65b8b0d1b71048505a893410.mockapi.io/api/lapin/Pasien');
-        $pasien = $response->json();
-
-        return view('test.index', compact('pasien'));
-    }
-
+    // Function go get data from API
     public function search(Request $request)
     {
 
@@ -148,38 +138,4 @@ class DataController extends Controller
         // }
     }
 
-    /**
-     * Store a newly created resource in storage.
-     */
-    public function store(Request $request)
-    {
-        $data = $request->json()->all();
-
-        // Contoh: kirimkan respons dengan data yang diterima
-        return view('test.index', compact('data'));
-    }
-
-    /**
-     * Display the specified resource.
-     */
-    public function show(string $id)
-    {
-        //
-    }
-
-    /**
-     * Update the specified resource in storage.
-     */
-    public function update(Request $request, string $id)
-    {
-        //
-    }
-
-    /**
-     * Remove the specified resource from storage.
-     */
-    public function destroy(string $id)
-    {
-        //
-    }
 }

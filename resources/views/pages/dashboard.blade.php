@@ -4,11 +4,11 @@
     <section class="content">
 
         @if (session()->has('success'))
-            @include('script.success')
+            @include('script.alert.success')
         @endif
 
         @if (session()->has('error'))
-            @include('script.error')
+            @include('script.alert.error')
         @endif
 
         <div class="row">
@@ -56,27 +56,25 @@
                 </div>
                 <div class="col-md-4 col-12">
                     <a href="#" class="box pull-up">
-                        <div class="box-body d-flex flex-column h-100">
-                            <div class="flex-fill">
-                                <div class="d-flex align-items-center">
-                                    <i class="fas fa-procedures fs-60 m-0"></i>
-                                    <div class="ms-15">
-                                        <h5 class="mb-0 fs-18">Kondisi Potensial Cedera Signifikan</h5>
-                                        <p class="text-fade fs-16 mb-0">{{ $jumlahKPC }} kasus</p>
-                                    </div>
+                        <div class="box-body">
+                            <div class="d-flex align-items-center">
+                                <i class="fas fa-procedures fs-60 m-0"></i>
+                                <div class="ms-15">
+                                    <h5 class="mb-0 fs-18">Kondisi Potensial Cedera Signifikan</h5>
+                                    <p class="text-fade fs-16 mb-0">{{ $jumlahKPC }} kasus</p>
                                 </div>
-                                <div class="d-flex align-items-center justify-content-between mt-20">
-                                    <div class="w-p70">
-                                        <div class="progress progress-sm mb-0">
-                                            <div class="progress-bar  bg-{{ $prosentaseKPC >= 0 && $prosentaseKPC <= 25 ? 'info' : ($prosentaseKPC > 25 && $prosentaseKPC <= 50 ? 'success' : ($prosentaseKPC > 50 && $prosentaseKPC <= 75 ? 'warning' : ($prosentaseKPC > 75 ? 'danger' : ''))) }}"
-                                                role="progressbar" aria-valuenow="{{ $prosentaseKPC }}" aria-valuemin="0"
-                                                aria-valuemax="100" style="width: {{ $prosentaseKPC }}%">
-                                            </div>
+                            </div>
+                            <div class="d-flex align-items-center justify-content-between mt-20">
+                                <div class="w-p70">
+                                    <div class="progress progress-sm mb-0">
+                                        <div class="progress-bar  bg-{{ $prosentaseKPC >= 0 && $prosentaseKPC <= 25 ? 'info' : ($prosentaseKPC > 25 && $prosentaseKPC <= 50 ? 'success' : ($prosentaseKPC > 50 && $prosentaseKPC <= 75 ? 'warning' : ($prosentaseKPC > 75 ? 'danger' : ''))) }}"
+                                            role="progressbar" aria-valuenow="{{ $prosentaseKPC }}" aria-valuemin="0"
+                                            aria-valuemax="100" style="width: {{ $prosentaseKPC }}%">
                                         </div>
                                     </div>
-                                    <div>
-                                        <div>{{ $prosentaseKPC }}%</div>
-                                    </div>
+                                </div>
+                                <div>
+                                    <div>{{ $prosentaseKPC }}%</div>
                                 </div>
                             </div>
                         </div>
@@ -346,9 +344,9 @@
         </div>
     </section>
 
-    @include('script.pie-chart')
+    @include('script.dashboard.pie-chart')
 
-    @include('script.bar-chartJs')
+    @include('script.dashboard.bar-chartJs')
 
-    @include('script.greeting')
+    @include('script.dashboard.greeting')
 @endsection

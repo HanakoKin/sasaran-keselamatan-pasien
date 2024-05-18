@@ -29,7 +29,6 @@
         @include('partials.sidebar')
 
         <!-- Main Content -->
-
         <div class="content-wrapper">
             <div class="container-full">
                 @yield('container')

@@ -10,10 +10,10 @@ use Illuminate\Support\Facades\Auth;
 
 class LemkisController extends Controller
 {
-    public function lemkis(){
-
+    // LEMKIS Page
+    public function lemkis()
+    {
         $title = 'Lembar Investigasi Sederhana';
-
         $lemkises = Lemkis::orderBy('created_at', 'desc');
 
         if (Auth::user()->role === 'user') {
@@ -21,55 +21,31 @@ class LemkisController extends Controller
         }
 
         $lemkises = $lemkises->get();
-
-        return view('pages.lemkis.lemkis', compact('lemkises', 'title'));
-
+        return view('pages.lemkis.index', compact('lemkises', 'title'));
     }
 
-    public function lemkisTable(){
-
+    // LEMKIS Table Page
+    public function lemkisTable()
+    {
         $title = 'Laporan Lembar Kerja Investigasi Sederhana';
 
         $lemkis = Lemkis::orderBy('created_at', 'desc')->get();
 
-        // if (!Auth::user()->isAdmin()) {
-        //     return redirect('/lemkis')->with('error', 'UNAUTHORIZED ACTION');
-        // }
-
-        return view('pages.lemkis.lemkisTable', compact('lemkis', 'title'));
-
+        return view('pages.lemkis.table', compact('lemkis', 'title'));
     }
 
-    public function addLemkisPage(){
-
+    // LEMKIS add Form Page
+    public function addLemkisPage()
+    {
         $title = 'Lembar Kerja Investigasi Sederhana';
 
-        return view('pages.lemkis.addLemkis', compact('title'));
-
+        return view('pages.lemkis.add', compact('title'));
     }
 
-    public function edit($id){
-
-        $title = 'Edit LEMKIS';
-
-        $data = Lemkis::findOrFail($id);
-
-        $kategori = 'lemkis';
-
-        if ((Auth::user()->role === 'user') && (Auth::user()->unit !== $data->unit_kerja)) {
-            return redirect('/lemkis')->with('error', 'UNAUTHORIZED ACTION');
-        }
-
-        return view('pages.lemkis.editLemkis', compact('data', 'title', 'kategori'));
-
-    }
-
-    public function store(Request $request){
-
-        // dd($request);
-
+    // Add new LEMKIS Function
+    public function store(Request $request)
+    {
         $validatedData = $request->validate([
-
             /* DATA TAMBAHAN */
             'lapin_id' => 'required',
             'unit_kerja' => 'required',
@@ -111,16 +87,27 @@ class LemkisController extends Controller
             'grading_akhir' => 'required|string',
         ]);
 
-
         Lemkis::create($validatedData);
-
         return redirect('/lemkis')->with('success', 'LEMKIS added successfully!');
-
     }
 
-    public function update(Request $request, $id){
-        // dd($request);
+    // LEMKIS edit Form Page
+    public function edit($id)
+    {
+        $title = 'Edit LEMKIS';
+        $data = Lemkis::findOrFail($id);
+        $kategori = 'lemkis';
 
+        if ((Auth::user()->role === 'user') && (Auth::user()->unit !== $data->unit_kerja)) {
+            return redirect('/lemkis')->with('error', 'UNAUTHORIZED ACTION');
+        }
+
+        return view('pages.lemkis.edit', compact('data', 'title', 'kategori'));
+    }
+
+    // Edit existing LEMKIS Function
+    public function update(Request $request, $id)
+    {
         $validatedData = $request->validate([
             'penyebab_langsung' => 'required|string',
             'penyebab_awal' => 'required|string',
@@ -159,30 +146,26 @@ class LemkisController extends Controller
         ]);
 
         Lemkis::where('id', $id)->update($validatedData);
-
         return redirect('/lemkis')->with('success', 'LEMKIS updated successfully!');
-
     }
 
-    public function delete($id){
-
+    // Delete LEMKIS Function
+    public function delete($id)
+    {
         $lemkis = Lemkis::findOrFail($id);
 
         if ((Auth::user()->role === 'user') && (Auth::user()->unit !== $lemkis->unit_kerja)) {
             return redirect('/lemkis')->with('error', 'UNAUTHORIZED ACTION');
         }
 
-         // Hapus data LEMKIS
          $lemkis->delete();
-
          return back()->with('success', 'LEMKIS deleted successfully!');
-
     }
 
-    public function show($id){
-
+    // Check & Print LEMKIS Function
+    public function show($id)
+    {
         $title = "Cek & Print LEMKIS";
-
         $data = Lemkis::findOrFail($id);
 
         if ($data->tanggal_rekom_pendek !== NULL){
@@ -218,112 +201,92 @@ class LemkisController extends Controller
         $data_tanggal = $data->tanggal_catatan;
         $data_narasumber = $data->narasumber;
 
-        // Pemisahan data Catatan
         $fixed_data_catatan = explode('-- ', $data_catatan);
 
-        // Apabila data Catatan 1
         if(count($fixed_data_catatan) === 1) {
             $fixed_data_catatan = [$data_catatan];
         }
 
-
-        // Pemisahan data Tanggal Catatan
         $fixed_data_tanggal = explode(', ', $data_tanggal);
 
-        // Apabila data Tanggal Catatan 1
         if(count($fixed_data_tanggal) === 1) {
             $fixed_data_tanggal = [$data_tanggal];
         }
 
-        // Pemisahan data Narasumber
         $fixed_data_narasumber = explode('-- ', $data_narasumber);
 
-        // Apabila data Narasumber 1
         if(count($fixed_data_narasumber) === 1) {
             $fixed_data_narasumber = [$data_narasumber];
         }
 
-        return view('pages.lemkis.showLemkis', compact('title', 'data', 'fixed_data_catatan', 'fixed_data_tanggal', 'fixed_data_narasumber'));
+        return view('pages.lemkis.print', compact('title', 'data', 'fixed_data_catatan', 'fixed_data_tanggal', 'fixed_data_narasumber'));
     }
 
-    public function addNoteForm($id){
-
+    // Note LEMKIS add Form Page
+    public function addNoteForm($id)
+    {
         $title = 'Add Note LEMKIS';
-
         $data = Lemkis::findOrFail($id);
 
         $data_catatan = $data->catatan;
         $data_tanggal = $data->tanggal_catatan;
         $data_narasumber = $data->narasumber;
 
-        // Pemisahan data Catatan
         $fixed_data_catatan = explode('-- ', $data_catatan);
 
-        // Apabila data Catatan = 1
         if(count($fixed_data_catatan) === 1) {
             $fixed_data_catatan = [$data_catatan];
         }
 
-        // Pemisahan data Tanggal Catatan
         $fixed_data_tanggal = explode(', ', $data_tanggal);
 
-        // Apabila data Tanggal Catatan 1
         if(count($fixed_data_tanggal) === 1) {
             $fixed_data_tanggal = [$data_tanggal];
         }
 
-        // Pemisahan data Tanggal Catatan
         $fixed_data_narasumber = explode('-- ', $data_catatan);
 
-        // Apabila data Tanggal Catatan 1
         if(count($fixed_data_narasumber) === 1) {
             $fixed_data_narasumber = [$data_narasumber];
         }
 
-        return view('pages.lemkis.addNote', compact('data', 'title', 'fixed_data_catatan', 'fixed_data_tanggal', 'fixed_data_narasumber'));
-
+        return view('pages.lemkis.note.add', compact('data', 'title', 'fixed_data_catatan', 'fixed_data_tanggal', 'fixed_data_narasumber'));
     }
 
-    public function noteTable($id){
-
+    // LEMKIS's Note Table Page
+    public function noteTable($id)
+    {
         $title = "LEMKIS's Note Table";
-
         $data = Lemkis::findOrFail($id);
 
         $data_catatan = $data->catatan;
         $data_tanggal = $data->tanggal_catatan;
         $data_narasumber = $data->narasumber;
 
-        // Pemisahan data Catatan
         $fixed_data_catatan = explode('-- ', $data_catatan);
 
-        // Apabila data Catatan 1
         if(count($fixed_data_catatan) === 1) {
             $fixed_data_catatan = [$data_catatan];
         }
 
-        // Pemisahan data Tanggal Catatan
         $fixed_data_tanggal = explode(', ', $data_tanggal);
 
-        // Apabila data Tanggal Catatan 1
         if(count($fixed_data_tanggal) === 1) {
             $fixed_data_tanggal = [$data_tanggal];
         }
 
-        // Pemisahan data Narasumber
         $fixed_data_narasumber = explode('-- ', $data_narasumber);
 
-        // Apabila data Narasumber 1
         if(count($fixed_data_narasumber) === 1) {
             $fixed_data_narasumber = [$data_narasumber];
         }
 
-        return view('pages.lemkis.noteTable', compact('data', 'title', 'fixed_data_catatan', 'fixed_data_tanggal', 'fixed_data_narasumber'));
-
+        return view('pages.lemkis.note.table', compact('data', 'title', 'fixed_data_catatan', 'fixed_data_tanggal', 'fixed_data_narasumber'));
     }
 
-    public function saveNote(Request $request, $id){
-
+    // Add new LEMKIS's Note Function
+    public function saveNote(Request $request, $id)
+    {
         $catatanString = implode('-- ', $request->input('catatan', []));
         $tanggalString = implode(', ', $request->input('tanggal_catatan', []));
         $narasumberString = implode('-- ', $request->input('narasumber', []));
@@ -338,10 +301,8 @@ class LemkisController extends Controller
             'narasumber' => 'nullable|string',
         ]);
 
-        $lemkis = Lemkis::where('id', $id)->update($validatedData);
-
+        Lemkis::where('id', $id)->update($validatedData);
         return redirect('/lemkis')->with('success', 'LEMKIS note added successfully!');
-
     }
 
 }

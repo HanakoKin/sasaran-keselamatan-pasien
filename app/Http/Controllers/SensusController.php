@@ -5,10 +5,7 @@ namespace App\Http\Controllers;
 use Carbon\Carbon;
 use App\Models\Igd;
 use App\Models\Lab;
-<<<<<<< HEAD
 use App\Models\Gizi;
-=======
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
 use App\Models\Rajal;
 use App\Models\Ranap;
 use App\Models\Rehab;
@@ -22,113 +19,83 @@ use App\Models\Radiologi;
 use App\Models\Spesialis;
 use Illuminate\Http\Request;
 use App\Http\Controllers\Controller;
-<<<<<<< HEAD
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
-=======
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
 
 class SensusController extends Controller
 {
+    // Selected Daily Sensus Page
     public function index($item)
     {
-<<<<<<< HEAD
         $title = 'Sensus ' . ucwords(trans($item)) . ' Page';
 
         if ((Auth::user()->role === 'user') && (Auth::user()->unit !== strtoupper(trans($item)))) {
             return redirect('/dashboard')->with('error', 'UNAUTHORIZED ACTION');
         }
-=======
-        $title = 'Sensus ' . $item . ' Page';
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
 
         $type = $item;
 
-        return view('pages.sensus.sensus', compact('title', 'type'));
+        return view('pages.sensus.index', compact('title', 'type'));
     }
 
+    // Update Selected Daily Sensus Data for selected Month or Year
     public function showData(Request $request, $item)
     {
         $currentMonth = $request->input('month') ?? Carbon::now()->translatedFormat('F');
         $currentYear = $request->input('year') ?? now()->format('Y');
 
-        if ($item === 'admission') {
-            $datas = Admission::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-<<<<<<< HEAD
-        } else if ($item === 'bank darah') {
-            $datas = Bandar::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'EEG EMG' || $item === 'fisioterapi') {
-            $datas = Rehab::where('tahun', $currentYear)->where('bulan', $currentMonth)->where('unit', $item)->get();
-        } else if ($item === 'farmasi') {
-            $datas = Farmasi::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'gizi produksi') {
-            $datas = Gizi::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'graha utama Lt V' || $item === 'graha utama Lt VI' || $item === 'pav ICU anak' || $item === 'pav anggrek' || $item === 'pav cempaka' || $item === 'pav gladiola' || $item === 'pav mawar' || $item === 'pav melati' || $item === 'pav nusa indah' || $item === 'pav putra I' || $item === 'pav putra III' || $item === 'perina' || $item === 'vk graha 5') {
-            $datas = Ranap::where('tahun', $currentYear)->where('bulan', $currentMonth)->where('unit', $item)->get();
-        } else if ($item === 'kamar operasi') {
-            $datas = Operasi::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'klinik spesialis') {
-            $datas = Spesialis::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'laboratorium') {
-            $datas = Lab::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'pav ICU' || $item === 'pav ICCU') {
-            $datas = Kritis::where('tahun', $currentYear)->where('bulan', $currentMonth)->where('unit', $item)->get();
-        } else if ($item === 'radiologi') {
-            $datas = Radiologi::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'unit gawat darurat') {
-            $datas = Igd::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'rshusada') {
-            $datas = Rshusada::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'unit rawat jalan') {
-            $datas = Rajal::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
+        $modelMap = [
+            'admission' => Admission::class,
+            'bank darah' => Bandar::class,
+            'EEG EMG' => Rehab::class,
+            'fisioterapi' => Rehab::class,
+            'farmasi' => Farmasi::class,
+            'gizi produksi' => Gizi::class,
+            'graha utama Lt V' => Ranap::class,
+            'graha utama Lt VI' => Ranap::class,
+            'pav ICU anak' => Ranap::class,
+            'pav anggrek' => Ranap::class,
+            'pav cempaka' => Ranap::class,
+            'pav gladiola' => Ranap::class,
+            'pav mawar' => Ranap::class,
+            'pav melati' => Ranap::class,
+            'pav nusa indah' => Ranap::class,
+            'pav putra I' => Ranap::class,
+            'pav putra III' => Ranap::class,
+            'perina' => Ranap::class,
+            'vk graha 5' => Ranap::class,
+            'kamar operasi' => Operasi::class,
+            'klinik spesialis' => Spesialis::class,
+            'laboratorium' => Lab::class,
+            'pav ICU' => Kritis::class,
+            'pav ICCU' => Kritis::class,
+            'radiologi' => Radiologi::class,
+            'unit gawat darurat' => Igd::class,
+            'rshusada' => Rshusada::class,
+            'unit rawat jalan' => Rajal::class,
+        ];
+
+        $datas = null;
+        if (array_key_exists($item, $modelMap)) {
+            $model = $modelMap[$item];
+            $query = $model::where('tahun', $currentYear)->where('bulan', $currentMonth);
+
+            if ($item === 'EEG EMG' || $item === 'fisioterapi' || $item === 'pav ICU' || $item === 'pav ICCU') {
+                $query->where('unit', $item);
+            }
+
+            $datas = $query->get();
         }
 
-        // else if ($item === 'rehab') {
-        //     $datas = Rehab::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        // }
-
-=======
-        } else if ($item === 'rshusada') {
-            $datas = Rshusada::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'bandar') {
-            $datas = Bandar::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'farmasi') {
-            $datas = Farmasi::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'igd') {
-            $datas = Igd::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'operasi') {
-            $datas = Operasi::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'spesialis') {
-            $datas = Spesialis::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'lab') {
-            $datas = Lab::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'kritis') {
-            $datas = Kritis::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'radiologi') {
-            $datas = Radiologi::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'ranap') {
-            $datas = Ranap::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'rajal') {
-            $datas = Rajal::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        } else if ($item === 'rehab') {
-            $datas = Rehab::where('tahun', $currentYear)->where('bulan', $currentMonth)->get();
-        }
-
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
         $sensus = [];
 
         foreach ($datas as $data) {
-
-            // Gunakan explode pada atribut 'sensus'
             $sensusArray = explode(' -- ', $data->sensus);
-
-            // Gabungkan hasil explode ke dalam array $sensus
             $sensus = array_merge($sensus, $sensusArray);
         }
 
         $mainArray = [];
 
-        // Loop melalui stringData dan membagi setiap string menjadi array
         foreach ($sensus as $val) {
             $innerArray = explode(', ', $val);
             $mainArray[] = $innerArray;
@@ -148,7 +115,6 @@ class SensusController extends Controller
                 'Ketidakpatuhan cuci tangan',
                 'Pasien jatuh'
             ];
-<<<<<<< HEAD
         } else if ($item === 'bank darah') {
             $question = [
                 'Ketidaktepatan identifikasi pasien',
@@ -355,8 +321,6 @@ class SensusController extends Controller
                 'Pasien jatuh',
                 'Tertusuk jarum',
             ];
-=======
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
         } else if ($item === 'rshusada') {
             $question = [
                 'Ketidaktepatan identifikasi pasien rawat inap',
@@ -406,92 +370,7 @@ class SensusController extends Controller
                 'Reaksi efek samping obat',
                 'Reaksi efek samping transfusi darah',
             ];
-<<<<<<< HEAD
         } else if ($item === 'unit rawat jalan') {
-=======
-        } else if ($item === 'bandar') {
-            $question = [
-                'Ketidaktepatan identifikasi pasien',
-                'Komunikasi kurang efektif',
-                'Kesalahan golongan darah',
-                'Kesalahan jenis darah',
-                'Reaksi transfusi darah',
-                'Perbedaan hasil skrining',
-                'Ketidakpatuhan cuci tangan',
-            ];
-        } else if ($item === 'farmasi') {
-            $question = [
-                'Ketidaktepatan identifikasi pasien',
-                'Komunikasi kurang efektif',
-                'Ketidakpatuhan cuci tangan',
-                'Kesalahan yang terkait dengan obat yang perlu diwaspadai (High Alert Medications)',
-                'Kesalahan penyerahan obat pada pasien URJ',
-                'Kesalahan penyerahan obat pada pasien rawat inap',
-                'Kelebihan penyerahan obat pada pasien URJ',
-                'Kelebihan penyerahan obat pada pasien rawat inap',
-                'Kekurangan penyerahan obat pada pasien URJ',
-                'Kekurangan penyerahan obat pada pasien rawat inap',
-                'Kesalahan dosis obat',
-                'Kesalahan pembacaan resep obat',
-                'Kesalahan jenis obat',
-                'Kesalahan pencampuran obat KEMOTERAPI',
-                'Kesalahan pengemasan obat',
-
-            ];
-        } else if ($item === 'igd') {
-            $question = [
-                'Kesalahan identifikasi pasien',
-                'Kesalahan identifikasi kegawatdaruratan',
-                'Komunikasi yang kurang efektif',
-                'kesalahan yang terkait dengan obat yang perlu diwaspadai (high alert medications)',
-                'Kesalahan transportasi pasien',
-                'Kesalahan transportasi pasien pada saat merujuk',
-                'Kesalahan transportasi pada saat menjemput pasien',
-                'Kesalahan pemberian obat',
-                'Ketidakpatuhan cuci tangan',
-                'Pasien jatuh',
-                'Tertusuk jarum',
-            ];
-        } else if ($item === 'gizi') {
-            $question = [
-                'Keterlambatan penyediaan makanan pada pasien baru',
-                'Ketidaktepatan identifikasi pasien',
-                'Kesalahan jenis diet',
-                'Keterlambatan penyediaan makanan pagi pasien rawat inap',
-                'Tercemarnya makanan',
-                'Kesalahan sediaan diet khusus',
-                'Komunikasi kurang efektif',
-                'Ketidakpatuhan cuci tangan',
-            ];
-        } else if ($item === 'operasi') {
-            $question = [
-                'Ketidaktepatan identifikasi pasien',
-                'Komunikasi kurang efektif',
-                'Kesalahan jenis operasi',
-                'Kesalahan posisi',
-                'kesalahan terkait dengan obat yang perlu diwaspadai (High Alert Medications)',
-                'Ketidakpatuhan pelaksanaan TIME OUT',
-                'Tertinggalnya kain kassa',
-                'Tertinggalnya instrumen',
-                'Operasi tanpa spesialis anestesi',
-                'Operasi dengan kekurangan darah',
-                'Konsultasi durante operasi',
-                'Perluasan operasi',
-                'Kesalahan diagnosis pra operasi',
-                'Trauma elektrik',
-                'Ketidakpatuhan cuci tangan',
-                'Pasien jatuh',
-                'Kesalahan pemberian informasi harga alat kesehatan',
-                'Reaksi efek samping transfusi darah',
-                'Kesalahan pemberian informasi kepada dokter',
-                'Kesalahan pemberian obat',
-                'Kesalahan cara pemberian obat',
-                'Kesalahan pencampuran obat',
-                'Kesalahan dosis obat',
-                'Reaksi efek samping obat',
-            ];
-        } else if ($item === 'spesialis') {
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
             $question = [
                 'Ketidaktepatan identifikasi pasien rawat jalan',
                 'Komunikasi kurang efektif',
@@ -505,134 +384,6 @@ class SensusController extends Controller
                 'Ketidakpatuhan cuci tangan',
                 'Pasien jatuh',
             ];
-<<<<<<< HEAD
-=======
-        } else if ($item === 'lab'){
-            $question = [
-                'Ketidaktepatan identifikasi pasien',
-                'Komunikasi kurang efektif',
-                'Kesalahan penyediaan sample',
-                'Kesalahan menginput hasil',
-                'Kesalahan pengoperasian alat',
-                'Kesalahan pencampuran reagen',
-                'Kesalahan mencetak hasil',
-                'Kesalahan golongan darah',
-                'Kesalahan menyampaikan hasil',
-                'Kesalahan pengambilan sample',
-                'Ketidakpatuhan cuci tangan',
-                'Pasien jatuh',
-
-            ];
-        } else if ($item === 'kritis') {
-            $question = [
-                'Ketidaktepatan identifikasi pasien',
-                'Komunikasi kurang efektif',
-                'kesalahan yang terkait dengan obat yang perlu diwaspadai (High Alert Medications)',
-                'Vagal reflex pada pemasangan ETT',
-                'Tersumbatnya saluran nafas yang berakibat bradikardi',
-                'Kesalahan setting ventilator',
-                'Infus blong',
-                'Luka tekan',
-                'Kesalahan pemberian obat',
-                'Kesalahan cara pemberian obat',
-                'Kesalahan pencampuran obat',
-                'Kesalahan dosis obat',
-                'Reaksi efek samping obat',
-                'Kesalahan sampling',
-                'Kesalahan hasil sampling',
-                'Kesalahan identifikasi pasien pada saat pengambilan sample',
-                'Ketidaktepatan tehnik pengambilan sample darah',
-                'Kesalahan persiapan operasi',
-                'Trauma elektrik',
-                'Luka bakar akibat buli – buli panas',
-                'Kesalahan persiapan pemeriksaan penunjang',
-                'Kesalahan golongan/jenis darah',
-                'Reaksi efek samping transfusi darah',
-                'Kesalahan pemberian informasi harga alat kesehatan',
-                'Kesalahan pemberian informasi kepada dokter',
-                'Ketidak jelasan tulisan pada rekam medis pasien',
-                'Luka bakar akibat pemasangan Bicnat Drip (100 CC)',
-                'Flebitis',
-                'Ketidakpatuhan cuci tangan',
-                'Pasien jatuh',
-                'VAP (Ventilator Associated Pneumonia)',
-                'ISK (Infeksi Saluran Kemih)',
-                'IADP (Infeksi Aliran Darah Primer - Pemasangan PVC)',
-                'IDO (Infeksi Daerah Operasi)',
-            ];
-        } else if ($item === 'radiologi') {
-            $question = [
-                'Ketidaktepatan identifikasi pasien',
-                'Komunikasi kurang efektif',
-                'kesalahan yang terkait dengan obat yang perlu diwaspadai (High Alert Medications)',
-                'Kesalahan interpretasi hasil',
-                'Keterlambatan foto ruangan lebih dari 15 menit',
-                'Keterlambatan radiologi pada pemeriksaan radiologi',
-                'Kesalahan posisi pemeriksaan',
-                'Reaksi obat kontras',
-                'Keterlambatan penyerahan hasil foto',
-                'Pengulangan pemeriksaan radiologi',
-                'Ketidakpatuhan cuci tangan',
-                'Pasien jatuh',
-            ];
-        } else if ($item === 'ranap') {
-            $question = [
-                'Ketidaktepatan identifikasi pasien',
-                'Komunikasi kurang efektif',
-                'Pasien jatuh',
-                'Infus blong',
-                'Luka tekan',
-                'kesalahan yang terkait dengan obat yang perlu diwaspadai (High Alert Medications)',
-                'Kesalahan pemberian obat',
-                'Kesalahan cara pemberian obat',
-                'Kesalahan pencampuran obat',
-                'Kesalahan dosis obat',
-                'Reaksi efek samping obat',
-                'Kesalahan sampling',
-                'Kesalahan hasil sampling',
-                'Kesalahan identifikasi pasien pada saat pengambilan sample',
-                'Ketidaktepatan tehnik pengambilan sample darah',
-                'Kesalahan persiapan operasi',
-                'Trauma elektrik',
-                'Luka bakar akibat buli – buli panas',
-                'Kesalahan persiapan pemeriksaan penunjang',
-                'Kesalahan golongan/jenis darah',
-                'Reaksi efek samping transfusi darah',
-                'Kesalahan pemberian informasi harga alat kesehatan',
-                'Kesalahan pemberian informasi kepada dokter',
-                'Ketidak jelasan tulisan pada rekam medis pasien',
-                'Luka bakar akibat pemasangan Bicnat Drip (100 CC)',
-                'Ketidakpatuhan cuci tangan',
-                'Tertusuk jarum',
-                'Flebitis',
-                'ISK (Infeksi Saluran Kemih)',
-                'IADP (Infeksi Aliran Darah Primer - pemasangan CVC)',
-                'IDO (Infeksi  Daerah Operasi)',
-            ];
-        } else if ($item === 'rajal') {
-            $question = [
-                'Ketidaktepatan identifikasi pasien rawat jalan',
-                'Komunikasi kurang efektif',
-                'kesalahan yang terkait dengan obat yang perlu diwaspadai (high alert medications)',
-                'Kesalahan pemberian obat',
-                'Kesalahan cara pemberian obat',
-                'Kesalahan pencampuran obat',
-                'Kesalahan sampling',
-                'Kesalahan identifikasi pasien pada saat pengambilan sample',
-                'Kesalahan pemberian informasi',
-                'Ketidakpatuhan cuci tangan',
-                'Pasien jatuh',
-            ];
-        } else if ($item === 'rehab') {
-            $question = [
-                'Ketidaktepatan identifikasi pasien',
-                'Komunikasi kurang efektif',
-                'Luka bakar akibat diatermi',
-                'kesalahan yang terkait dengan obat yang perlu diwaspadai (High Alert Medications)',
-                'Ketidakpatuhan cuci tangan',
-                'Pasien jatuh',
-            ];
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
         }
 
         $evenDayMonths = ['April', 'Juni', 'September', 'November'];
@@ -660,48 +411,37 @@ class SensusController extends Controller
         return response()->json($response);
     }
 
+    // Add Selected Daily Sensus Page
     public function add($item)
     {
         $title = 'Add Sensus' . $item . 'Page';
 
         $type = $item;
 
-        return view('pages.sensus.addSensus', compact('title', 'type'));
+        return view('pages.sensus.add', compact('title', 'type'));
     }
 
+    // Add new Selected Daily Sensus Function
     public function store(Request $request, $item)
     {
-
-        // dd($request);
-
         $totalDay = $request->jml_hari;
-
         $inputArray = $request->sensus;
 
         $sensusString = implode(', ', $inputArray);
         $sensusString = '';
         foreach ($inputArray as $index => $value) {
-            // Set pemisah berdasarkan indeks
             $separator = ((($index) % $totalDay) === $totalDay - 1) ? ' -- ' : ', ';
-
-            // Tambahkan nilai dan pemisah ke string
             $sensusString .= $value . $separator;
         }
 
-        // Hapus pemisah ekstra di akhir string
         $sensusString = rtrim($sensusString, ', --');
         $request->merge(['sensus' => $sensusString]);
 
-<<<<<<< HEAD
         $commonRules = [
-=======
-        $validatedData = $request->validate([
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
             'jml_hari' => 'string',
             'bulan' => 'string',
             'tahun' => 'string',
             'sensus' => 'string',
-<<<<<<< HEAD
         ];
 
         $units = [
@@ -739,169 +479,54 @@ class SensusController extends Controller
         }
 
         $validatedData = $validator->validated();
-=======
-        ]);
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
 
-        if ($item === 'admission') {
-            $data = Admission::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
+        $modelMap = [
+            'admission' => Admission::class,
+            'bank darah' => Bandar::class,
+            'EEG EMG' => Rehab::class,
+            'fisioterapi' => Rehab::class,
+            'farmasi' => Farmasi::class,
+            'gizi produksi' => Gizi::class,
+            'graha utama Lt V' => Ranap::class,
+            'graha utama Lt VI' => Ranap::class,
+            'pav ICU anak' => Ranap::class,
+            'pav anggrek' => Ranap::class,
+            'pav cempaka' => Ranap::class,
+            'pav gladiola' => Ranap::class,
+            'pav mawar' => Ranap::class,
+            'pav melati' => Ranap::class,
+            'pav nusa indah' => Ranap::class,
+            'pav putra I' => Ranap::class,
+            'pav putra III' => Ranap::class,
+            'perina' => Ranap::class,
+            'vk graha 5' => Ranap::class,
+            'kamar operasi' => Operasi::class,
+            'klinik spesialis' => Spesialis::class,
+            'laboratorium' => Lab::class,
+            'pav ICU' => Kritis::class,
+            'pav ICCU' => Kritis::class,
+            'radiologi' => Radiologi::class,
+            'unit gawat darurat' => Igd::class,
+            'rshusada' => Rshusada::class,
+            'unit rawat jalan' => Rajal::class,
+        ];
+
+        if (array_key_exists($item, $modelMap)) {
+            $model = $modelMap[$item];
+            $query = $model::where('tahun', $request->tahun)->where('bulan', $request->bulan);
+
+            if ($item === 'EEG EMG' || $item === 'fisioterapi' || $item === 'pav ICU' || $item === 'pav ICCU') {
+                $query->where('unit', $item);
+            }
+
+            $data = $query->first();
+
+            if ($data) {
                 $data->update($validatedData);
             } else {
-                Admission::create($validatedData);
+                $model::create($validatedData);
             }
-<<<<<<< HEAD
-        } else if ($item === 'bank darah') {
-=======
-        } else if ($item === 'rshusada') {
-            $data = Rshusada::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Rshusada::create($validatedData);
-            }
-        } else if ($item === 'bandar') {
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
-            $data = Bandar::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Bandar::create($validatedData);
-            }
-<<<<<<< HEAD
-        } else if ($item === 'EEG EMG' || $item === 'fisioterapi') {
-            $data = Rehab::where('tahun', $request->tahun)->where('bulan', $request->bulan)->where('unit', $item)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Rehab::create($validatedData);
-            }
-=======
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
-        } else if ($item === 'farmasi') {
-            $data = Farmasi::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Farmasi::create($validatedData);
-            }
-<<<<<<< HEAD
-        } else if ($item === 'gizi produksi') {
-            $data = Gizi::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Gizi::create($validatedData);
-            }
-        } else if ($item === 'graha utama Lt V' || $item === 'graha utama Lt VI' || $item === 'pav ICU anak' || $item === 'pav anggrek' || $item === 'pav cempaka' || $item === 'pav gladiola' || $item === 'pav mawar' || $item === 'pav melati' || $item === 'pav nusa indah' || $item === 'pav putra I' || $item === 'pav putra III' || $item === 'perina' || $item === 'vk graha 5') {
-            $data = Ranap::where('tahun', $request->tahun)->where('bulan', $request->bulan)->where('unit', $item)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Ranap::create($validatedData);
-            }
-        } else if ($item === 'kamar operasi') {
-=======
-        } else if ($item === 'igd') {
-            $data = Igd::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Igd::create($validatedData);
-            }
-        } else if ($item === 'operasi') {
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
-            $data = Operasi::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Operasi::create($validatedData);
-            }
-<<<<<<< HEAD
-        } else if ($item === 'klinik spesialis') {
-=======
-        } else if ($item === 'spesialis') {
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
-            $data = Spesialis::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Spesialis::create($validatedData);
-            }
-<<<<<<< HEAD
-        } else if ($item === 'laboratorium') {
-=======
-        } else if ($item === 'lab') {
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
-            $data = Lab::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Lab::create($validatedData);
-            }
-<<<<<<< HEAD
-        } else if ($item === 'pav ICU' || $item === 'pav ICCU') {
-            $data = Kritis::where('tahun', $request->tahun)->where('bulan', $request->bulan)->where('unit', $item)->first();
-=======
-        } else if ($item === 'kritis') {
-            $data = Kritis::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Kritis::create($validatedData);
-            }
-        } else if ($item === 'radiologi') {
-            $data = Radiologi::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Radiologi::create($validatedData);
-            }
-<<<<<<< HEAD
-        } else if ($item === 'rshusada') {
-            $data = Rshusada::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Rshusada::create($validatedData);
-            }
-        } else if ($item === 'unit gawat darurat') {
-            $data = Igd::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Igd::create($validatedData);
-            }
-        } else if ($item === 'unit rawat jalan') {
-=======
-        } else if ($item === 'ranap') {
-            $data = Ranap::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Ranap::create($validatedData);
-            }
-        } else if ($item === 'rajal') {
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
-            $data = Rajal::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Rajal::create($validatedData);
-            }
-<<<<<<< HEAD
-=======
-        } else if ($item === 'rehab') {
-            $data = Rehab::where('tahun', $request->tahun)->where('bulan', $request->bulan)->first();
-            if (isset($data)) {
-                $data->update($validatedData);
-            } else {
-                Rehab::create($validatedData);
-            }
->>>>>>> 7c2d4dfe7f8bfcdfc157e24f4a8030acce77ba28
         }
-
 
         return redirect('/sensus/' . $item)->with('success', 'Sensus added successfully!');
     }
